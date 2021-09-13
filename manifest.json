@@ -1,0 +1,24 @@
+{
+"manifest_version": 3,
+"name": "Verallel",
+"description": "A web extension to ease navigation of Veracross",
+"version": "1.0.0",
+"permissions": [
+"unlimitedStorage",
+"notifications",
+"tabs",
+"storage", 
+"activeTab", 
+"scripting"
+],
+"host_permissions": [
+"http://*/",
+"https://*/"
+],
+"background": {
+    "service_worker": "background.js"
+  },
+"action": {
+  "default_popup": "popup.html"
+  }
+}
