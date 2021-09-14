@@ -19,6 +19,6 @@ If you wish to help with the development of the site, the zip folder release of 
 # Potential Feature Additions the Dev Team has High on the Bucket List
   - The popup window being a dark/light mode toggler for Veracross as well as the popup window (adding some more purpose to the big button in the popup window)
   - Links to Dropbox from other assignment submission
-  - Making the links compatible for other schools the most conviniently
+  - Making the links compatible for other schools the most conveniently
   - Making it multi-browser compatible
 
