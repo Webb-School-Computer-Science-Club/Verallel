@@ -3,8 +3,6 @@ A student-made, student-tailored Chrome web extension for Veracross. Provides ea
 Currently, the only feature of the extension is to add a link to the dropbox from any class popup in the class tab, but other featues are going to come soon!<br>
 Unfortunatley, this extesion is compatible only for Webb students, as the links will not work if your Veracross is a different school. 
 
-Although these downsides are glaring, we are working to fix that!
-
 # Jump to
 [Issue Handling](#issue-handling)
 
