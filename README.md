@@ -1,6 +1,6 @@
 # Verallel
-A student-made, student-tailored Chrome web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features in progress.<br>
-Currently, the only feature of the extension is to add a link to the dropbox from any class popup in the class tab, but other featues are going to come soon!<br>
+A student-made, student-tailored Chrome web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
+Currently, the only features of the extension are to add a link to the dropbox from any class popup in the class tab and to remove the mess of numbers and letters before the name of the actual class in the class tab, but other featues are going to come soon!<br>
 Unfortunatley, at the moment, this extension is compatible only for Webb students, as the links will not work if your Veracross is a different school. 
 
 # Jump to
