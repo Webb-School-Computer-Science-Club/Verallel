@@ -9,6 +9,8 @@ function improve(type){
    switch(type){ // Uses switch because more types will be added in the future for different class tabs
 	case 0:
 
+            var h = ((document.getElementById('container').getElementsByClassName('class-header')[0]).getElementsByTagName('h1')[0]).getElementsByTagName('a')[0];
+	    h.innerHTML = (h.innerHTML).split(':')[1]; // Removing mess of numbers (probably class ID) from class page to make it look nicer
             var needrop = document.getElementById('facebox').getElementsByClassName('popup')[0]; // Element exists even when not actually visible
             var link = document.createElement('a');
             link.appendChild(document.createTextNode('Click Here to go to the Dropbox'));
