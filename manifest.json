@@ -4,7 +4,6 @@
 "description": "A web extension to ease navigation of Veracross",
 "version": "1.0.0",
 "permissions": [
-"notifications",
 "tabs",
 "storage", 
 "activeTab", 
