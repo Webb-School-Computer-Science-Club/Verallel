@@ -1,4 +1,4 @@
-<a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the webstore</a><br>
+<a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
 This release is version 1.0.0, so the only feature it has is clickable links to the dropbox from the classpage. 
 
 # Verallel
