@@ -1,5 +1,5 @@
 <a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
-This release is version 1.0.0, so the only feature it has is clickable links to the dropbox from the classpage. 
+This release is version 1.0.0, so the only feature it has is clickable links to the dropbox from the classpage. Any commits after the latest release are for version 1.1.0, which will hopefuly be a big update. 
 
 # Verallel
 A student-made, student-tailored Chrome web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
