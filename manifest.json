@@ -15,6 +15,13 @@
     "service_worker": "background.js"
   },
 "action": {
-  "default_popup": "popup.html"
+  "default_popup": "popup.html",
+  "default_icon": "media/verallelicon.png"
+  },
+"icons": {
+  "128": "media/verallelicon.png",
+  "64": "media/verallelicon64.png",
+  "48": "media/verallelicon48.png",
+  "16": "media/verallelicon16.png"
   }
 }
