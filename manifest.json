@@ -2,7 +2,7 @@
 "manifest_version": 3,
 "name": "Verallel",
 "description": "A web extension to ease navigation of Veracross",
-"version": "1.0.0",
+"version": "1.0.5",
 "permissions": [
 "tabs",
 "scripting"
@@ -23,5 +23,6 @@
   "64": "media/verallelicon64.png",
   "48": "media/verallelicon48.png",
   "16": "media/verallelicon16.png"
-  }
+  },
+  "options_page": "options.html"
 }
