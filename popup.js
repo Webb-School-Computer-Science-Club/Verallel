@@ -6,7 +6,7 @@
 document.getElementById("notif").addEventListener("click", reqNotify);
 var assign = false;
 
-async function getAssignments(){
+async function getAssignments(){ // Fetches data and adds data to popup
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
     const txt = await respNew.text();
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
@@ -75,7 +75,7 @@ async function getAssignments(){
 
 
 function reqNotify(){
-    if (!(assign)){
+    if (!(assign)){ // For only being able to see it once to prevent massivley long popup page
 	getAssignments();
         assign = true;
     }
