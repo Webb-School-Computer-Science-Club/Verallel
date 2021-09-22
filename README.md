@@ -16,7 +16,7 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
 
 # Upcoming Updates
-Compared to version 1.0.0, version 1.1.0 has these upgrades (more will be implemented as 1.1.0 is still in progress):
+Compared to version 1.0.0, version 1.1.0 has these following upgrades (keep in mind this list is going to get bigger as 1.1.0 hasn't been fully developed yet):
   - Fetching all upcoming assignments from popup page, putting assignments due the day of any the day after first
   - Link to dropbox and general cleanup of assignment detail page in portals.veracross.com
 # Issue Handling
