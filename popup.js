@@ -116,15 +116,19 @@ async function getAssignments(){
     pinit.style = "font-size: 150%; text-align: center;";
     pinit.appendChild(document.createTextNode('Here are your upcoming assignments:'));
     g.appendChild(pinit);
-    for (let k = 0; k < assignDate['today'].length; k++){ // Assignments due today
-        var h = document.createElement('p');
-        h.appendChild(document.createTextNode(assignDate['today'][k]));
-        g.appendChild(h);
+    if(!(assignDate['today'] == null)){
+    	for (let k = 0; k < assignDate['today'].length; k++){ // Assignments due today
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(assignDate['today'][k]));
+            g.appendChild(h);
+        }
     }
-    for (let k = 0; k < assignDate['tmrw'].length; k++){ // Assignments due tommoroow
-        var h = document.createElement('p');
-        h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
-        g.appendChild(h);
+    if(!(assignDate['tmrw'] == null)){
+        for (let k = 0; k < assignDate['tmrw'].length; k++){ // Assignments due tommoroow
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
+            g.appendChild(h);
+        }
     }
     var pmed = document.createElement('p');
     pmed.appendChild(document.createTextNode('Due later (sorted by class):'))
