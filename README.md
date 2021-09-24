@@ -28,7 +28,7 @@ This is the repository for the Chrome extension for Verallel. If you want to hel
 
 # Potential Feature Additions the Dev Team has High on the Bucket List
   - The popup window having a dark/light mode toggler for Veracross
-  - Links to Dropbox from other assignment submission
+  - Links to Dropbox from other places that show assignments
   - Making the links compatible for other schools the most conveniently
   - Cleaning up class ids and classes in places such as main student portal
 
