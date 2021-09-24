@@ -3,27 +3,27 @@
 // One minor bug: \" in assignments doesn't get replaced by "
 // May or may not need to sort by year, but that will probably be next update for getAssignments()
 
-document.getElementById("notif").addEventListener("click", reqNotify);
+document.getElementById("notif").addEventListener("click", reqNotify); // Gives button functionality by adding click listener
 var assign = false;
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 
-async function getAssignments(){
-    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
-    const txt = await respNew.text();
-    const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
-    const yr = txt.split(';')[16].split('"')[0].split('=')[1];
-    const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
-    const response = await fetch(fetchUrl);
+async function getAssignments(){ // async for usage of fetch
+    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
+    const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
+    const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
+    const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
+    const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
+    const response = await fetch(fetchUrl); //New fetching
     const fg = await response.text();
-    let today = new Date();
+    let today = new Date(); //Defining today and tomorrow
     let tommorow = new Date(today);
     tommorow.setDate(tommorow.getDate() + 1);
-    const fh = ((fg.split(';')[15]).split('},{'));
-    var assignments = [];
+    const fh = ((fg.split(';')[15]).split('},{')); // More text splitting to retrieve features
+    var assignments = []; // Defining arrays and objects for use in the function
     var classRows = {};
     var assignDate = {};
-    var isOn = false;
-    for (let i = 0; i < fh.length; i++){
+    var isOn = false; // Mostly for making sure no assignment repeats and no assignments before current date are on there
+    for (let i = 0; i < fh.length; i++){ // Loops through all possible assignments
         var isToday = false;
         var isTmrw = false;
 	    if (fh[i].split(',')[2].split(':')[0] == '"class_id"'){
@@ -85,7 +85,7 @@ async function getAssignments(){
 		    }
 		}
 	    }
-            if(!isOn){ //The assignment should only appear once
+            if(!isOn){ // Adding elements to assignDate[today], assignDate[tmrw], or assignments if need be
                 if(!isToday){
                     if(isTmrw){
                         if(assignDate['tmrw'] == null){
@@ -108,7 +108,7 @@ async function getAssignments(){
                     }
                 }
             }
-	    isOn = false;
+	    isOn = false; // Resets every iteration
         }
     }
     var g = document.getElementById('assign'); // Getting the empty div in popup.html
@@ -116,14 +116,14 @@ async function getAssignments(){
     pinit.style = "font-size: 150%; text-align: center;";
     pinit.appendChild(document.createTextNode('Here are your upcoming assignments:'));
     g.appendChild(pinit);
-    if(!(assignDate['today'] == null)){
+    if(!(assignDate['today'] == null)){ // Needs to exist if the length attribute can be collected from it
     	for (let k = 0; k < assignDate['today'].length; k++){ // Assignments due today
             var h = document.createElement('p');
             h.appendChild(document.createTextNode(assignDate['today'][k]));
             g.appendChild(h);
         }
     }
-    if(!(assignDate['tmrw'] == null)){
+    if(!(assignDate['tmrw'] == null)){ // Needs to exist if the length attribute can be collected from it
         for (let k = 0; k < assignDate['tmrw'].length; k++){ // Assignments due tommoroow
             var h = document.createElement('p');
             h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
@@ -139,7 +139,7 @@ async function getAssignments(){
 	    h.appendChild(document.createTextNode(assignments[k]));
 	    g.appendChild(h);
     }
-    var pf = document.createElement('p')
+    var pf = document.createElement('p'); // Adding ending link and p tag
     pf.appendChild(document.createTextNode('If you want more info, visit '));
     var a = document.createElement('a');
     a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
@@ -151,7 +151,7 @@ async function getAssignments(){
 }
 
 
-function reqNotify(){
+function reqNotify(){ // To make sure getAssignments doesn't run more than once
     if (!(assign)){
 	getAssignments();
         assign = true;
