@@ -27,7 +27,7 @@ If you wish to help with the development of the site, the zip folder release of 
 This is the repository for the Chrome extension for Verallel. If you want to help with Verallel as a Firefox add-on, you should check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel-Firefox</a>
 
 # Potential Feature Additions the Dev Team has High on the Bucket List
-  - The popup window being a dark/light mode toggler for Veracross as well as the popup window (adding some more purpose to the big button in the popup window)
+  - The popup window having a dark/light mode toggler for Veracross
   - Links to Dropbox from other assignment submission
   - Making the links compatible for other schools the most conveniently
   - Cleaning up class ids and classes in places such as main student portal
