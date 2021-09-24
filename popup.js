@@ -111,34 +111,31 @@ async function getAssignments(){
 	    isOn = false;
         }
     }
+	
     var g = document.getElementById('assign'); // Getting the empty div in popup.html
     var pinit = document.createElement('p');
     pinit.style = "font-size: 150%; text-align: center;";
     pinit.appendChild(document.createTextNode('Here are your upcoming assignments:'));
     g.appendChild(pinit);
+	
     if(!(assignDate['today'] == null)){
-    	for (let k = 0; k < assignDate['today'].length; k++){ // Assignments due today
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(assignDate['today'][k]));
-            g.appendChild(h);
-        }
+    	createDate('today');
     }
     if(!(assignDate['tmrw'] == null)){
-        for (let k = 0; k < assignDate['tmrw'].length; k++){ // Assignments due tommoroow
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
-            g.appendChild(h);
-        }
+        createDate('tmrw');
     }
+	
     var pmed = document.createElement('p');
     pmed.appendChild(document.createTextNode('Due later (sorted by class):'))
     pmed.style = "font-size: 150%; text-align: center;";
     g.appendChild(pmed);
+	
     for (let k = 0; k < assignments.length; k++){
         var h = document.createElement('p');
 	    h.appendChild(document.createTextNode(assignments[k]));
 	    g.appendChild(h);
     }
+	
     var pf = document.createElement('p')
     pf.appendChild(document.createTextNode('If you want more info, visit '));
     var a = document.createElement('a');
@@ -148,6 +145,15 @@ async function getAssignments(){
     pf.style = "text-align: center;"
     pf.appendChild(document.createTextNode('!'));
     g.appendChild(pf);
+}
+
+
+function createDate(var day){
+	for (let k = 0; k < assignDate[day].length; k++){ // Assignments due
+	    var h = document.createElement('p');
+	    h.appendChild(document.createTextNode(assignDate[day][k]));
+	    g.appendChild(h);
+	}
 }
 
 
