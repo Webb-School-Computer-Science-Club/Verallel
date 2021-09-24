@@ -1,7 +1,7 @@
 // popup.js
 // Does notification button for assignments
 // One minor bug: \" in assignments doesn't get replaced by "
-// May or may not need to sort by year, but that will probably be next update for getAssignments()
+// May or may not need to sort by year, but that will probably be an upcoming update for getAssignments()
 
 document.getElementById("notif").addEventListener("click", reqNotify); // Gives button functionality by adding click listener
 var assign = false;
