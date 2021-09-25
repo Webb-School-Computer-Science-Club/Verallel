@@ -7,8 +7,8 @@ document.getElementById("notif").addEventListener("click", reqNotify); // Gives 
 var assign = false;
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 
-async function getAssignments()
-{ // async for usage of fetch
+async function getAssignments() // async for usage of fetch
+{ 
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
     const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
@@ -24,8 +24,8 @@ async function getAssignments()
     var classRows = {};
     var assignDate = {};
     var isOn = false; // Mostly for making sure no assignment repeats and no assignments before current date are on there
-    for (let i = 0; i < fh.length; i++)
-    { // Loops through all possible assignments
+    for (let i = 0; i < fh.length; i++) // Loops through all possible assignments
+    { 
         var isToday = false;
         var isTmrw = false;
 	    if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
@@ -41,20 +41,20 @@ async function getAssignments()
             if (commaMuch <= 0)
 	    {
                 let colonMuch = fh[i].split(',')[7].split(':').length;
-                if (colonMuch <= 2)
-		{ // Checking if the assignment has a colon in it
+                if (colonMuch <= 2) // Checking if the assignment has a colon in it
+		{ 
                     assignStr =  'Due ' +  dueDate + ' - ' + (fh[i].split(',')[7]).split(':')[1].slice(1, (fh[i].split(',')[7]).split(':')[1].length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
                 }
                 else
 		{
-                    for(let o = 0; o <= colonMuch - 2; o++)
-		    { // Adding colons to assignment name with colons
+                    for(let o = 0; o <= colonMuch - 2; o++) // Adding colons to assignment name with colons
+		    { 
                         if(o == 0)
 			{
                             assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
 			}
-                        else
-			{ // Getting rest of assignment after colon(s)
+                        else // Getting rest of assignment after colon(s)
+			{ 
                             assignStr = assignStr + ': ';
                             assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + o];
                         }
@@ -89,16 +89,16 @@ async function getAssignments()
                             }
                         }		
                     }
-                    else
-		    { // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
+                    else // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
+		    { 
                         assignStr = assignStr + ',';
                         assignStr = assignStr + fh[i].split(',')[7 + o];
                     }
                 }
                 assignStr = 'Due ' + dueDate  + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
             }
-            if(dueDatelis[0] < today.getMonth() + 1)
-	    { // Automatically removes less month
+            if(dueDatelis[0] < today.getMonth() + 1) // Automatically removes less month
+	    { 
                 isOn = true;
             }
             else
@@ -107,27 +107,27 @@ async function getAssignments()
 		{
                     isOn = true;
                 }
-                else if(dueDatelis[1] == today.getDate()  && dueDatelis[0] == today.getMonth() + 1)
-		{ // If the assignment is due the day of
+                else if(dueDatelis[1] == today.getDate()  && dueDatelis[0] == today.getMonth() + 1) // If the assignment is due the day of
+		{ 
                     assignStr = 'Due today - ' + assignStr.slice(dueDate.length + 7, assignStr.length);
                     isToday = true;
 
                 }
-                else if(dueDatelis[1] == tommorow.getDate() && dueDatelis[0] == tommorow.getMonth() + 1)
-		{ // If the assignment is due the day after
+                else if(dueDatelis[1] == tommorow.getDate() && dueDatelis[0] == tommorow.getMonth() + 1) // If the assignment is due the day after
+		{ 
                     assignStr = 'Due tommorow - ' + assignStr.slice(dueDate.length + 7, assignStr.length);
                     isTmrw = true;
                 }
             }
-	    for (let j = 0; j < assignments.length; j++)
-	    { // For assignments due later than a day after the date the program is runned in
+	    for (let j = 0; j < assignments.length; j++) // For assignments due later than a day after the date the program is runned in
+	    { 
                 if(assignments[j] == assignStr)
 		{
                     isOn = true;
 	        }
             }
-            if(!(assignDate['today'] == null))
-	    { // If is an assignment due today that may be repeated
+            if(!(assignDate['today'] == null)) // If is an assignment due today that may be repeated
+	    { 
                 for (let j = 0; j < assignDate['today'].length; j++)
 		{
                     if(assignDate['today'][j] == assignStr)
@@ -136,8 +136,8 @@ async function getAssignments()
                     }
                 }
             }
-	    if(!(assignDate['tmrw'] == null))
-	    { // If an assignment that is due tommorow is repeated
+	    if(!(assignDate['tmrw'] == null)) // If an assignment that is due tommorow is repeated
+	    { 
                 for (let j = 0; j < assignDate['tmrw'].length; j++)
 		{
 		    if(assignDate['tmrw'][j] == assignStr)
@@ -146,8 +146,8 @@ async function getAssignments()
 		    }
 		}
 	    }
-            if(!isOn)
-	    { // Adding elements to assignDate[today], assignDate[tmrw], or assignments if need be
+            if(!isOn) // Adding elements to assignDate[today], assignDate[tmrw], or assignments if need be
+	    { 
                 if(!isToday)
 		{
                     if(isTmrw)
@@ -186,17 +186,17 @@ async function getAssignments()
     pinit.style = "font-size: 150%; text-align: center;";
     pinit.appendChild(document.createTextNode('Here are your upcoming assignments:'));
     g.appendChild(pinit);
-    if(!(assignDate['today'] == null))
-    { // Needs to exist if the length attribute can be collected from it
-    	for (let k = 0; k < assignDate['today'].length; k++)
-	{ // Assignments due today
+    if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
+    { 
+    	for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
+	{ 
             var h = document.createElement('p');
             h.appendChild(document.createTextNode(assignDate['today'][k]));
             g.appendChild(h);
         }
     }
-    if(!(assignDate['tmrw'] == null))
-    { // Needs to exist if the length attribute can be collected from it
+    if(!(assignDate['tmrw'] == null)) // Needs to exist if the length attribute can be collected from it
+    { 
         for (let k = 0; k < assignDate['tmrw'].length; k++)
 	{ // Assignments due tommoroow
             var h = document.createElement('p');
@@ -227,8 +227,8 @@ async function getAssignments()
 
 
 function reqNotify()
-{ // To make sure getAssignments doesn't run more than once
-    if (!(assign))
+{ 
+    if (!(assign)) // To make sure getAssignments doesn't run more than once
     {
 	getAssignments();
         assign = true;
