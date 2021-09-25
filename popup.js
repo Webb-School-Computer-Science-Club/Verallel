@@ -35,7 +35,36 @@ async function getAssignments(){ // async for usage of fetch
             var assignStr = '';
             let commaMuch = fh[i].split(',').length - 11;
             if (commaMuch <= 0){
-                assignStr =  'Due ' +  dueDate + ' - ' + (fh[i].split(',')[7]).split(':')[1].slice(1, (fh[i].split(',')[7]).split(':')[1].length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
+                let colonMuch = fh[i].split(',')[7].split(':').length;
+                if (colonMuch <= 2){ // Checking if the assignment has a colon in it
+                    assignStr =  'Due ' +  dueDate + ' - ' + (fh[i].split(',')[7]).split(':')[1].slice(1, (fh[i].split(',')[7]).split(':')[1].length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
+                }
+                else{
+                    for(let o = 0; o <= colonMuch - 2; o++){
+			let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
+                        if(o == 0){
+                            if(colonMuch <= 2){
+                                assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
+                            }
+                            else{
+                                for(let n = 0; n <= colonMuch - 2; n++){
+                                    if(n == 0){
+                                        assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
+                                    }
+                                    else{
+                                        assignStr = assignStr + ': ';
+                                        assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + n];
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            assignStr = assignStr + ': ';
+                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + o];
+                        }
+                    }
+                    assignStr = 'Due ' + dueDate + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
+                }
             }
             else{
                 for (let o = 0; o <= commaMuch; o++){
@@ -53,7 +82,7 @@ async function getAssignments(){ // async for usage of fetch
                 isOn = true;
             }
             else{
-                if(dueDatelis[1] < today.getDate()){
+                if((dueDatelis[1] < today.getDate()) && (dueDatelis[0] == today.getMonth() + 1)){
                     isOn = true;
                 }
                 else if(dueDatelis[1] == today.getDate()  && dueDatelis[0] == today.getMonth() + 1){ // If the assignment is due the day of
