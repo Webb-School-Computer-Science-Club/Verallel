@@ -40,8 +40,7 @@ async function getAssignments(){ // async for usage of fetch
                     assignStr =  'Due ' +  dueDate + ' - ' + (fh[i].split(',')[7]).split(':')[1].slice(1, (fh[i].split(',')[7]).split(':')[1].length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
                 }
                 else{
-                    for(let o = 0; o <= colonMuch - 2; o++){
-			let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
+                    for(let o = 0; o <= colonMuch - 2; o++){ // Adding colons to assignment name with colons
                         if(o == 0){
                             if(colonMuch <= 2){
                                 assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
@@ -56,9 +55,9 @@ async function getAssignments(){ // async for usage of fetch
                                         assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + n];
                                     }
                                 }
-                            }
-                        }
-                        else{
+			    }
+			}
+                        else{ // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
                             assignStr = assignStr + ': ';
                             assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + o];
                         }
@@ -68,6 +67,7 @@ async function getAssignments(){ // async for usage of fetch
             }
             else{
                 for (let o = 0; o <= commaMuch; o++){
+		    let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
                     if (o==0){
                         assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
                     }
