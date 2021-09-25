@@ -1,28 +1,39 @@
 {
-"manifest_version": 3,
-"name": "Verallel",
-"description": "A web extension to ease navigation of Veracross",
-"version": "1.0.5",
-"permissions": [
-"tabs",
-"scripting"
-],
-"host_permissions": [
-"http://*/",
-"https://*/"
-],
-"background": {
-    "service_worker": "background.js"
-  },
-"action": {
-  "default_popup": "popup.html",
-  "default_icon": "media/verallelicon.png"
-  },
-"icons": {
-  "128": "media/verallelicon.png",
-  "64": "media/verallelicon64.png",
-  "48": "media/verallelicon48.png",
-  "16": "media/verallelicon16.png"
-  },
-  "options_page": "options.html"
+    "manifest_version": 3,
+    "name": "Verallel",
+    "description": "A web extension to ease navigation of Veracross",
+    "version": "1.0.5",
+    
+    "permissions":
+    [
+        "tabs",
+        "scripting"
+    ],
+    
+    "host_permissions":
+    [
+        "http://*/",
+        "https://*/"
+    ],
+    
+    "background":
+    {
+        "service_worker": "background.js"
+    },
+    
+    "action":
+    {
+        "default_popup": "popup.html",
+        "default_icon": "media/verallelicon.png"
+    },
+    
+    "icons":
+    {
+        "128": "media/verallelicon.png",
+        "64": "media/verallelicon64.png",
+        "48": "media/verallelicon48.png",
+        "16": "media/verallelicon16.png"
+    },
+    
+    "options_page": "options.html"
 }
