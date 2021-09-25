@@ -42,22 +42,9 @@ async function getAssignments(){ // async for usage of fetch
                 else{
                     for(let o = 0; o <= colonMuch - 2; o++){ // Adding colons to assignment name with colons
                         if(o == 0){
-                            if(colonMuch <= 2){
-                                assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
-                            }
-                            else{
-                                for(let n = 0; n <= colonMuch - 2; n++){
-                                    if(n == 0){
-                                        assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
-                                    }
-                                    else{
-                                        assignStr = assignStr + ': ';
-                                        assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + n];
-                                    }
-                                }
-			    }
+                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
 			}
-                        else{ // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
+                        else{ // Getting rest of assignment after colon(s)
                             assignStr = assignStr + ': ';
                             assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + o];
                         }
@@ -69,9 +56,24 @@ async function getAssignments(){ // async for usage of fetch
                 for (let o = 0; o <= commaMuch; o++){
 		    let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
                     if (o==0){
-                        assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
+                    let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
+                    if (o==0){
+                        if(colonMuch <= 2){
+                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
+                        }
+                        else{
+                            for(let n = 0; n <= colonMuch - 2; n++){
+                                if(n == 0){
+                                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
+                                }
+                                else{
+                                    assignStr = assignStr + ': ';
+                                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + n];
+                                }
+                            }
+                        }		
                     }
-                    else{
+                    else{ // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
                         assignStr = assignStr + ',';
                         assignStr = assignStr + fh[i].split(',')[7 + o];
                     }
