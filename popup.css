@@ -1,9 +1,12 @@
-:root {
---background-color: #ffffff;	
---border-color: #000000;
---box-background-color: #f44336;
-} 
-body {
+:root
+{
+	--background-color: #ffffff;	
+	--border-color: #000000;
+	--box-background-color: #f44336;
+}
+
+body
+{
 	background-color: var(--background-color);
 	min-width: 300px;
 	text-align: center;
@@ -12,7 +15,9 @@ body {
 	border-style: solid;
 	border-width: 3px;
 }
-a.box:link, a.box:visited {
+
+a.box:link, a.box:visited
+{
 	background-color: var(--box-background-color);
 	color: #000000;
 	padding: 5px 10px;
@@ -23,20 +28,25 @@ a.box:link, a.box:visited {
 	border-style: solid;
 	border-color: var(--border-color);
 }
-a.box:hover, a.box:active {
+
+a.box:hover, a.box:active
+{
 	background-color: red;
 }
-button {
-  height: 100px;
-  width: 200px;
-  outline: none;
-  margin: 10px;
-  border: none;
-  border-radius: 2px;
-  background-color: var(--box-background-color);
+
+button
+{
+	height: 100px;
+	width: 200px;
+	outline: none;
+	margin: 10px;
+	border: none;
+	border-radius: 2px;
+	background-color: var(--box-background-color);
 }
 
-button.current {
-  box-shadow: 0 0 0 2px white,
-              0 0 0 4px black;
+button.current
+{
+	box-shadow: 0 0 0 2px white,
+	0 0 0 4px black;
 }
