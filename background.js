@@ -85,6 +85,7 @@ function improve(type)
 	}
 }
 
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
 {
 	let curtaburl = tab.url;
