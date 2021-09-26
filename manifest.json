@@ -20,6 +20,14 @@
     {
         "service_worker": "background.js"
     },
+    "content_scripts": 
+    [
+        {
+            "css": ["improveLib.css"],
+            "all_frames": true,
+            "matches": ["https://portals.veracross.com/*"]
+        }
+    ],
     
     "action":
     {
