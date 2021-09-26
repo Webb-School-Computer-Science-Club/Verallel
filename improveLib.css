@@ -1,0 +1,20 @@
+/*
+improveLib.css: for improving the unecessarily large Webb libraries link;
+*/
+
+.vx-hover-menu__hover-links-container 
+{
+    min-height: 50px !important;
+}  
+
+.vx-hover-menu--one-column 
+{
+    width: 210px !important; 
+    margin-left: 942px !important;
+}
+
+ .vx-hover-menu 
+ {
+    width: 210px !important; 
+    margin-left: 950px !important;
+}
