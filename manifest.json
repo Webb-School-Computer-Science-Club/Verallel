@@ -43,5 +43,5 @@
         "16": "media/verallelicon16.png"
     },
     
-    "options_page": "options.html"
+    "options_page": "popup/options.html"
 }
