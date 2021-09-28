@@ -16,15 +16,15 @@ async function getAssignments() // async for usage of fetch
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
     const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
     const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
-    const response = await fetch(fetchUrl); //New fetching
+    const response = await fetch(fetchUrl); // New fetching
     const fg = await response.text();
-    let today = new Date(); //Defining today and tomorrow
+    let today = new Date(); // Defining today and tomorrow
     let tommorow = new Date(today);
     tommorow.setDate(tommorow.getDate() + 1);
     const fh = ((fg.split(';')[15]).split('},{')); // More text splitting to retrieve features
     var assignments = []; // Defining arrays and objects for use in the function
     var classRows = {};
-    var assignDate = {};
+    var assignDate = {'today': [], 'tmrw': []};
     var isOn = false; // Mostly for making sure no assignment repeats and no assignments before current date are on there
     for (let i = 0; i < fh.length; i++) // Loops through all possible assignments
     { 
@@ -334,7 +334,8 @@ function reqNotify()
 }
 
 
-function reqLP(){
+function reqLP()
+{
     if(!lessonP)
     {
         getLP();
