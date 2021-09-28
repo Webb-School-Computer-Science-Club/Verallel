@@ -4,14 +4,14 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <div> <!-- First div Pleasantries-->  
+    <div> <!-- Pleasantries div-->  
       <p> <!-- Pleasantries Text -->  
         Thank you for using Verallel!
       </p>
     </div>
     
     
-    <div> <!-- Second div Navigation--> 
+    <div> <!-- Navigation div--> 
       <p> <!-- Question Text -->  
         Want to go somewhere?
       </p>
@@ -30,7 +30,7 @@
     </div>
     
     
-    <div> <!-- Third div Issues --> 
+    <div> <!-- Issues div --> 
       <p> <!-- Issues Text --> 
         Having issues with the extension or feature requests?
       </p>
@@ -41,16 +41,29 @@
     </div>
     
     
-    <div> <!-- Fourth div Assignments--> 
+    <div> <!--Lesson Plans div--> 
+      <p id="lpp" style="font-size: 125%">
+        Want to view your upcoming lesson plans?
+      </p>
+      <button id="lessonP">
+        Click to view your upcoming lesson plans
+      </button>
+    </div>
+
+    <div id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
+    </div>
+    
+    <div> <!-- Assignments div--> 
+      <p id="notif-init" style="font-size: 150%">
+        Want to view all your upcoming assignments?
+      </p>
       <button id="notif"> <!-- Assignments Button -->
         Click to see all upcoming assignments
-      </button>
-      
+      </button
       <script src="popup.js"> </script> <!-- Initializes the popup script (popup.js) for this button -->
     </div>
     
-   
-    <div id='assign' style="text-align: left; margin-left: 5px; margin-right: 5px;"> <!-- Fifth div Assign-->
+    <div id='assign' style="text-align: left; margin-left: 5px; margin-right: 5px;"> <!-- Div for viewing upcoming assignments-->
     </div>
   </body>
 </html>
