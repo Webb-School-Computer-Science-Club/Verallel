@@ -1,11 +1,13 @@
 // popup.js
-// Does notification button for assignments
-// One minor bug: \" in assignments doesn't get replaced by "
+// Does notification button for assignments and for lesson plans
 // May or may not need to sort by year, but that will probably be an upcoming update for getAssignments()
 
-document.getElementById("notif").addEventListener("click", reqNotify); // Gives button functionality by adding click listener
+document.getElementById("notif").addEventListener("click", reqNotify); // Gives assignment button functionality by adding click listener
+document.getElementById("lessonP").addEventListener("click", reqLP); // Gives lesson plan button functionality by addig lick listener
 var assign = false;
+var lessonP = false;
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
+const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
 
 async function getAssignments() // async for usage of fetch
 { 
@@ -28,75 +30,36 @@ async function getAssignments() // async for usage of fetch
     { 
         var isToday = false;
         var isTmrw = false;
-	    if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
-	    {
-	        classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
-	    }
+	if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
+	{
+	    classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
+	}
         if ((fh[i].split(',')[3]).split(':')[1] == '"assignment-upcoming"')
 	{
             var dueDate = fh[i].split(',')[5].split(':')[1].replace('\\', '').slice(1, fh[i].split(',')[5].split(':')[1].replace('\\', '').length - 1);
             var dueDatelis = [monthdict[dueDate.slice(0, 3)], parseInt(dueDate.slice(4, dueDate.length))];
             var assignStr = '';
             let commaMuch = fh[i].split(',').length - 11;
-            if (commaMuch <= 0)
-	    {
-                let colonMuch = fh[i].split(',')[7].split(':').length;
-                if (colonMuch <= 2) // Checking if the assignment has a colon in it
-		{ 
-                    assignStr =  'Due ' +  dueDate + ' - ' + (fh[i].split(',')[7]).split(':')[1].slice(1, (fh[i].split(',')[7]).split(':')[1].length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
-                }
-                else
-		{
-                    for(let o = 0; o <= colonMuch - 2; o++) // Adding colons to assignment name with colons
-		    { 
-                        if(o == 0)
-			{
-                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
-			}
-                        else // Getting rest of assignment after colon(s)
-			{ 
-                            assignStr = assignStr + ': ';
-                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + o];
-                        }
-                    }
-                    assignStr = 'Due ' + dueDate + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
+	    let colonMuch = fh[i].split(',')[7].split(':').length - 2;
+            assignStr = fh[i].split(',')[7].split(':')[1];
+            if(colonMuch > 0)
+            {
+                for (j = 1; j <= colonMuch; j++)
+                {
+                    console.log(assignStr);
+                    assignStr = assignStr + ': ';
+                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1+j];
                 }
             }
-            else
-	    {
-                for (let o = 0; o <= commaMuch; o++)
-		{
-                    let colonMuch = fh[i].split(',')[7 + o].split(':').length; // For every comma-separated item colon spliiting is now addressed
-                    if (o==0)
-		    {
-                        if(colonMuch <= 2)
-			{
-                            assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
-                        }
-                        else
-			{
-                            for(let n = 0; n <= colonMuch - 2; n++)
-			    {
-                                if(n == 0)
-				{
-                                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1];
-                                }
-                                else
-				{
-                                    assignStr = assignStr + ': ';
-                                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1 + n];
-                                }
-                            }
-                        }		
-                    }
-                    else // Don't need to use colonMuch for here, as splitting by colon is unecessary to get desired text
-		    { 
-                        assignStr = assignStr + ',';
-                        assignStr = assignStr + fh[i].split(',')[7 + o];
-                    }
+            if(commaMuch > 0)
+            {
+                for (j = 1; j <= commaMuch; j++)
+                {
+                    assignStr = assignStr + ', ';
+                    assignStr = assignStr + fh[i].split(',')[7+j];
                 }
-                assignStr = 'Due ' + dueDate  + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
             }
+            assignStr =  'Due ' +  dueDate + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
             if(dueDatelis[0] < today.getMonth() + 1) // Automatically removes less month
 	    { 
                 isOn = true;
@@ -182,10 +145,6 @@ async function getAssignments() // async for usage of fetch
         }
     }
     var g = document.getElementById('assign'); // Getting the empty div in popup.html
-    var pinit = document.createElement('p');
-    pinit.style = "font-size: 150%; text-align: center;";
-    pinit.appendChild(document.createTextNode('Here are your upcoming assignments:'));
-    g.appendChild(pinit);
     if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
     { 
     	for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
@@ -226,11 +185,159 @@ async function getAssignments() // async for usage of fetch
 }
 
 
+async function getLP()
+{
+    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
+    const txt = await respNew.text();
+    const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
+    const yr = txt.split(';')[16].split('"')[0].split('=')[1];
+    const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
+    const response = await fetch(fetchUrl);
+    const fg = await response.text();
+    let today = new Date();
+    let tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const fh = ((fg.split(';')[15]).split('},{'));
+    var lessonPlans = [];
+    var classRows = {};
+    var lpDate = {'today': [], 'tmrw': []};
+    for (let i = 0; i < fh.length; i++)
+    {
+        var isOn = false;
+        var isToday = false;
+        var isTmrw = false;
+        if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
+        {
+            classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
+        }
+        else if ((fh[i].split(',')[3]).split(':')[1] == '"lesson-plan"')
+        {  
+            var lpStr = '';
+            var formDate = fh[i].split(',')[4].split(':')[1];
+            var cls = classRows[fh[i].split(',')[1].split(':')[1]].slice(1, classRows[fh[i].split(',')[1].split(':')[1]].length - 1);
+            var lpDateLis = [formDate.slice(6, 8), formDate.slice(9, 11)];
+            let commaMuch = fh[i].split(',').length - 11;
+            let colonMuch = fh[i].split(',')[6].split(':').length - 2;
+            lpStr = fh[i].split(',')[6].split(':')[1];
+            if(colonMuch > 0)
+            {
+                for (j = 1; j < colonMuch; j++)
+                {
+                    lpStr = lpStr + ': ';
+                    lpStr = lpStr + fh[i].split(',')[6].split(':')[1+j];
+                }
+            }
+            if(commaMuch > 0)
+            {
+                for (j = 1; j < commaMuch; j++)
+                {
+                    lpStr = lpStr + ', ';
+                    lpStr = lpStr + fh[i].split(',')[6+j];
+                }
+            }
+            lpStr = lpStr.slice(1, lpStr.length - 1) + ' (' + cls + ')';
+            if(parseInt(lpDateLis[0]) < today.getMonth() + 1)
+            {
+                isOn = true;
+            }
+            else
+            {
+                if(parseInt(lpDateLis[0]) == today.getMonth() + 1 && parseInt(lpDateLis[1]) < today.getDate())
+                {
+                    isOn = true;
+                }
+                else if (parseInt(lpDateLis[0]) == today.getMonth() + 1 && parseInt(lpDateLis[1]) == today.getDate())
+                {
+                    isToday = true;
+                    lpStr = 'Today - ' + lpStr;
+                }
+                else if (parseInt(lpDateLis[0]) == tomorrow.getMonth() + 1 && parseInt(lpDateLis[1]) == tomorrow.getDate())
+                {
+                    isTmrw = true;
+                    lpStr = 'Tomorrow - ' + lpStr;
+                }
+                else
+                {
+                    lpStr = monthdictInv[parseInt(lpDateLis[0])] + ' ' + lpDateLis[1] + ' - ' + lpStr;
+                }
+            }
+            var totLis = [lessonPlans, lpDate['today'], lpDate['tmrw']]
+            for(lis of totLis)
+            {
+                for(f of lis)
+                {
+                    if(f==lpStr)
+                    {
+                        isOn = true;
+                    }
+                }
+            }
+            if(!isOn)
+            {
+                if(isToday)
+                {
+                    lpDate['today'].push(lpStr);
+                }
+                else if(isTmrw)
+                {
+                    lpDate['tmrw'].push(lpStr);
+                }
+                else
+                {
+                    lessonPlans.push(lpStr);
+                }
+            }
+        }
+    }
+    var g = document.getElementById('lppdiv');
+    for (k of lpDate['today']) // Today's lesson plans
+    { 
+        var h = document.createElement('p');
+        h.appendChild(document.createTextNode(k));
+        g.appendChild(h);
+    }
+    for (k of lpDate['tmrw']) // Tommorow's lesson plans
+    { 
+        var h = document.createElement('p');
+        h.appendChild(document.createTextNode(k));
+        g.appendChild(h);
+    }
+    var pmed = document.createElement('p');
+    pmed.appendChild(document.createTextNode('Later (sorted by class):'))
+    pmed.style = "font-size: 150%; text-align: center;";
+    g.appendChild(pmed);
+    for (k of lessonPlans){
+        var h = document.createElement('p');
+        h.appendChild(document.createTextNode(k));
+        g.appendChild(h);
+    }
+    var pf = document.createElement('p')
+    pf.appendChild(document.createTextNode('If you want more info, visit '));
+    var a = document.createElement('a');
+    a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
+    a.appendChild(document.createTextNode('your upcoming assignments page'));
+    pf.appendChild(a);
+    pf.style = "text-align: center;"
+    pf.appendChild(document.createTextNode('!'));
+    g.appendChild(pf);
+    document.getElementById('changMod').innerHTML = 'Here are your lesson plans:';
+}
+
+
 function reqNotify()
 { 
     if (!(assign)) // To make sure getAssignments doesn't run more than once
     {
 	getAssignments();
         assign = true;
+    }
+}
+
+
+function reqLP(){
+    if(!lessonP)
+    {
+        getLP();
+        lessonP = true;
     }
 }
