@@ -23,7 +23,7 @@
     "content_scripts": 
     [
         {
-            "css": ["improveLib.css"],
+            "css": ["css/improveLib.css"],
             "all_frames": true,
             "matches": ["https://portals.veracross.com/*"]
         }
