@@ -96,6 +96,25 @@ function linkImprove()
 }
 
 
+function dropboxOnTop()
+{
+   var verallelDb = document.getElementById('verallel-db-link');
+   if(verallelDb == null)
+   {
+      var ul = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('vx-portal-nav')[0];
+      var dbLink = document.createElement('a');
+      dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
+      dbLink.appendChild(document.createTextNode('Dropbox'));
+      dbLink.classList.add('vx-portal-nav__item-link');
+      var li = document.createElement('li');
+      li.classList.add('vx-portal-nav__item');
+      li.id = 'verallel-db-link';
+      li.appendChild(dbLink);
+      ul.appendChild(li);
+   }
+}
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
 {
 	let curtaburl = tab.url;
@@ -106,6 +125,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
 	}
 	else if (tab.url.match(/portals.veracross.com/) && tab.url.match(/student/))
 	{
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: dropboxOnTop});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
 		{ 
