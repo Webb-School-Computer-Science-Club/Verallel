@@ -86,15 +86,27 @@ function improve(type)
 }
 
 
+function linkImprove()
+{
+   var links = document.getElementsByTagName('a');
+   for (link of links)
+   {
+      link.setAttribute('target', '_self');
+   }
+}
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
 {
 	let curtaburl = tab.url;
 	if (tab.url.match(/classes.veracross.com/))
 	{
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [0]}); // Executes improve function
 	}
 	else if (tab.url.match(/portals.veracross.com/) && tab.url.match(/student/))
 	{
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
 		{ 
 			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [1]}); // For assignment detail
