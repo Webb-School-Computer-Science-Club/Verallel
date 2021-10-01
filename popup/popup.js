@@ -145,43 +145,52 @@ async function getAssignments() // async for usage of fetch
         }
     }
     var g = document.getElementById('assign'); // Getting the empty div in popup.html
-    if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
-    { 
-    	for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
-	{ 
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(assignDate['today'][k]));
-            g.appendChild(h);
-        }
-    }
-    if(!(assignDate['tmrw'] == null)) // Needs to exist if the length attribute can be collected from it
-    { 
-        for (let k = 0; k < assignDate['tmrw'].length; k++)
-	{ // Assignments due tommoroow
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
-            g.appendChild(h);
-        }
-    }
-    var pmed = document.createElement('p');
-    pmed.appendChild(document.createTextNode('Due later (sorted by class):'))
-    pmed.style = "font-size: 150%; text-align: center;";
-    g.appendChild(pmed);
-    for (let k = 0; k < assignments.length; k++)
+    if(assignDate['today'] == null && assignDate['tmrw'] == null && assignments == null)
     {
-        var h = document.createElement('p');
+        var h = document.createElement('p')
+        h.appendChild(document.createTextNode('Congratulations! According to Veracross, you have no upcoming assignments!'));
+    }
+    else
+    {
+    	if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
+    	{ 
+    	    for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
+	    { 
+            	var h = document.createElement('p');
+            	h.appendChild(document.createTextNode(assignDate['today'][k]));
+            	g.appendChild(h);
+            }
+        }
+        if(!(assignDate['tmrw'] == null)) // Needs to exist if the length attribute can be collected from it
+        { 
+            for (let k = 0; k < assignDate['tmrw'].length; k++) // Assignments due tomorrow
+	    { 
+            	var h = document.createElement('p');
+            	h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
+            	g.appendChild(h);
+            }
+        }
+    	var pmed = document.createElement('p');
+    	pmed.appendChild(document.createTextNode('Due later (sorted by class):'))
+    	pmed.style = "font-size: 150%; text-align: center;";
+    	g.appendChild(pmed);
+    	for (let k = 0; k < assignments.length; k++)
+    	{
+            var h = document.createElement('p');
 	    h.appendChild(document.createTextNode(assignments[k]));
 	    g.appendChild(h);
+    	}
+    	var pf = document.createElement('p'); // Adding ending link and p tag
+    	pf.appendChild(document.createTextNode('If you want more info, visit '));
+    	var a = document.createElement('a');
+    	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
+    	a.appendChild(document.createTextNode('your upcoming assignments page'));
+    	pf.appendChild(a);
+    	pf.style = "text-align: center;"
+    	pf.appendChild(document.createTextNode('!'));
+    	g.appendChild(pf);
     }
-    var pf = document.createElement('p'); // Adding ending link and p tag
-    pf.appendChild(document.createTextNode('If you want more info, visit '));
-    var a = document.createElement('a');
-    a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
-    a.appendChild(document.createTextNode('your upcoming assignments page'));
-    pf.appendChild(a);
-    pf.style = "text-align: center;"
-    pf.appendChild(document.createTextNode('!'));
-    g.appendChild(pf);
+    document.getElementById('notif').innerHTML = 'Here are your upcoming assignments:';
 }
 
 
@@ -290,36 +299,45 @@ async function getLP()
         }
     }
     var g = document.getElementById('lppdiv');
-    for (k of lpDate['today']) // Today's lesson plans
-    { 
-        var h = document.createElement('p');
-        h.appendChild(document.createTextNode(k));
-        g.appendChild(h);
+    if(lpDate['today'].length > 0 || lpDate['tommorow'].length > 0 || lessonPlans.length > 0)
+    {
+    	for (k of lpDate['today']) // Today's lesson plans
+    	{ 
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(k));
+            g.appendChild(h);
+    	}
+    	for (k of lpDate['tmrw']) // Tommorow's lesson plans
+    	{ 
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(k));
+            g.appendChild(h);
+    	}
+    	var pmed = document.createElement('p');
+    	pmed.appendChild(document.createTextNode('Later (sorted by class):'))
+    	pmed.style = "font-size: 150%; text-align: center;";
+    	g.appendChild(pmed);
+    	for (k of lessonPlans)
+	{
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(k));
+            g.appendChild(h);
+    	}
+    	var pf = document.createElement('p')
+    	pf.appendChild(document.createTextNode('If you want more info, visit '));
+    	var a = document.createElement('a');
+    	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
+    	a.appendChild(document.createTextNode('your upcoming assignments page'));
+    	pf.appendChild(a);
+    	pf.style = "text-align: center;"
+    	pf.appendChild(document.createTextNode('!'));
+    	g.appendChild(pf);
     }
-    for (k of lpDate['tmrw']) // Tommorow's lesson plans
-    { 
+    else
+    {
         var h = document.createElement('p');
-        h.appendChild(document.createTextNode(k));
-        g.appendChild(h);
+        h.appendChild(document.createTextNode('Congratulations (or how unfortunate)! You have no upcoming lesson plans for now!'));
     }
-    var pmed = document.createElement('p');
-    pmed.appendChild(document.createTextNode('Later (sorted by class):'))
-    pmed.style = "font-size: 150%; text-align: center;";
-    g.appendChild(pmed);
-    for (k of lessonPlans){
-        var h = document.createElement('p');
-        h.appendChild(document.createTextNode(k));
-        g.appendChild(h);
-    }
-    var pf = document.createElement('p')
-    pf.appendChild(document.createTextNode('If you want more info, visit '));
-    var a = document.createElement('a');
-    a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
-    a.appendChild(document.createTextNode('your upcoming assignments page'));
-    pf.appendChild(a);
-    pf.style = "text-align: center;"
-    pf.appendChild(document.createTextNode('!'));
-    g.appendChild(pf);
     document.getElementById('changMod').innerHTML = 'Here are your lesson plans:';
 }
 
