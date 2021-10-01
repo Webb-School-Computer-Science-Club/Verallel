@@ -1,5 +1,6 @@
 // background.js
-// Detects tab change and executes improve function if the url matches tab urls that improve is made to improve
+// Detects tab change and executes certain functions (all defined here) depending on tab url
+// improve, linkImprove, and dropboxOnTop, functions that are called to add links and tabs, are defined here
 
 
 function improve(type)
@@ -88,30 +89,30 @@ function improve(type)
 
 function linkImprove()
 {
-   var links = document.getElementsByTagName('a');
-   for (link of links)
-   {
-      link.setAttribute('target', '_self');
-   }
+	var links = document.getElementsByTagName('a');
+   	for (link of links)
+   	{
+      		link.setAttribute('target', '_self');
+   	}
 }
 
 
 function dropboxOnTop()
 {
-   var verallelDb = document.getElementById('verallel-db-link');
-   if(verallelDb == null)
-   {
-      var ul = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('vx-portal-nav')[0];
-      var dbLink = document.createElement('a');
-      dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
-      dbLink.appendChild(document.createTextNode('Dropbox'));
-      dbLink.classList.add('vx-portal-nav__item-link');
-      var li = document.createElement('li');
-      li.classList.add('vx-portal-nav__item');
-      li.id = 'verallel-db-link';
-      li.appendChild(dbLink);
-      ul.appendChild(li);
-   }
+	var verallelDb = document.getElementById('verallel-db-link');
+   	if(verallelDb == null)
+   	{
+      		var ul = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('vx-portal-nav')[0];
+      		var dbLink = document.createElement('a');
+      		dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
+      		dbLink.appendChild(document.createTextNode('Dropbox'));
+      		dbLink.classList.add('vx-portal-nav__item-link');
+      		var li = document.createElement('li');
+      		li.classList.add('vx-portal-nav__item');
+      		li.id = 'verallel-db-link';
+      		li.appendChild(dbLink);
+      		ul.appendChild(li);
+   	}
 }
 
 
