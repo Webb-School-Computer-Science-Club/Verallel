@@ -154,6 +154,7 @@ function darkLightMode(dm, url) // For changing mode of Veracross page.
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
 {
 	let curtaburl = tab.url;
+	let f = chrome.runtime.getURL("css/veracross-dark.css");
 	if (tab.url.match(/classes.veracross.com/))
 	{
 		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
