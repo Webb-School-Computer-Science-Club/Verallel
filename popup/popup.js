@@ -415,6 +415,7 @@ function changeMode()
                 {
                     p.parentNode.removeChild(p);
                 }
+		changePopupMode(dm);
             }
             else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
             {
@@ -449,6 +450,7 @@ function changeMode()
                 {
                     p.parentNode.removeChild(p);
                 }
+		changePopupMode(dm);
             }
             else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
             {
@@ -472,6 +474,5 @@ function changeMode()
                 }                
             }
         }
-	changePopupMode(dm);
     });
 }
