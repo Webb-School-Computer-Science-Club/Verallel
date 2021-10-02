@@ -335,7 +335,7 @@ async function getLP()
         }
     }
     var g = document.getElementById('lppdiv');
-    if(lpDate['today'].length > 0 || lpDate['tommorow'].length > 0 || lessonPlans.length > 0)
+    if(lpDate['today'] || lpDate['tommorow'] || lessonPlans)
     {
     	for (k of lpDate['today']) // Today's lesson plans
     	{ 
@@ -373,6 +373,7 @@ async function getLP()
     {
         var h = document.createElement('p');
         h.appendChild(document.createTextNode('Congratulations (or how unfortunate)! You have no upcoming lesson plans for now!'));
+	g.appendChild(h);
     }
     document.getElementById('changMod').innerHTML = 'Here are your lesson plans:';
 }
