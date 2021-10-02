@@ -1,9 +1,20 @@
 // background.js
 // Detects tab change and executes certain functions (all defined here) depending on tab url
 // improve, linkImprove, and dropboxOnTop, functions that are called to add links and tabs, are defined here
+// Also commmunicates with popup script for dark/light mode toggling
+
+var dm = false;
+chrome.storage.sync.get(['key'], function(result) // For acquiring dark mode if it is already stored earlier
+{
+   if(result.key)
+   {
+      dm = result.key;
+   }
+});
+chrome.storage.sync.set({key: dm}, function() {console.log('Dark or Light mode established');}); // Establishes light dark mode for extension duration
 
 
-function improve(type)
+function improve(type) // The function that adds dropbox links, removes class ids from class names, etc.
 {
 	switch(type) // Uses switch because more types will be added in the future for different class tabs
 	{ 
@@ -87,7 +98,7 @@ function improve(type)
 }
 
 
-function linkImprove()
+function linkImprove() // Nothing will take you to a new tab in Veracross now. Much easier to Cmd-click than to right click then click open in current tab.
 {
 	var links = document.getElementsByTagName('a');
    	for (link of links)
@@ -97,7 +108,7 @@ function linkImprove()
 }
 
 
-function dropboxOnTop()
+function dropboxOnTop() // Creates a link to the dropbox on the top for every portals.veracross.com page
 {
 	var verallelDb = document.getElementById('verallel-db-link');
    	if(verallelDb == null)
@@ -116,16 +127,42 @@ function dropboxOnTop()
 }
 
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
+function darkLightMode(dm, url) // For changing mode of Veracross page. 
+{
+    var verStyl = document.getElementById('verallel-styl');
+    if(verStyl == null)
+    {
+        if(dm)
+        {
+            var newStyl = document.createElement('link');
+            newStyl.setAttribute('rel', 'stylesheet');
+            newStyl.setAttribute('href', url);
+            newStyl.id = 'verallel-styl';
+            document.getElementsByTagName('head')[0].appendChild(newStyl);
+        }
+    }
+    else
+    {
+        if(!(dm))
+        {
+           verStyl.parentNode.removeChild(verStyl); 
+        }
+    }
+}
+
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
 {
 	let curtaburl = tab.url;
 	if (tab.url.match(/classes.veracross.com/))
 	{
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [0]}); // Executes improve function
 	}
 	else if (tab.url.match(/portals.veracross.com/) && tab.url.match(/student/))
 	{
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: dropboxOnTop});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
@@ -138,4 +175,33 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
 		}
 	} 
 	// Other parts if portals.veracross.com improvement in the works!
+});
+
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // For communicating with popup.js
+{
+   if(request)
+   {
+      if(request.msg == 'Popup Initialization') // When popup first gets opened
+      {
+         sendResponse({sender: "background.js", data: dm});
+      }
+      else if(request.msg == 'Change to light') // Light mode change
+      {
+         var f = chrome.runtime.getURL("css/veracross-dark.css");
+         dm = false;
+         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            chrome.scripting.executeScript({target: {tabId: tabs[0].id, allFrames: true}, func: darkLightMode, args: [dm, f]});
+         });
+      }
+      else if(request.msg == 'Change to dark') // Dark mode change
+      {
+         var f = chrome.runtime.getURL("css/veracross-dark.css");
+         dm = true;
+         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            chrome.scripting.executeScript({target: {tabId: tabs[0].id, allFrames: true}, func: darkLightMode, args: [dm, f]});
+         });
+      }
+      chrome.storage.sync.set({key: dm}, function() { console.log('Dark or Light mode toggled'); }); // Updates dark mode value in storage
+   }
 });
