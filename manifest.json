@@ -21,6 +21,7 @@
     {
         "service_worker": "background.js"
     },
+    
     "content_scripts": 
     [
         {
@@ -29,6 +30,7 @@
             "matches": ["https://portals.veracross.com/*"]
         }
     ],
+    
     "web_accessible_resources": 
     [
         {
