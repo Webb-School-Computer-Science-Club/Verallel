@@ -3,11 +3,29 @@
 // May or may not need to sort by year, but that will probably be an upcoming update for getAssignments()
 
 document.getElementById("notif").addEventListener("click", reqNotify); // Gives assignment button functionality by adding click listener
-document.getElementById("lessonP").addEventListener("click", reqLP); // Gives lesson plan button functionality by addig lick listener
+document.getElementById("lessonP").addEventListener("click", reqLP); // Gives lesson plan button functionality by addig click listener
+document.getElementById('changMod').addEventListener('click', changeMode); // Dark/light mode toggle button now functions
 var assign = false;
 var lessonP = false;
+var dm = false; // light mode by default
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
+
+chrome.runtime.sendMessage({ msg: 'Popup Initialization', data: null}, function(response) // Popup gets current mode from background.js
+{
+    if(response)
+    {
+	dm = response.data;
+        if(response.data) //Response.data will either be true or false
+        {
+            document.getElementById("changMod").innerHTML = 'Click for light mode';
+        }
+        else
+        {
+            document.getElementById("changMod").innerHTML = 'Click for dark mode';
+        }
+    }
+});
 
 async function getAssignments() // async for usage of fetch
 { 
@@ -359,4 +377,59 @@ function reqLP()
         getLP();
         lessonP = true;
     }
+}
+
+
+function changeMode()
+{
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        var p = document.getElementById('not-vera');
+        if(!dm)
+        {
+            dm = true;
+            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/))
+            {
+                document.getElementById('changMod').innerHTML = 'Click for light mode';
+                chrome.runtime.sendMessage({msg: 'Change to dark', data: null});
+                if(!(p == null))
+                {
+                    p.parentNode.removeChild(p);
+                }
+            }
+            else
+            {
+                if(p == null)
+                {
+                    var notVera = document.createElement('p')
+                    notVera.appendChild(document.createTextNode('You have to have to be in Veracross to switch modes!'));
+                    notVera.id = 'not-vera';
+                    document.getElementById('modeChange').appendChild(notVera);
+                }
+            }
+        }
+        else
+        {
+            dm = false;
+            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/))
+            {
+                document.getElementById('changMod').innerHTML = 'Click for dark mode';
+                chrome.runtime.sendMessage({msg: 'Change to light', data: null});
+                if(!(p == null))
+                {
+                    p.parentNode.removeChild(p);
+                }
+            }
+            else
+            {
+                if(p == null)
+                {
+                    var notVera = document.createElement('p')
+                    notVera.appendChild(document.createTextNode('You have to have to be in Veracross to switch modes!'));
+                    notVera.id = 'not-vera';
+                    document.getElementById('modeChange').appendChild(notVera);
+                }                
+            }
+        }
+    });
 }
