@@ -202,6 +202,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // 
             chrome.scripting.executeScript({target: {tabId: tabs[0].id, allFrames: true}, func: darkLightMode, args: [dm, f]});
          });
       }
+      else if(request.msg == 'oChangeL') // For if popup is in Verallel options tab
+      {
+         dm = false;
+      }
+      else if(request.msg == 'oChangeD')
+      {
+         dm = true;
+      }
       chrome.storage.sync.set({key: dm}, function() { console.log('Dark or Light mode toggled'); }); // Updates dark mode value in storage
    }
 });
