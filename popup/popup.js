@@ -8,8 +8,25 @@ document.getElementById('changMod').addEventListener('click', changeMode); // Da
 var assign = false;
 var lessonP = false;
 var dm = false; // light mode by default
+var r = document.querySelector(':root'); // For changing mode of the popup
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
+
+
+function changePopupMode(dl)
+{
+    if(dl)
+    {
+        r.style.setProperty('--background-color', '#000000');
+        r.style.setProperty('--border-color', '#ffffff');
+    }
+    else
+    {
+        r.style.setProperty('--background-color', '#ffffff');
+        r.style.setProperty('--border-color', '#000000');
+    }
+}
+
 
 chrome.runtime.sendMessage({ msg: 'Popup Initialization', data: null}, function(response) // Popup gets current mode from background.js
 {
@@ -24,6 +41,7 @@ chrome.runtime.sendMessage({ msg: 'Popup Initialization', data: null}, function(
         {
             document.getElementById("changMod").innerHTML = 'Click for dark mode';
         }
+	changePopupMode(dm);
     }
 });
 
@@ -431,5 +449,6 @@ function changeMode()
                 }                
             }
         }
+	changePopupMode(dm);
     });
 }
