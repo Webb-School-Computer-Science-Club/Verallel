@@ -1,6 +1,6 @@
 // background.js
 // Detects tab change and executes certain functions (all defined here) depending on tab url
-// improve, linkImprove, and dropboxOnTop, functions that are called to add links and tabs, are defined here
+// improve, linkImprove, and dropboxOnTop, functions that are called to add links and tabs, are defined here and url define execution
 // Also commmunicates with popup script for dark/light mode toggling
 
 var dm = false;
