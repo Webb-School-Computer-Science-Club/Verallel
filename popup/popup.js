@@ -416,6 +416,17 @@ function changeMode()
                     p.parentNode.removeChild(p);
                 }
             }
+            else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
+            {
+                document.getElementById('changMod').innerHTML = 'Click for light mode';
+                chrome.runtime.sendMessage({msg: 'oChangeD', data: null});
+                chrome.tabs.sendMessage(activeTab.id, {mode: 'dark'}); // For options.js
+                if(!(p == null))
+                {
+                    p.parentNode.removeChild(p);
+                }
+                changePopupMode(dm);
+            }
             else
             {
                 if(p == null)
@@ -438,6 +449,17 @@ function changeMode()
                 {
                     p.parentNode.removeChild(p);
                 }
+            }
+            else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
+            {
+                document.getElementById('changMod').innerHTML = 'Click for dark mode';
+                chrome.runtime.sendMessage({msg: 'oChangeL', data: null});
+                chrome.tabs.sendMessage(activeTab.id, {mode: 'light'}); // For options.js
+                if(!(p == null))
+                {
+                    p.parentNode.removeChild(p);
+                }
+                changePopupMode(dm);
             }
             else
             {
