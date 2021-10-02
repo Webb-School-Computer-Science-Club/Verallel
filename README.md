@@ -16,9 +16,10 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
 
 # Upcoming Updates
-Compared to version 1.0.0, version 1.1.0 has these following upgrades (keep in mind this list is going to get bigger as 1.1.0 hasn't been fully developed yet):
+Compared to version 1.0.0, version 1.1.0 has these following upgrades (1.1.0 coming out very soon):
   - Fetching all upcoming assignments from popup page, putting assignments due the day of any the day after first
   - Link to dropbox and general cleanup of assignment detail page in portals.veracross.com, along with improvement of dropbox page UI
+  - Light/dark mode toggle
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
