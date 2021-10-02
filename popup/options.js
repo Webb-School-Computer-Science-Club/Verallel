@@ -1,5 +1,5 @@
 //options.js
-//For light dark mode on options page
+//Getting reworked!
 
 
 var lightmode = true;
@@ -23,11 +23,5 @@ function changeMode()
 		r.style.setProperty('--background-color', '#ffffff');
 		r.style.setProperty('--border-color', '#000000');
 	}
-	
-	chrome.tabs.query({currentWindow: true, active: true}, function (tabs)
-	{
-		var activeTab = tabs[0];
-		chrome.tabs.sendMessage(activeTab.id, {"message": "change"});
-	});
 }
 
