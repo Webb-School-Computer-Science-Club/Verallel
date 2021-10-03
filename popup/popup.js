@@ -375,7 +375,7 @@ async function getLP()
         h.appendChild(document.createTextNode('Congratulations (or how unfortunate)! You have no upcoming lesson plans for now!'));
 	g.appendChild(h);
     }
-    document.getElementById('changMod').innerHTML = 'Here are your lesson plans:';
+    document.getElementById('lessonP').innerHTML = 'Here are your lesson plans:';
 }
 
 
