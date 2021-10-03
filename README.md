@@ -1,9 +1,10 @@
 <a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
-This release is version 1.0.0, so the only feature it has is clickable links to the dropbox from the classpage. Any commits after the latest release are for version 1.1.0, which will hopefuly be a big update. A version 1.0.5 has released, but that is a beta version for some feature testing. Version 1.1.0 will be the next version on the web store, not version 1.0.5. Version 1.1.0 us coming out really soon!
+Version 1.1.0 has just released on Github and is about to be released on the webstore (the first 1.1.0 released will have a small bug, so probably wait until the patched version comes along in some days after that). Any commits after this release will be for some subsequent update, the scale of which is unknown at the moment.
 
 # Verallel
 A student-made, student-tailored Chrome web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
-Currently, the only features of 1.0.0 are to add a link to the dropbox from any class popup in the class tab, but other featues are going to come soon in the 1.1.0 release!<br>
+ 1.1.0 is a massive upgrade from 1.0.0, including a light/dark mode toggle, link to the drop box from the top, making sure no links open in new tabs, and fetching assignments and lesson plans from the popup. There definitley is more to do for further developing Verallel though!
+<br>
 Unfortunatley, at the moment, this extension is compatible only for Webb students, as the links will not work if your Veracross is a different school. 
 
 # Jump to
@@ -16,10 +17,7 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
 
 # Upcoming Updates
-Compared to version 1.0.0, version 1.1.0 has these following upgrades (1.1.0 coming out very soon):
-  - Fetching all upcoming assignments from popup page, putting assignments due the day of any the day after first
-  - Link to dropbox and general cleanup of assignment detail page in portals.veracross.com, along with improvement of dropbox page UI
-  - Light/dark mode toggle
+Version 1.1.0 just released, so there isn't any new features to note about the next version. 
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
