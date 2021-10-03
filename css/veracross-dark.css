@@ -208,6 +208,9 @@ border-bottom {
     border-color: var(--home-border) !important;
 }
 
+.start-time {
+    color: var(--font-light) !important;
+}
 
 /* Recent Activity */
 
