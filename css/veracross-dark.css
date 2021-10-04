@@ -491,6 +491,10 @@ body.chromeless .container {
     opacity: 0.7 !important; 
 }
 
+.nc-icon-glyph{
+    color:  var(--font-light) !important;
+}
+
 /* Calendar */
 
 .screen-toolbar{
