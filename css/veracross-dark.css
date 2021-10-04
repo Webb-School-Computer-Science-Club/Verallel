@@ -1233,5 +1233,18 @@ table.main:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)
     color: var(--font-light) !important;
  }
 
+/* Assignment detail page */
+
+.vx-record-header__course-description {
+    color:  var(--font-light) !important;
+ }
+
+ .nc-icon-outline{
+    color: var(--font-light) !important;
+ }
+
+ .vx-data-field__data{
+    color: var(--font-light) !important;
+ }
 
  
