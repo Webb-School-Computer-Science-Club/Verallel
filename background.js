@@ -189,6 +189,58 @@ function darkLightMode(dm, url) // For changing mode of Veracross page.
 }
 
 
+async function id2class(tabId, ur) // For when class isn't there but class IDs are
+{
+   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
+   const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
+   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
+   const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
+   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
+   const response = await fetch(fetchUrl); // New fetching
+   const fg = await response.text();
+   const fh = ((fg.split(';')[15]).split('},{'));
+   var id2clas = {}
+   for(f of fh)
+   {
+      if (f.split(',')[2].split(':')[0] == '"class_id"')
+      {
+         var finalclsStr = f.split(',')[3].split(':')[1].replace('"', '').replace('\\', '');
+         if(finalclsStr[finalclsStr.length - 1] == '"')
+         {
+            finalclsStr = finalclsStr.slice(0, finalclsStr.length - 1);
+         }
+         id2clas[f.split(',')[2].split(':')[1]] = finalclsStr;
+
+      }
+   }
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: convert, args: [ur, id2clas]});
+}
+
+
+function convert(which, id2cls) // For actually executing class Id -> class within script
+{
+   switch(which)
+   {
+      case 1: // for main student portal. Will be worked on once all other subdomains of portals.veracross.com have an improve case.
+         var f = false;
+      case 2:
+         var g = document.getElementsByClassName('fc-event-container');
+         for(f of g)
+         {
+            var newS = f.getElementsByClassName('fc-title')[0];
+            if(newS.innerHTML[0] == '*')
+            {
+               var replace =  id2cls['"' + newS.innerHTML.split('.')[0].slice(2, newS.innerHTML.split('.')[0].length)+ '"'];
+               if (replace) // Checking if variable exists
+               {
+                  newS.innerHTML = replace + ' - ' + newS.innerHTML.split('.')[1];
+               }
+            }
+         }
+   }
+}
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
 {
 	let curtaburl = tab.url;
@@ -212,6 +264,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 		{ 
 			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [2]});
 		}
+		else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
+      		{
+         		id2class(tabId, 2); // Different function called because it needs to be async and fetching will fail in executeScript function call
+      		}
 	} 
 	// Other parts if portals.veracross.com improvement in the works!
 });
