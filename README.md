@@ -17,7 +17,8 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
 
 # Upcoming Updates
-Version 1.1.0 just released, so there isn't any new features to note about the next version. 
+Version 1.1.0 recently released, but there are some features to note about the upcoming update:
+  - Adding a dropdown for the directories to make it easier to get to the one the user wants
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
