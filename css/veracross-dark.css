@@ -553,8 +553,19 @@ body.chromeless .container {
     color: var(--font-darker) !important;
 }
 
-/* Pop-up Student */
+.vx-modal__footer {
+    background-color: var(--darker-background) !important;
+}
 
+.vx-modal__content {
+    background-color: var(--darkest-background) !important;
+}
+
+.vx-data-field div {
+    color: var(--font-light) !important;
+}
+
+/* Pop-up Student */
 
 .vx-account-info {
     border-color: var(--home-border) !important;
