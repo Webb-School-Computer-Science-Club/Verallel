@@ -25,10 +25,6 @@
 
 /* Website */
 
-html {
-    background: var(--darkest-background);
-}
-
 p {
     color: var(--font-light) !important;
 }
