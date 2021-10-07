@@ -4,6 +4,9 @@
 // Also commmunicates with popup script for dark/light mode toggling
 
 var dm = false;
+const typObj = {"RD": 'Reading', "QZ": 'Quiz', "CL": 'Classwork', "HW": 'Homework', "WR": 'Writing', "DA": 'Daily', "OR": 'Oral', "BR": 'Book Report'};
+
+
 chrome.storage.sync.get(['key'], function(result) // For acquiring dark mode if it is already stored earlier
 {
    if(result.key)
@@ -189,7 +192,7 @@ function darkLightMode(dm, url) // For changing mode of Veracross page.
 }
 
 
-async function id2class(tabId, ur) // For when class isn't there but class IDs are
+async function id2class(tabId, ur, typDict) // For when class isn't there but class IDs are
 {
    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
    const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
@@ -213,11 +216,11 @@ async function id2class(tabId, ur) // For when class isn't there but class IDs a
 
       }
    }
-   chrome.scripting.executeScript({target: {tabId: tabId}, func: convert, args: [ur, id2clas]});
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: convert, args: [ur, id2clas, typDict]});
 }
 
 
-function convert(which, id2cls) // For actually executing class Id -> class within script
+function convert(which, id2cls, typDict) // For actually executing class Id -> class within script
 {
    switch(which)
    {
@@ -230,11 +233,16 @@ function convert(which, id2cls) // For actually executing class Id -> class with
             var newS = f.getElementsByClassName('fc-title')[0];
             if(newS.innerHTML[0] == '*')
             {
-               var replace =  id2cls['"' + newS.innerHTML.split('.')[0].slice(2, newS.innerHTML.split('.')[0].length)+ '"'];
-               if (replace) // Checking if variable exists
-               {
-                  newS.innerHTML = replace + ' - ' + newS.innerHTML.split('.')[1];
-               }
+                var replace =  id2cls['"' + newS.innerHTML.split('.')[0].slice(2, newS.innerHTML.split('.')[0].length)+ '"']; // ClassId -> Class
+	        var noI = typDict[newS.innerHTML.split('.')[1]];
+                if (replace) // Checking if variable exists for class id -> class
+                {
+                   newS.innerHTML = replace + ' - ' + newS.innerHTML.split('.')[1];
+                }
+	        if(noI) // If it needs the abbreviations replaced
+		{
+		    newS.innerHTML = replace.split('-')[0] + ' - ' + noI;
+		}
             }
          }
    }
@@ -266,7 +274,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 		}
 		else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
       		{
-         		id2class(tabId, 2); // Different function called because it needs to be async and fetching will fail in executeScript function call
+         		id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
       		}
 	} 
 	// Other parts if portals.veracross.com improvement in the works!
