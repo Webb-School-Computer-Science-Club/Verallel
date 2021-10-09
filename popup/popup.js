@@ -5,9 +5,11 @@
 document.getElementById("notif").addEventListener("click", reqNotify); // Gives assignment button functionality by adding click listener
 document.getElementById("lessonP").addEventListener("click", reqLP); // Gives lesson plan button functionality by addig click listener
 document.getElementById('changMod').addEventListener('click', changeMode); // Dark/light mode toggle button now functions
+document.getElementById("missing").addEventListener('click', reqMiss); // Gives missing assignment button functionality
 var assign = false;
 var lessonP = false;
 var dm = false; // light mode by default
+var miss = false;
 var r = document.querySelector(':root'); // For changing mode of the popup
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
@@ -379,6 +381,57 @@ async function getLP()
 }
 
 
+async function getMissing()
+{
+    const db = await fetch('https://portals.veracross.com/webb/student/submit-assignments');
+    const dbTxt = await db.text();
+    const missTxt = dbTxt.split('data-react-props')[1].split('data-react-cache-id')[0];
+    let today = new Date();
+    var missingAssignments = [];
+    for(assignm of missTxt.split('},{'))
+    {
+        var pastDue = false;
+        var missStr = '';
+        var dueDate = assignm.split('due_date&quot;:&quot;')[1].split('&quot')[0];
+        var dueDateLis = [parseInt(dueDate.slice(8, 10)), parseInt(dueDate.slice(5, 7))];
+        var complete = assignm.split('assignment_submission_status&quot;:')[1][0];
+        if(today.getMonth() + 1 > dueDateLis[1])
+        {
+            pastDue = true;
+        }
+        else if(today.getMonth() + 1 == dueDateLis[1] && today.getDate() > dueDateLis[0])
+        {
+            pastDue = true;
+        }
+        if(complete == 2)
+        {
+            pastDue = false;
+        }
+        if(pastDue)
+        {
+            missStr = assignm.split('assignment_description&quot;:&quot;')[1].split('&quot;')[0] + ' (' + assignm.split('class_description&quot;:&quot;')[1].split('&quot')[0] + ')';
+            missingAssignments.push(missStr);
+        }
+    }
+    document.getElementById('missing').innerHTML = 'Here are your missing assignments (according to Dropbox):'
+    var misDiv = document.getElementById('miss');
+    for (missin of missingAssignments)
+    {
+        var missP = document.createElement('p');
+        missP.appendChild(document.createTextNode(missin));
+        misDiv.appendChild(missP);
+    }
+    var misP = document.createElement('p')
+    misP.appendChild(document.createTextNode('If you want more info, visit '));
+    var misA = document.createElement('a');
+    misA.setAttribute('href', 'https://portals.veracross.com/webb/student/submit-assignments');
+    misA.appendChild(document.createTextNode('your Submission Page'));
+    misP.appendChild(misA);
+    misP.appendChild(document.createTextNode('!'));
+    misDiv.appendChild(misP);
+}
+
+
 function reqNotify()
 { 
     if (!(assign)) // To make sure getAssignments doesn't run more than once
@@ -395,6 +448,16 @@ function reqLP()
     {
         getLP();
         lessonP = true;
+    }
+}
+
+
+function reqMiss()
+{
+    if(!miss)
+    {
+        getMissing();
+        miss = true;
     }
 }
 
