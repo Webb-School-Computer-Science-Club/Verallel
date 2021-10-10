@@ -21,6 +21,7 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 Version 1.1.0 recently released, but there are some features to note about the upcoming update:
   - Adding a dropdown for the directories to make it easier to get to the one the user wants
   - Making the calendar pages slightly easier to read by replacing class IDs with the name of the class
+  - Scrolling down to the assignment due the soonest (relative to the current day, assumes no assignment is missing) from Dropbox page
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
