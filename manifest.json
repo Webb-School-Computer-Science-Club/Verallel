@@ -28,6 +28,12 @@
             "css": ["css/improveLib.css"],
             "all_frames": true,
             "matches": ["https://portals.veracross.com/*"]
+        },
+        
+        {
+            "js": ["contentJs/assignmentSubmission.js"],
+            "all_frames": true,
+            "matches": ["https://portals.veracross.com/webb/student/submit-assigments/*", "https://portals.veracross.com/webb/student/submit-assignments"]
         }
     ],
     
