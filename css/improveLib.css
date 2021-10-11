@@ -18,7 +18,8 @@ improveLib.css: for improving the unecessarily large Webb libraries link, along 
    height: 16px;
    width:  16px;
    filter:  invert(1) sepia(0) hue-rotate(0deg) saturate(100%) brightness(1.0) contrast(100%);
-   margin-top: 5px;
+   vertical-align: bottom;
+   margin-bottom: 13px;
 }
 
 .vx-portal-nav__item-link:hover > .nc-icon-glyph.dropbox-logo
