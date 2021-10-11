@@ -157,6 +157,12 @@ function dropboxOnTop() // Creates a link to the dropbox on the top for every po
             	dirLi.appendChild(dirDropDown);
       		var dbLink = document.createElement('a');
       		dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
+		var dbIcon = document.createElement('img');
+            	dbIcon.classList.add('nc-icon-glyph');
+            	dbIcon.classList.add('dropbox-logo');
+            	dbIcon.setAttribute('src', 'https://cdn.iconscout.com/icon/free/png-256/dropbox-164-734858.png'); //Image licensed via Creative Commons at iconsout.com
+            	dbLink.appendChild(dbIcon);
+            	dbLink.appendChild(document.createTextNode('\xa0\xa0'));
       		dbLink.appendChild(document.createTextNode('Dropbox'));
       		dbLink.classList.add('vx-portal-nav__item-link');
       		var li = document.createElement('li');
