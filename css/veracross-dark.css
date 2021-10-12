@@ -1,4 +1,4 @@
-@-moz-document domain("veracross.com") {
+/* Dark mode for Chrome Verallel */
 :root {
 --dark-background: #3a3943;
 --darker-background:#2a2c39;
@@ -250,7 +250,13 @@ h1, h2, h3, h4, h5, h6, .vx-heading-1, .vx-heading-2, .vx-heading-3, .vx-heading
     color: var(--font-light);
 }
 
+.vx-portal-nav__item-link:hover > .nc-icon-glyph.dropbox-logo
+{
+   filter: invert(26%) sepia(84%) saturate(1178%) hue-rotate(71deg) brightness(98%) contrast(103%);
+}
+
 /* Schedule */
+
 .ae-grid__item {
     color: var(--font-light);
 }
@@ -1476,4 +1482,3 @@ html body.custom.chromeless div#container div#main div#main-content div.messages
  
  
 
-}
