@@ -252,7 +252,7 @@ h1, h2, h3, h4, h5, h6, .vx-heading-1, .vx-heading-2, .vx-heading-3, .vx-heading
 
 .vx-portal-nav__item-link:hover > .nc-icon-glyph.dropbox-logo
 {
-   filter: invert(26%) sepia(84%) saturate(1178%) hue-rotate(71deg) brightness(98%) contrast(103%) !important;
+   filter: invert(100%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
 }
 
 /* Schedule */
