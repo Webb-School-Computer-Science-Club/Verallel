@@ -26,3 +26,13 @@ improveLib.css: for improving the unecessarily large Webb libraries link, along 
 {
    filter:  invert(34%) sepia(19%) saturate(2271%) hue-rotate(103deg) brightness(97%) contrast(97%);
 }
+
+.vx-record-header__title
+{
+    font-size: 0rem !important;
+}
+
+.vx-record-header__course-description
+{
+    font-size: 1.25rem !important;
+}
