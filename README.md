@@ -1,5 +1,5 @@
 <a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
-Version 1.1.0 has just released on Github and is about to be released on the webstore (the first 1.1.0 released will have a small bug, so probably wait until the patched version comes along in some days after that). Any commits after this release will be for some subsequent update, the scale of which is unknown at the moment.<br>
+Version 1.1.0 has just released on Github and is about to be released on the webstore (the first 1.1.0 released will have a small bug, so probably wait until the patched version comes along in some days after that). Any commits after the 1.1.0 release will be for some subsequent update, the scale of which is unknown at the moment.<br>
 Check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel's Firefox Version</a> and <a href = 'https://2023popn.github.io/VeraNav/'>VeraNav</a>, a website made for easier navigation of Veracross!
 
 # Verallel
@@ -18,9 +18,9 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
 
 # Upcoming Updates
-Version 1.1.0 recently released, but there are some features to note about the upcoming update:
+Upcoming updates for the next version of Verallel:
   - Adding a dropdown for the directories to make it easier to get to the one the user wants
-  - Making the calendar pages slightly easier to read by replacing class IDs with the name of the class
+  - Making the calendar and other pages slightly easier to read by replacing class IDs with the name of the class or just eliminating class IDs all together
   - Scrolling down to the assignment due the soonest (relative to the current day, assumes no assignment is missing) from Dropbox page
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
