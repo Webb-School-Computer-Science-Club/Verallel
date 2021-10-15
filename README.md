@@ -1,5 +1,5 @@
 <a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
-Version 1.1.0 has just released on Github and is about to be released on the webstore (the first 1.1.0 released will have a small bug, so probably wait until the patched version comes along in some days after that). Any commits after the 1.1.0 release will be for some subsequent update, the scale of which is unknown at the moment.<br>
+Version 1.1.0 has just released on Github and is about to be released on the webstore (the first 1.1.0 released has a small bug, but another version will be released in some time that improves upon 1.1.0). Any commits after the 1.1.0 release will be for the subsequent update, the scale of which is unknown at the moment, but its release is coming some time in the near future.<br>
 Check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel's Firefox Version</a> and <a href = 'https://2023popn.github.io/VeraNav/'>VeraNav</a>, a website made for easier navigation of Veracross!
 
 # Verallel
