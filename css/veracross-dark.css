@@ -509,6 +509,7 @@ body.chromeless .container {
 }
 
 /* Submissions */
+
 .assignment-submission .sidebar {
     background-color: var(--darker-background);
     color: var(--font-light);
@@ -623,6 +624,10 @@ body.chromeless .container {
     background: var(--completed-background);
     color: var(--font-light);
     opacity: 0.7;
+}
+
+.nc-icon-glyph.files_single-folded-content{
+    filter:  invert(1);
 }
 
 /* Calendar */
@@ -949,6 +954,7 @@ table.main:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)
 }
 
 /*  Home page */
+
 .component-class-list-student .course  {
     border-color: var(--home-border);
 }
