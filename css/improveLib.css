@@ -36,3 +36,17 @@ improveLib.css: for improving the unecessarily large Webb libraries link, along 
 {
     font-size: 1.25rem !important;
 }
+
+.course-links a:nth-child(1)
+{
+    font-size: 0px !important;
+    transition:  scale(0) !important;
+    margin-left:  0px !important; 
+    width: 0px !important;
+}
+
+.course-links a:nth-child(2)
+{
+    margin-left: 0px !important;
+    font-size:  1rem;
+}
