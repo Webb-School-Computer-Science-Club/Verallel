@@ -291,6 +291,10 @@ function makeClassDropDown(classRows, classidlist)
       classDropDown.setAttribute('style', 'margin-left:18% !important;');
       var classesCont = document.createElement('div');
       classesCont.classList.add('vx-hover-menu__hover-links-container');
+      var leftSide = document.createElement('div');
+      leftSide.setAttribute('style', 'float: left;');
+      var rightSide = document.createElement('div');
+      rightSide.setAttribute('style', 'margin-left: 22%; width: 161px;');
       for (id of classidlist)
       {
          var classLink = document.createElement('a')
@@ -298,8 +302,18 @@ function makeClassDropDown(classRows, classidlist)
          classLink.setAttribute('href', classUrl);
          classLink.setAttribute('style', 'width: 20%;')
          classLink.appendChild(document.createTextNode(classRows[id].replace('\"', '').replace('"', '')));
-         classesCont.appendChild(classLink);
+         if(classRows[id].slice(0, 3) == '\"CC' || classRows[id].slice(0, 3) == '\"US')
+         {
+            console.log(classRows[id]);
+            leftSide.appendChild(classLink);
+         }
+         else
+         {
+            rightSide.appendChild(classLink);
+         }
       }
+      classesCont.appendChild(leftSide);
+      classesCont.appendChild(rightSide);
       classDropDown.appendChild(classesCont);
       classDropDown.setAttribute('id', 'class-link-container'); // To make sure the element does not get added four times
       classes.appendChild(classDropDown);
