@@ -19,9 +19,10 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 
 # Upcoming Updates
 Upcoming updates for the next version of Verallel:
-  - Adding a dropdown for the directories to make it easier to get to the one the user wants
+  - Adding a dropdown for the directories and classes to make it easier to get to the one the user wants
   - Making the calendar and other pages slightly easier to read by replacing class IDs with the name of the class or just eliminating class IDs all together
   - Scrolling down to the assignment due the soonest (relative to the current day, assumes no assignment is missing) from Dropbox page
+  - Improving the style of the main portals Veracross page, including a better dark mode
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
@@ -30,7 +31,6 @@ If you wish to help with the development of the site, the zip folder release of 
 This is the repository for the Chrome extension for Verallel. If you want to help with Verallel as a Firefox add-on, you should check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel-Firefox</a>
 
 # Potential Feature Additions the Dev Team has High on the Bucket List
-  - The popup window having a dark/light mode toggler for Veracross
   - Links to Dropbox from other places that show assignments
   - Making the links compatible for other schools the most conveniently
   - Cleaning up class ids and classes in places such as main student portal
