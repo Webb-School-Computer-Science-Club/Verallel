@@ -255,6 +255,58 @@ function convert(which, id2cls, typDict) // For actually executing class Id -> c
 }
 
 
+async function getClasses(tabId) //async to retrieve class ids from different page
+{
+   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
+   const txt = await respNew.text();
+   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
+   const yr = txt.split(';')[16].split('"')[0].split('=')[1];
+   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
+   const response = await fetch(fetchUrl);
+   const fg = await response.text();
+   const fh = ((fg.split(';')[15]).split('},{'));
+   var classRows = {};
+   var classidlist = [];
+   for (let i = 0; i < fh.length; i++)
+   {
+      if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
+      {
+         classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
+         classidlist.push(fh[i].split(',')[0].split(':')[1]);
+      }
+   }
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: makeClassDropDown, args: [classRows, classidlist]});
+}
+
+
+function makeClassDropDown(classRows, classidlist)
+{
+   var classDrop = document.getElementById('class-link-container');
+   if(!(classDrop))
+   {
+      var classes = document.getElementsByClassName('vx-portal-nav__item')[0];
+      var classDropDown = document.createElement('div');
+      classDropDown.classList.add('vx-hover-menu');
+      classDropDown.classList.add('vx-hover-menu--one-column');
+      classDropDown.setAttribute('style', 'margin-left:18% !important;');
+      var classesCont = document.createElement('div');
+      classesCont.classList.add('vx-hover-menu__hover-links-container');
+      for (id of classidlist)
+      {
+         var classLink = document.createElement('a')
+         var classUrl = 'https://classes.veracross.com/webb/course/' + id + '/website'; //links to class webpage
+         classLink.setAttribute('href', classUrl);
+         classLink.setAttribute('style', 'width: 20%;')
+         classLink.appendChild(document.createTextNode(classRows[id].replace('\"', '').replace('"', '')));
+         classesCont.appendChild(classLink);
+      }
+      classDropDown.appendChild(classesCont);
+      classDropDown.setAttribute('id', 'class-link-container'); // To make sure the element does not get added four times
+      classes.appendChild(classDropDown);
+   }
+}
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
 {
 	let curtaburl = tab.url;
@@ -270,6 +322,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: dropboxOnTop});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
+		getClasses(tabId);
 		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
 		{ 
 			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [1]}); // For assignment detail
