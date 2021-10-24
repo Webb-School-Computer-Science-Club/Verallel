@@ -82,22 +82,6 @@
     border-color: transparent transparent transparent var(--main-palette-border);
 }
 
-.vx-portal-nav__item:hover .vx-portal-nav__item-link + .vx-hover-menu, .vx-portal-nav__item-link:focus + .vx-hover-menu {
-    top: 0px;
-}
-
-.vx-hover-menu {
-    top: 0px;
-    position: relative;
-}
-
-
-li.vx-portal-nav__item:nth-child(7) {
-    width: 10em;
-}
-
-
-
 html {
     background: var(--darkest-background) !important;
 }
