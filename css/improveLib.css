@@ -50,3 +50,27 @@ improveLib.css: for improving the unecessarily large Webb libraries link, along 
     margin-left: 0px !important;
     font-size:  1rem;
 }
+
+.vx-portal-nav__item:hover .vx-portal-nav__item-link + .vx-hover-menu, .vx-portal-nav__item-link:focus + .vx-hover-menu 
+{
+    top: 45px;
+}
+
+.vx-hover-menu 
+{
+    top: 45px;
+    position: relative;
+}
+
+
+li.vx-portal-nav__item:nth-child(7) 
+{
+    width: 10em;
+}
+
+.vx-hover-menu.vx-hover-menu--two-columns, .vx-hover-menu.vx-hover-menu--one-column 
+{
+    min-height: 250%;
+    width: 150%
+}
+
