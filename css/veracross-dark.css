@@ -343,11 +343,6 @@ border-bottom {
     color: var(--font-light);
 }
 
-.vx-hover-menu.vx-hover-menu--two-columns, .vx-hover-menu.vx-hover-menu--one-column {
-    height: 250%;
-    width: 150%
-}
-
 .app-container.full-width {
     background: var(--darkest-background);
 }
