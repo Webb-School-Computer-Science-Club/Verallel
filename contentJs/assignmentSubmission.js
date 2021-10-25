@@ -31,4 +31,5 @@ for (prop of data.split('},{'))
     i++;
 }
 var goTo = sidebar.getElementsByClassName('vx-record-detail')[ind];
+goTo.click();
 sidebar.scrollTop = goTo.offsetTop; // Scrolls to that index with some offset
