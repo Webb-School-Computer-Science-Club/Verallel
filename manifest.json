@@ -34,6 +34,12 @@
             "js": ["contentJs/assignmentSubmission.js"],
             "all_frames": true,
             "matches": ["*://portals.veracross.com/*/student/submit-assigments/*", "*://portals.veracross.com/*/student/submit-assignments"]
+        },
+        
+        {
+            "js": ["contentJs/classCalendar.js"],
+            "all_frames": true,
+            "matches": ["*://classes.veracross.com/*/course/*/website/calendar"]
         }
     ],
     
