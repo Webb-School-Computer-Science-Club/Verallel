@@ -288,23 +288,22 @@ function makeClassDropDown(classRows, classidlist)
       var classDropDown = document.createElement('div');
       classDropDown.classList.add('vx-hover-menu');
       classDropDown.classList.add('vx-hover-menu--one-column');
-      classDropDown.setAttribute('style', 'margin-left:18% !important;');
+      classDropDown.setAttribute('style', 'margin-left:5% !important; width: 350px !important;');
       var classesCont = document.createElement('div');
       classesCont.classList.add('vx-hover-menu__hover-links-container');
       var leftSide = document.createElement('div');
       leftSide.setAttribute('style', 'float: left;');
       var rightSide = document.createElement('div');
-      rightSide.setAttribute('style', 'margin-left: 22%; width: 161px;');
+      rightSide.setAttribute('style', 'margin-left: 18%; width: 161px;');
       for (id of classidlist)
       {
          var classLink = document.createElement('a')
          var classUrl = 'https://classes.veracross.com/webb/course/' + id + '/website'; //links to class webpage
          classLink.setAttribute('href', classUrl);
-         classLink.setAttribute('style', 'width: 20%;')
+         classLink.setAttribute('style', 'width: 100%;')
          classLink.appendChild(document.createTextNode(classRows[id].replace('\"', '').replace('"', '')));
          if(classRows[id].slice(0, 3) == '\"CC' || classRows[id].slice(0, 3) == '\"US')
          {
-            console.log(classRows[id]);
             leftSide.appendChild(classLink);
          }
          else
