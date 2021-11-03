@@ -40,7 +40,13 @@
             "js": ["contentJs/classCalendar.js"],
             "all_frames": true,
             "matches": ["*://classes.veracross.com/*/course/*/website/calendar"]
+        },
+        {
+            "js": ["contentJs/classesMain.js"],
+            "all_frames": true,
+            "matches": ["*://classes.veracross.com/*/course/*"]
         }
+
     ],
     
     "web_accessible_resources": 
