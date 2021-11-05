@@ -496,7 +496,7 @@ function changeMode()
                 if(p == null)
                 {
                     var notVera = document.createElement('p')
-                    notVera.appendChild(document.createTextNode('You have to have to be in Veracross to switch modes!'));
+                    notVera.appendChild(document.createTextNode('You must be in Veracross to switch modes!'));
                     notVera.id = 'not-vera';
                     document.getElementById('modeChange').appendChild(notVera);
                 }
@@ -531,7 +531,7 @@ function changeMode()
                 if(p == null)
                 {
                     var notVera = document.createElement('p')
-                    notVera.appendChild(document.createTextNode('You have to have to be in Veracross to switch modes!'));
+                    notVera.appendChild(document.createTextNode('You must be in Veracross to switch modes!'));
                     notVera.id = 'not-vera';
                     document.getElementById('modeChange').appendChild(notVera);
                 }                
