@@ -27,9 +27,14 @@
 --main-palette-border: #43a619;
 --main-palette-2: #0e4305;
 --main-palette-3: #1b6c00;
+--yellow: #f4871a;
 }
 
 /* Website */
+
+#nav .pdf {
+    color: var(--font-label);
+}
 
 .vx-nav-account {
     background: var(--main-palette);
@@ -124,6 +129,11 @@ a:hover{
  }
 
 /* Home */
+
+#discussions #discussion-feed .post h3 a.button {
+    background: var(--darkest-background);
+    color: var(--font-light);
+}
 
 .screen-toolbar {
     height: 0%;
@@ -240,6 +250,48 @@ h1, h2, h3, h4, h5, h6, .vx-heading-1, .vx-heading-2, .vx-heading-3, .vx-heading
 }
 
 /* Schedule */
+
+div.day:nth-child(3) > div:nth-child(1), div.day:nth-child(3) > div:nth-child(5), div.day:nth-child(3) > div:nth-child(7), div.day:nth-child(3) > div:nth-child(8), div.day:nth-child(3) > div:nth-child(9), div.day:nth-child(4) > div:nth-child(2), div.day:nth-child(4) > div:nth-child(6), div.day:nth-child(4) > div:nth-child(8), div.day:nth-child(5) > div:nth-child(4), div.day:nth-child(5) > div:nth-child(3), div.day:nth-child(5) > div:nth-child(6), div.day:nth-child(6) > div:nth-child(5), div.day:nth-child(6) > div:nth-child(7), div.day:nth-child(6) > div:nth-child(8), div.day:nth-child(6) > div:nth-child(9), div.day:nth-child(7) > div:nth-child(5), div.day:nth-child(7) > div:nth-child(7), div.day:nth-child(7) > div:nth-child(8), div.day:nth-child(7) > div:nth-child(9), div.day:nth-child(7) > div:nth-child(1)  {
+    background: var(--darker-background) !important;
+}
+
+div.day:nth-child(7) > div:nth-child(12), div.day:nth-child(7) > div:nth-child(2), div.day:nth-child(7) > div:nth-child(3), div.day:nth-child(6) > div:nth-child(1), div.day:nth-child(6) > div:nth-child(2), div.day:nth-child(6) > div:nth-child(3), div.day:nth-child(6) > div:nth-child(4), div.day:nth-child(5) > div:nth-child(2), div.day:nth-child(5) > div:nth-child(5), div.day:nth-child(5) > div:nth-child(7), div.day:nth-child(5) > div:nth-child(8),   div.day:nth-child(3) > div:nth-child(2), div.day:nth-child(3) > div:nth-child(11), div.day:nth-child(3) > div:nth-child(12), div.day:nth-child(4) > div:nth-child(5), div.day:nth-child(4) > div:nth-child(9), div.day:nth-child(4) > div:nth-child(10), div.day:nth-child(4) > div:nth-child(11) {
+    background: var(--yellow) !important;
+    color: black !important;
+}
+
+#document .block {
+    border: none;
+}
+
+#document .day {
+    background: var(--darker-background);
+}
+
+#document #paragraphs {
+    color: var(--font-light);
+}
+
+#document #times li {
+    color: var(--font-light);
+}
+
+
+html body#page div#container div#document {
+    background: var(--darkest-background);
+}
+
+html body#page div#container {
+    margin-top: 0;
+    margin-bottom: 0;
+    box-shadow: 0 3px 10px var(--home-border);
+
+}
+
+html body#page {
+    margin: 0 0 0 0;
+    background: var(--darkest-background);
+}
 
 .ae-grid__item {
     color: var(--font-light);
@@ -1027,6 +1079,47 @@ table.main:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)
 }
 
 /* class pages */
+
+#discussions #discussion-feed .post h3 a.button.save {
+    background: transparent;
+}
+.button {
+    text-shadow: none;
+}
+textarea {
+    border-color: var(--home-border);
+    background-color: var(--darker-background);
+    color: var(--font-light);
+}
+#discussions #discussion-feed .post-content  {
+    border-color: var(--home-border);
+}
+#discussions #discussion-feed .post.new h3 {
+    background: transparent;
+}
+#discussions .discussion .discussion-metadata a:hover {
+    color: var(--blue-night);
+    opacity: 0.8;
+}
+#discussions .discussion .discussion-metadata a {
+    color: var(--blue-night);
+}
+#discussions.list .type {
+    background: transparent;
+}
+#discussions .discussion .discussion-metadata {
+    color: var(--font-label);
+}
+table.main:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1),  table.main:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1){
+    position: relative;
+    width: 60% !important;
+}
+
+#container { 
+    max-width: 80%;
+    max-width: 90%;
+    margin-bottom: 10%;
+}
 
 html, body {    
     height: auto;
