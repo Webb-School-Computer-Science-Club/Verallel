@@ -30,6 +30,29 @@ for (prop of data.split('},{'))
     }
     i++;
 }
+notCompete = true;
+while(notCompete) // Adjusts index to soonest-due non-completed assignment
+{
+    if(sidebar.getElementsByClassName('vx-record-detail')[ind])
+    {
+        if(sidebar.getElementsByClassName('vx-record-detail')[ind].getElementsByClassName('vx-tag')[0]) // Complete tag in sidebar
+        {
+            ind++;
+        }
+        else
+        {
+            notCompete = false;
+        }
+    }
+    else
+    {
+        notCompete = false;
+    }
+}
+if(ind > sidebar.getElementsByClassName('vx-record-detail').length - 1) // So it goes to an assignment that exists
+{
+    ind = sidebar.getElementsByClassName('vx-record-detail').length - 1
+}
 var goTo = sidebar.getElementsByClassName('vx-record-detail')[ind];
 goTo.click();
 sidebar.scrollTop = goTo.offsetTop; // Scrolls to that index with some offset
