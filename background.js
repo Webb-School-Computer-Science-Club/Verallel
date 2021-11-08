@@ -275,15 +275,19 @@ async function getClasses(tabId) //async to retrieve class ids from different pa
          classidlist.push(fh[i].split(',')[0].split(':')[1]);
       }
    }
-   chrome.scripting.executeScript({target: {tabId: tabId}, func: makeClassDropDown, args: [classRows, classidlist]});
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: makeClassDropDown, args: [classRows, classidlist, stuId]});
 }
 
 
-function makeClassDropDown(classRows, classidlist)
+function makeClassDropDown(classRows, classidlist, stuId)
 {
    var classDrop = document.getElementById('class-link-container');
    if(!(classDrop))
    {
+      var rightCalendar = document.getElementsByClassName('vx-nav-right')[0].getElementsByClassName('vx-nav-button')[1];
+      rightCalendar.setAttribute('href', 'https://documents.veracross.com/webb/schedule/' + stuId);
+      rightCalendar.innerHTML = rightCalendar.innerHTML.split('</i>')[0] + '</i>' + ' My Class Schedule'
+      rightCalendar.getElementsByClassName('nc-icon-glyph')[0].setAttribute('class', 'nc-icon-glyph ui-2_time-clock');
       var classes = document.getElementsByClassName('vx-portal-nav__item')[0];
       var classDropDown = document.createElement('div');
       classDropDown.classList.add('vx-hover-menu');
