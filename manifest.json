@@ -27,7 +27,7 @@
         {
             "css": ["css/improveLib.css"],
             "all_frames": true,
-            "matches": ["*://portals.veracross.com/*"]
+            "matches": ["*://portals.veracross.com/*","*://documents.veracross.com/*"]
         },
         
         {
@@ -50,6 +50,11 @@
             "js": ["contentJs/classesMain.js"],
             "all_frames": true,
             "matches": ["*://classes.veracross.com/*/course/*"]
+        },
+        {
+            "js": ["contentJs/documentsMain.js"],
+            "all_frames": true,
+            "matches": ["*://documents.veracross.com/*"]
         }
 
     ],
