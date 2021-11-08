@@ -42,6 +42,11 @@
             "matches": ["*://classes.veracross.com/*/course/*/website/calendar"]
         },
         {
+            "js": ["contentJs/mainCalendar.js"],
+            "all_frames": true,
+            "matches": ["*://portals.veracross.com/*/student/calendar/student"]
+        },
+        {
             "js": ["contentJs/classesMain.js"],
             "all_frames": true,
             "matches": ["*://classes.veracross.com/*/course/*"]
