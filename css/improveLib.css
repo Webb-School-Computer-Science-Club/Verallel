@@ -74,3 +74,14 @@ li.vx-portal-nav__item:nth-child(7)
     width: 150%
 }
 
+.doc-link
+{
+    color: #38afff;
+    margin-left: 45%;
+}
+
+.doc-link:hover
+{
+    color: #38afff;
+    text-decoration: underline 1px #38afff;
+}
