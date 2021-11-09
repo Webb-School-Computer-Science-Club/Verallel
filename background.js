@@ -13,8 +13,8 @@ chrome.storage.sync.get(['key'], function(result) // For acquiring dark mode if 
    {
       dm = result.key;
    }
+   chrome.storage.sync.set({key: dm}, function() {console.log('Dark or Light mode established');}); // Establishes light dark mode for extension duration
 });
-chrome.storage.sync.set({key: dm}, function() {console.log('Dark or Light mode established');}); // Establishes light dark mode for extension duration
 
 
 function improve(type) // The function that adds dropbox links, removes class ids from class names, etc.
@@ -233,24 +233,33 @@ function convert(which, id2cls, typDict) // For actually executing class Id -> c
       case 1: // for main student portal. Will be worked on once all other subdomains of portals.veracross.com have an improve case.
          var f = false;
       case 2:
-         var g = document.getElementsByClassName('fc-event-container');
-         for(f of g)
-         {
-            var newS = f.getElementsByClassName('fc-title')[0];
-            if(newS.innerHTML[0] == '*')
+	 function Conv() // For persistent readability of calendars
+	 {
+            var g = document.getElementsByClassName('fc-event-container');
+            for(f of g)
             {
-                var replace =  id2cls['"' + newS.innerHTML.split('.')[0].slice(2, newS.innerHTML.split('.')[0].length)+ '"']; // ClassId -> Class
-	        var noI = typDict[newS.innerHTML.split('.')[1]];
-                if (replace) // Checking if variable exists for class id -> class
-                {
-                   newS.innerHTML = replace + ' - ' + newS.innerHTML.split('.')[1];
-                }
-	        if(noI) // If it needs the abbreviations replaced
-		{
-		    newS.innerHTML = replace.split('-')[0] + ' - ' + noI;
-		}
+               var newS = f.getElementsByClassName('fc-title')[0];
+               if(newS.innerHTML[0] == '*')
+               {
+                   var replace =  id2cls['"' + newS.innerHTML.split('.')[0].slice(2, newS.innerHTML.split('.')[0].length)+ '"']; // ClassId -> Class
+	           var noI = typDict[newS.innerHTML.split('.')[1]];
+                   if (replace) // Checking if variable exists for class id -> class
+                   {
+                      newS.innerHTML = replace + ' - ' + newS.innerHTML.split('.')[1];
+                   }
+	           if(noI) // If it needs the abbreviations replaced
+		   {
+		      newS.innerHTML = replace.split('-')[0] + ' - ' + noI;
+		   }
+               }
             }
+	 }
+	 Conv();
+	 for(button of document.getElementsByClassName('fc-button'))
+         {
+            button.addEventListener('click', epicConv); // So it converts
          }
+	 
    }
 }
 
