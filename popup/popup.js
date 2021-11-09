@@ -470,7 +470,7 @@ function changeMode()
         if(!dm)
         {
             dm = true;
-            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/))
+            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/) || activeTab.url.match(/documents.veracross.com/))
             {
                 document.getElementById('changMod').innerHTML = 'Click for light mode';
                 chrome.runtime.sendMessage({msg: 'Change to dark', data: null});
@@ -505,7 +505,7 @@ function changeMode()
         else
         {
             dm = false;
-            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/))
+            if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/) || activeTab.url.match(/documents.veracross.com/))
             {
                 document.getElementById('changMod').innerHTML = 'Click for dark mode';
                 chrome.runtime.sendMessage({msg: 'Change to light', data: null});
