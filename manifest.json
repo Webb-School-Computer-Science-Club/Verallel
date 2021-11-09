@@ -63,7 +63,7 @@
     [
         {
             "resources": ["css/veracross-dark.css"],
-            "matches": ["https://classes.veracross.com/*", "https://portals.veracross.com/*", "*://portals-embed.veracross.com/*"],
+            "matches": ["*://classes.veracross.com/*", "*://portals.veracross.com/*", "*://portals-embed.veracross.com/*", "*://documents.veracross.com/*"],
             "all_frames": true,
             "use_dynamic_url": true
         }
