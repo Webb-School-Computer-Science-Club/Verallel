@@ -362,6 +362,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
          		id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
       		}
 	} 
+	else if (tab.url.match(/documents.veracross.com/))
+	{
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
+	}
 	// Other parts if portals.veracross.com improvement in the works!
 });
 
