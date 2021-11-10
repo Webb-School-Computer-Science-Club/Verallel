@@ -663,6 +663,14 @@ body.chromeless .container {
 
 /* Calendar */
 
+.vx-modal__content{
+    background-color: var(--darkest-background) !important;
+}
+
+.vx-modal__content footer{
+    background-color: var(--darker-background) !important;
+}
+
 .screen-toolbar{
     background: var(--darkest-background);
 }
