@@ -230,10 +230,29 @@ function convert(which, id2cls, typDict) // For actually executing class Id -> c
 {
    switch(which)
    {
-      case 1: // for main student portal. Will be worked on once all other subdomains of portals.veracross.com have an improve case.
-         var f = false;
+      case 1: // for main student portal
+         var weekCalendar = document.getElementsByClassName('days')[0];
+         if(weekCalendar)
+         {
+            for(f of weekCalendar.getElementsByClassName('event-link'))
+            {
+               if(f.innerHTML.split('>')[1].split('</span>')[0] == '</span') 
+               {
+                  var replace = f.innerHTML.split('</span> ')[1].split('.')[0];
+                  var noI = typDict[f.innerHTML.split('.')[1]];
+                  if(id2cls['"' + replace + '"']) // So no crash occurs
+                  {
+                     f.innerHTML = f.innerHTML.split('</span>')[0] + '</span>' + id2cls['"' + replace + '"'] + ' - ' + f.innerHTML.split('.')[1];
+                  }
+                  if(noI)
+                  {
+                     f.innerHTML = f.innerHTML.split('</span>')[0] + '</span>' + id2cls['"' + replace + '"'] + ' - ' + noI;
+                  }
+               }
+            }
+         }
       case 2:
-	 function Conv() // For persistent readability of calendars
+	 function epicConv() // For persistent readability of calendars
 	 {
             var g = document.getElementsByClassName('fc-event-container');
             for(f of g)
@@ -254,7 +273,7 @@ function convert(which, id2cls, typDict) // For actually executing class Id -> c
                }
             }
 	 }
-	 Conv();
+	 epicConv();
 	 for(button of document.getElementsByClassName('fc-button'))
          {
             button.addEventListener('click', epicConv); // So it converts
@@ -361,12 +380,14 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
       		{
          		id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
       		}
+      		else{
+         		id2class(tabId, 1, typObj); // For main student portal. Shouldn't crash other content script in other domains where this doesn't do anything
+      		}
 	} 
 	else if (tab.url.match(/documents.veracross.com/))
 	{
 		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
 	}
-	// Other parts if portals.veracross.com improvement in the works!
 });
 
 
