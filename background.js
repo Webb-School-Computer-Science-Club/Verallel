@@ -45,31 +45,6 @@ function improve(type) // The function that adds dropbox links, removes class id
 			}
 
 
-		case 1: // assignments detail page
-		        var lin = document.getElementById('link-to-dropbox');
-			if(lin == null)
-			{
-				var h = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0].getElementsByClassName('detail-assignment')[0].getElementsByClassName('vx-record-header')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('ae-grid__item')[0].getElementsByClassName('vx-record-header__title')[0];
-				h.innerHTML = h.innerHTML.split(':')[1];
-				h.style="font-size: 150%;"
-				var nedrop = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0].getElementsByClassName('detail-assignment')[0].getElementsByClassName('vx-record-body')[0];
-				var link = document.createElement('a');
-				link.appendChild(document.createTextNode('Click Here to go to the Dropbox'));
-				link.href = "https://portals.veracross.com/webb/student/submit-assignments";
-				link.target = "_blank";
-				link.style = "font-size: 125%;"
-				link.title = "Dropbox Link";
-				var li = document.createElement("div");
-				li.id="link-to-dropbox";
-				li.appendChild(document.createElement('br'));
-				li.appendChild(document.createTextNode('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0')); //Spaces (looks nicer)
-				li.appendChild(link);
-				li.appendChild(document.createElement('br')); // Line breaks (to make it look nicer)
-				li.appendChild(document.createElement('br'));
-				nedrop.appendChild(li);      
-			}
-
-
 		case 2: // Takes class ID out of every class for Dropbox. Eventually it will also go directly to the bottom. 
 			var si = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0];
 			var g = si.getElementsByTagName('div')[0].getElementsByClassName('assignment-submission')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('item-xs-12')[1].getElementsByClassName('vx-record-detail');
@@ -368,11 +343,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: dropboxOnTop});
 		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		getClasses(tabId);
-		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
-		{ 
-			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [1]}); // For assignment detail
-		}
-		else if (tab.url.match(/submit-assignments/)) // Dropbox improvement (more features are to be added here!)
+		if (tab.url.match(/submit-assignments/)) // Dropbox improvement (more features are to be added here!)
 		{ 
 			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [2]});
 		}
