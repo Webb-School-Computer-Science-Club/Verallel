@@ -189,7 +189,33 @@ async function getAssignments() // async for usage of fetch
         h.appendChild(document.createTextNode('Congratulations! According to Veracross, you have no upcoming assignments!'));
     }
     else
-    {
+    {	    
+	assignments = assignments.sort(function(x, y)
+        {
+            if(monthdict[x.slice(4, 7)] > monthdict[y.slice(4, 7)])
+            {
+                return 1
+            }
+            else if(monthdict[y.slice(4, 7)] > monthdict[x.slice(4, 7)])
+            {
+                return -1
+            }
+            else
+            {
+                if(parseInt(x.split('-')[0].slice(8, x.split('-')[0].length - 1)) > parseInt(y.split('-')[0].slice(8, y.split('-')[0].length - 1)))
+                {
+                    return 1
+                }
+                else if(parseInt(y.split('-')[0].slice(8, y.split('-')[0].length - 1)) > parseInt(x.split('-')[0].slice(8, x.split('-')[0].length - 1)))
+                {
+                    return -1
+                }
+                else
+                {
+                    return 0
+                }
+            }
+        });
     	if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
     	{ 
     	    for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
@@ -209,7 +235,7 @@ async function getAssignments() // async for usage of fetch
             }
         }
     	var pmed = document.createElement('p');
-    	pmed.appendChild(document.createTextNode('Due later (sorted by class):'))
+    	pmed.appendChild(document.createTextNode('Due later:'))
     	pmed.style = "font-size: 150%; text-align: center;";
     	g.appendChild(pmed);
     	for (let k = 0; k < assignments.length; k++)
@@ -339,6 +365,32 @@ async function getLP()
     var g = document.getElementById('lppdiv');
     if(lpDate['today'] || lpDate['tommorow'] || lessonPlans)
     {
+	lessonPlans = lessonPlans.sort(function(x, y)
+        {
+            if(monthdict[x.slice(0, 3)] > monthdict[y.slice(0, 3)])
+            {
+                return 1
+            }
+            else if(monthdict[y.slice(0, 3)] > monthdict[x.slice(0, 3)])
+            {
+                return -1
+            }
+            else
+            {
+                if(parseInt(x.split('-')[0].slice(4, x.split('-')[0].length - 1)) > parseInt(y.split('-')[0].slice(4, y.split('-')[0].length - 1)))
+                {
+                    return 1
+                }
+                else if(parseInt(y.split('-')[0].slice(4, y.split('-')[0].length - 1)) > parseInt(x.split('-')[0].slice(4, x.split('-')[0].length - 1)))
+                {
+                    return -1
+                }
+                else
+                {
+                    return 0
+                }
+            }
+        });
     	for (k of lpDate['today']) // Today's lesson plans
     	{ 
             var h = document.createElement('p');
@@ -352,7 +404,7 @@ async function getLP()
             g.appendChild(h);
     	}
     	var pmed = document.createElement('p');
-    	pmed.appendChild(document.createTextNode('Later (sorted by class):'))
+    	pmed.appendChild(document.createTextNode('Later:'))
     	pmed.style = "font-size: 150%; text-align: center;";
     	g.appendChild(pmed);
     	for (k of lessonPlans)
