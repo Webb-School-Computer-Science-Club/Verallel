@@ -71,7 +71,6 @@ async function getAssignmentsOptions()
         }
         else if ((fh[i].split(',')[3]).split(':')[1] == '"assignment-upcoming"')
         {
-            console.log(fh[i]);
             var dueDate = fh[i].split(',')[5].split(':')[1].replace('\\', '').slice(1, fh[i].split(',')[5].split(':')[1].replace('\\', '').length - 1);
             var dueDatelis = [monthdict[dueDate.slice(0, 3)], parseInt(dueDate.slice(4, dueDate.length))];
             var assignStr = '';
@@ -338,7 +337,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 {
     if(request)
     {
-        console.log(request.mode);
         if(request.mode == 'light')
         {
             dm = false;
@@ -347,7 +345,5 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
         {
             dm = true;
         }
-        console.log(dm);
-        changeOptionsMode(dm);
     }
 });
