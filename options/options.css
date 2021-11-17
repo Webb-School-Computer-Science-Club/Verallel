@@ -1,0 +1,67 @@
+/* options.css */
+
+:root 
+{
+	--background-color: #ffffff;	
+	--border-color: #000000;
+	--box-background-color: #f44336;
+	--assign-bkg-color: #cccccc;
+	--complete-color: #22ff66;
+	--in-progress-color: #ff6666;
+	--not-started-color: #ddd;
+} 
+
+body 
+{
+	font-family: sans-serif;
+	background-color: var(--background-color);
+	color: var(--border-color);
+	border-color: var(--border-color);
+	border-style: solid;
+	border-width: 3px;
+}
+
+.assignment
+{
+	border: solid var(--border-color) 2px;
+	padding:  5px;
+	font-size: 150%;
+	background-color: var(--assign-bkg-color);
+	display: grid;
+}
+
+#welcome
+{
+	text-align: center;
+}
+
+.forme select
+{
+	border-color:  var(--border-color);
+	font-size:  100%;
+	color:  var(--border-color);
+	background-color: var(--background-color);
+	text-align: center;
+}
+
+.forme.complete select
+{
+	background-color: var(--complete-color) !important;
+}
+
+.forme.in-progress select
+{
+	background-color: var(--in-progress-color) !important;
+}
+
+.forme.not-started select
+{
+	background-color: var(--not-started-color) !important;
+}
+
+tr td:nth-child(2), tr td:nth-child(1)
+{
+	text-align: left;
+	width: 30%;
+	padding: 5px;
+}
