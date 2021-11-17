@@ -532,7 +532,7 @@ function changeMode()
                 }
 		changePopupMode(dm);
             }
-            else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
+            else if(activeTab.url.match(/options/) && activeTab.url.match(/options.html/))
             {
                 document.getElementById('changMod').innerHTML = 'Click for light mode';
                 chrome.runtime.sendMessage({msg: 'oChangeD', data: null});
@@ -567,7 +567,7 @@ function changeMode()
                 }
 		changePopupMode(dm);
             }
-            else if(activeTab.url.match(/popup/) && activeTab.url.match(/options.html/))
+            else if(activeTab.url.match(/options/) && activeTab.url.match(/options.html/))
             {
                 document.getElementById('changMod').innerHTML = 'Click for dark mode';
                 chrome.runtime.sendMessage({msg: 'oChangeL', data: null});
