@@ -294,13 +294,24 @@ async function getAssignmentsOptions()
             item.addEventListener('input', function()
             {
                 var assignName = item.parentNode.parentNode.getElementsByTagName('p')[1].innerHTML;
+                var assignDate = item.parentNode.parentNode.getElementsByTagName('p')[0].innerHTML.split(' -')[0];
                 isnotIt = true;
                 j = 0;
                 for(let i = 0; i < assignSto.length; i++)
                 {
-                    if(assignSto[i][1] == assignName)
+                    if(assignSto[i][1].replace('&', '&amp;').replace('"', '&quot;') == assignName)
                     {
-                        isnotIt = false;
+                        if(assignSto[i][0] == assignDate)
+                        {
+                            isnotIt = false;
+                        }
+                        else
+                        {
+                            if(isnotIt)
+                            {
+                                j++;
+                            }
+                        }
                     }
                     else
                     {   
