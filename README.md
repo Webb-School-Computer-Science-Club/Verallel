@@ -3,7 +3,7 @@ Check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel
 
 # Verallel
 A student-made, student-tailored Chrome web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
-Version 1.1.4 just released, with a trough of new features that are detailed in the release notes. There is definitley more to do for further developing Verallel though!
+Version 1.1.5 just released, with a trough of new features that are detailed in the release notes. There is definitley more to do for further developing Verallel though!
 <br>
 Unfortunatley, at the moment, this extension is compatible only for Webb students, as the links will not work if your Veracross is a different school. 
 
