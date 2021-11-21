@@ -23,6 +23,8 @@ If you wish to help with the development of the site, the zip folder release of 
 This is the repository for the Chrome extension for Verallel. If you want to help with Verallel as a Firefox add-on, you should check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel-Firefox</a><br>
 If you want to download the newest version of the repository to test things, you can always git clone it and then test it out on Chrome by turning on Developer mode in chrome://extensions and then loading the unzipped folder into your browser. 
 
+[Back to Top](#verallel)
+
 # Potential Feature Additions the Dev Team has High on the Bucket List
   - Making the links compatible for other schools the most conveniently
   - Miscellaneous quality of life improvements
