@@ -55,6 +55,11 @@
             "js": ["contentJs/documentsMain.js"],
             "all_frames": true,
             "matches": ["*://documents.veracross.com/*"]
+        },
+        {
+            "js": ["contentJs/recentUpdates.js"],
+            "all_frames": true,
+            "matches": ["*://portals.veracross.com/*/student/student/recent-updates"]
         }
 
     ],
