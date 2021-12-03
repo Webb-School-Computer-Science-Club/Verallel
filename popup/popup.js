@@ -248,6 +248,7 @@ async function getAssignments() // async for usage of fetch
     	pf.appendChild(document.createTextNode('If you want more info, visit '));
     	var a = document.createElement('a');
     	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
+	a.setAttribute('target', '_blank');
     	a.appendChild(document.createTextNode('your upcoming assignments page'));
     	pf.appendChild(a);
     	pf.style = "text-align: center;"
@@ -417,6 +418,7 @@ async function getLP()
     	pf.appendChild(document.createTextNode('If you want more info, visit '));
     	var a = document.createElement('a');
     	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
+	a.setAttribute('target', '_blank');
     	a.appendChild(document.createTextNode('your upcoming assignments page'));
     	pf.appendChild(a);
     	pf.style = "text-align: center;"
@@ -477,6 +479,7 @@ async function getMissing()
     misP.appendChild(document.createTextNode('If you want more info, visit '));
     var misA = document.createElement('a');
     misA.setAttribute('href', 'https://portals.veracross.com/webb/student/submit-assignments');
+    misA.setAttribute('target', '_blank');
     misA.appendChild(document.createTextNode('your Submission Page'));
     misP.appendChild(misA);
     misP.appendChild(document.createTextNode('!'));
