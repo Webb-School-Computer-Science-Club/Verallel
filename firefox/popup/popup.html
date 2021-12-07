@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <div> <!-- Pleasantries div-->  
+      <p> <!-- Pleasantries Text -->  
+        Thank you for using Verallel!
+      </p>
+    </div>
+    
+    
+    <div> <!-- Navigation div--> 
+      <p> <!-- Question Text -->  
+        Want to go somewhere?
+      </p>
+      
+      <p> <!-- Main Student Portal Navigation Box -->
+        <a href = "https://portals.veracross.com/webb/student" target="_blank" class="box">
+          Main Student Portal
+        </a>
+      </p>
+      
+      <p> <!-- Dropbox Navigation Box -->
+        <a href = "https://portals.veracross.com/webb/student/submit-assignments" target = "_blank" class="box">
+          Dropbox
+        </a>
+      </p>
+    </div>
+    
+    
+    <div> <!-- Issues div --> 
+      <p> <!-- Issues Text --> 
+        Having issues with the extension or feature requests?
+      </p>
+      
+      <p> <!-- Request for an Issue Text --> 
+        Leave an issue on <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel" target = "_blank">Verallel's Github page</a> or email vefairlyerallel@gmail.com if you have a complaint!
+      </p>
+    </div>
+    
+    <div id='modeChange'> <!--Dark/light mode toggle div--> 
+      <p style='font-size: 125%'>
+        Change Viewing Mode
+      </p>
+      <button id="changMod">
+        Click to change viewing mode
+      </button>
+    </div>
+  
+    <div> <!-- Missing Assignments Div -->
+      <p style='font-size: 125%;'> 
+        Want to see any missing assignments you have?
+      </p>
+      <button id="missing"> <!-- Div for Missing Assignments-->
+        Click to see your missing assignments
+      </button>
+      
+      <div id='miss'> <!-- Div to display missing assignments -->
+      </div>
+    </div>
+    
+    <div> <!--Lesson Plans div--> 
+      <p id="lpp" style="font-size: 125%">
+        Want to view your upcoming lesson plans?
+      </p>
+      <button id="lessonP">
+        Click to view your upcoming lesson plans
+      </button>
+    </div>
+
+    <div id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
+    </div>
+    
+    <div> <!-- Assignments div--> 
+      <p id="notif-init" style="font-size: 125%">
+        Want to view all your upcoming assignments?
+      </p>
+      <button id="notif"> <!-- Assignments Button -->
+        Click to see all upcoming assignments
+      </button>
+      <script src="popup.js"> </script> <!-- Initializes the popup script (popup.js) for the document -->
+    </div>
+    
+    <div id='assign' style="text-align: left; margin-left: 5px; margin-right: 5px;"> <!-- Div for viewing upcoming assignments-->
+    </div>
+  </body>
+</html>
