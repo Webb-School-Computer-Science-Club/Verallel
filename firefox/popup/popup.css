@@ -5,10 +5,15 @@
 	--box-background-color: #f44336;
 }
 
+html
+{
+	font-family: sans-serif;
+}
+
 body
 {
 	background-color: var(--background-color);
-	min-width: 300px;
+	width: 300px;
 	text-align: center;
 	color: var(--border-color);
 	border-color: var(--border-color);
