@@ -345,7 +345,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 				si.appendChild(confdiv)
 			}`});
 		}
-		else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
+      else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
       {
          id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
       }
@@ -353,11 +353,18 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
       {
          id2class(tabId, 1, typObj); // For main student portal. Shouldn't crash other content script in other domains where this doesn't do anything
       }
-	} 
-	else if (tab.url.match(/documents.veracross.com/))
-	{
-		chrome.tabs.executeScript({code: `console.log('Ya Yeet');`});
-	}
+      } 
+      else if (tab.url.match(/documents.veracross.com/))
+      {
+      	 if(dm)
+      	  {
+		   chrome.tabs.executeScript({code: darkmod});
+      	  }
+      	  else
+      	  {
+         	chrome.tabs.executeScript({code: lightmod});
+      	  }
+      }
 });
 
 
