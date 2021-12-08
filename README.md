@@ -1,5 +1,5 @@
 <a href='https://chrome.google.com/webstore/detail/verallel/gndjmpiohedkdigkpibefbaoboajlnah'>Get it on the chrome webstore</a><br>
-Check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel's Firefox Version</a> and <a href = 'https://2023popn.github.io/VeraNav/'>VeraNav</a>, a website made for easier navigation of Veracross!
+Check out <a href = 'https://2023popn.github.io/VeraNav/'>VeraNav</a>, a website made for easier navigation of Veracross!
 
 # Verallel
 A student-made, student-tailored web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
