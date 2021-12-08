@@ -1,0 +1,1535 @@
+/* Dark mode for Chrome Verallel */
+:root {
+--dark-background: #3a3943;
+--darker-background:#232531;
+--darkr-background: #2e2e30;
+--darkest-background: #1b1d23;
+--green-background: #0f5718;
+--font-light:#fff;
+--font-lighter: #fff;
+--font-darker:#e9e9f4;
+--font-darkest: #b5b5c4;
+--font-label: #cfd0eb;
+--font-warning: #ebf0bd;
+--home-border: #454650;
+--emphasis-border: #9397a7;
+--blue-night:  #0e7fff; /* #3951df */
+--blue-day: #38afff;
+--aqua-night: #1a97ae;
+--selected-background: #05acff;
+--lavender-background: #a999de;
+--aqua-background: #0f7cbf;
+--urgent: #ea5c3c;
+--completed-background: #10771e;
+--warning-background: #db9105de;
+--warning-color: #ff7a00;
+--main-palette: #098017;
+--main-palette-border: #43a619;
+--main-palette-2: #0e4305;
+--main-palette-3: #1b6c00;
+--yellow: #f4871a;
+}
+
+/* Website */
+
+#nav .pdf {
+    color: var(--font-label);
+}
+
+.vx-nav-account {
+    background: var(--main-palette);
+}
+
+.vx-tooltipped::after {
+    background: var(--main-palette-2);
+    color: var(--font-light);
+}
+
+.vx-nav-button:focus, .vx-nav-button:hover {
+    background: var(--main-palette);
+    color: var(--font-light);
+}
+
+.vx-nav {
+    background: var(--main-palette);
+}
+
+.vx-system-nav {
+    background: var(--main-palette-3);
+}
+
+.vx-nav-center__portal::before, .vx-nav-center__portal::after {
+    border-bottom-color: var(--main-palette);
+}
+
+.vx-nav-center__portal {
+    background: var(--main-palette);
+}
+
+.vx-nav-center__portals-button {
+    background: var(--main-palette);
+    border-color: var(--main-palette-border);
+}
+
+.vx-nav-center__triangle-right::after {
+    border-color: transparent transparent transparent var(--main-palette);
+}
+
+.vx-nav-center__triangle-left::after {
+    border-color: transparent var(--main-palette)transparent transparent;
+}
+
+.vx-nav-center__triangle-left::before {
+    border-color: transparent var(--main-palette-border) transparent transparent;
+}
+
+.vx-nav-center__triangle-right::before {
+    border-color: transparent transparent transparent var(--main-palette-border);
+}
+
+html {
+    background: var(--darkest-background) !important;
+}
+
+p {
+    color: var(--font-light) !Important;
+}
+
+a {
+    color: var(--font-darker);
+}
+
+a:hover{
+    color: var(--blue-night);
+}
+
+.portal-background {
+    background-image: url(https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_4/v1596200006/webbschoolorg/mttenhmkk0fftwfp1usx/NightCampusShot.jpg);
+}
+
+.vx-portal-nav__item:hover .vx-portal-nav__item-link, .vx-portal-nav__item-link:hover, .vx-portal-nav__item-link:focus {
+    background-color: var(--darkest-background);
+    color: var(--font-light);
+}
+
+.vx-hover-menu {
+    background-color: var(--darkest-background);
+}
+
+.vx-hover-menu a {
+    color: var(--font-light) !important;
+}
+
+ .button {
+    border-color: var(--home-border);
+ }
+ 
+ .button:hover {
+    border-color: var(--home-border);
+ }
+
+/* Home */
+
+#discussions #discussion-feed .post h3 a.button {
+    background: var(--darkest-background);
+    color: var(--font-light);
+}
+
+.screen-toolbar {
+    height: 0%;
+    transform: scale(0);
+}
+
+.app-container {
+    height: auto;
+    padding-top: 0;
+    margin-top: 2rem;
+    max-width: 70%;
+}
+
+.course .ae-grid {
+    height: 6rem;
+}
+
+.component-my-events-student .start-time {
+    color: var(--font-light);
+}
+
+.course-links, .assignments-link {
+    width: 0%;
+    height: 0%;
+    transform: scale(0);
+}
+
+div.ae-grid__item:nth-child(10) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1), div.ae-grid__item:nth-child(14) a, div.ae-grid__item:nth-child(15) a, div.ae-grid__item:nth-child(16) a, div.ae-grid__item:nth-child(17) a, div.ae-grid__item:nth-child(18) a {
+    color: var(--main-palette) !important;
+    border-color: var(--main-palette) !important;
+    background: var(--darker-background) !important;
+}
+
+.component-icon-link {
+   background: var(--darker-background) !important; 
+}
+
+.heading-text.font-size-small.font-weight-bold {
+    color: var(--main-palette) !important;
+}
+
+div.ae-grid__item:nth-child(13) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    color: var(--main-palette) !important;
+}
+
+.app-container {
+    background-color: var(--darkest-background);
+}
+
+h1, h2, h3, h4, h5, h6, .vx-heading-1, .vx-heading-2, .vx-heading-3, .vx-heading-4, .vx-heading-5, .vx-heading-6 {
+    color: var(--font-darker) !important;
+}
+
+.vx-subtitle {
+    color: var(--font-light);
+}
+
+.student-overview .reports .report-group a {
+    color: var(--blue-night);
+}
+
+.vx-page-tabs, .vx-list__item  {
+    border-color: var(--home-border) !important;
+}
+
+.student-overview .course-links a {
+    color: var(--font-light);
+}
+
+.student-overview .course-description {
+    color: var(--font-light);
+}
+
+.vx-tag {
+    color: var(--font-label);
+}
+
+.student-overview .assignments-link {
+    color: var(--font-light);
+}
+
+.student-overview .notifications-link {
+    color: var(--font-darker);
+}
+
+.vx-tab-bar__tab--active::after {
+    background-color: var(--emphasis-border);
+}
+
+.vx-page-tabs__tab:hover {
+    background-color: var(--darker-background);
+}
+
+.vx-page-tabs__tab--active {
+    background:  var(--dark-background);
+    border-color: var(--home-border);
+}
+
+.vx-page-tabs__tab:hover a, .vx-page-tabs__tab--active, .vx-page-tabs__tab--active a {
+    color: var(--font-darker);
+}
+
+.vx-page-tabs__tab {
+    border-color: var(--home-border);
+}
+
+.vx-page-tabs__tab a {
+    color: var(--font-light);
+}
+
+.vx-portal-nav__item-link:hover > .nc-icon-glyph.dropbox-logo
+{
+   filter: invert(100%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+}
+
+/* Schedule */
+
+div.day:nth-child(3) > div:nth-child(1), div.day:nth-child(3) > div:nth-child(5), div.day:nth-child(3) > div:nth-child(7), div.day:nth-child(3) > div:nth-child(8), div.day:nth-child(3) > div:nth-child(9), div.day:nth-child(4) > div:nth-child(2), div.day:nth-child(4) > div:nth-child(6), div.day:nth-child(4) > div:nth-child(8), div.day:nth-child(5) > div:nth-child(4), div.day:nth-child(5) > div:nth-child(3), div.day:nth-child(5) > div:nth-child(6), div.day:nth-child(6) > div:nth-child(5), div.day:nth-child(6) > div:nth-child(7), div.day:nth-child(6) > div:nth-child(8), div.day:nth-child(6) > div:nth-child(9), div.day:nth-child(7) > div:nth-child(5), div.day:nth-child(7) > div:nth-child(7), div.day:nth-child(7) > div:nth-child(8), div.day:nth-child(7) > div:nth-child(9), div.day:nth-child(7) > div:nth-child(1)  {
+    background: var(--darker-background) !important;
+}
+
+div.day:nth-child(7) > div:nth-child(12), div.day:nth-child(7) > div:nth-child(2), div.day:nth-child(7) > div:nth-child(3), div.day:nth-child(6) > div:nth-child(1), div.day:nth-child(6) > div:nth-child(2), div.day:nth-child(6) > div:nth-child(3), div.day:nth-child(6) > div:nth-child(4), div.day:nth-child(5) > div:nth-child(2), div.day:nth-child(5) > div:nth-child(5), div.day:nth-child(5) > div:nth-child(7), div.day:nth-child(5) > div:nth-child(8),   div.day:nth-child(3) > div:nth-child(2), div.day:nth-child(3) > div:nth-child(11), div.day:nth-child(3) > div:nth-child(12), div.day:nth-child(4) > div:nth-child(5), div.day:nth-child(4) > div:nth-child(9), div.day:nth-child(4) > div:nth-child(10), div.day:nth-child(4) > div:nth-child(11) {
+    background: var(--yellow) !important;
+    color: black !important;
+}
+
+#document .block {
+    border: none;
+}
+
+#document .day {
+    background: var(--darker-background);
+}
+
+#document #paragraphs {
+    color: var(--font-light);
+}
+
+#document #times li {
+    color: var(--font-light);
+}
+
+
+html body#page div#container div#document {
+    background: var(--darkest-background);
+}
+
+html body#page div#container {
+    margin-top: 0;
+    margin-bottom: 0;
+    box-shadow: 0 3px 10px var(--home-border);
+
+}
+
+html body#page {
+    margin: 0 0 0 0;
+    background: var(--darkest-background);
+}
+
+.ae-grid__item {
+    color: var(--font-light);
+}
+
+.daily-schedule .vx-schedule-item  {
+    border-color: var(--home-border);
+}
+
+.daily-schedule .item-time  {
+    color: var(--font-light);
+}
+
+.daily-schedule .item-main-description {
+    color: var(--font-light);
+}
+
+.vx-button {
+    border-color: var(--home-border);
+    background: none;
+}
+
+.daily-schedule .schedule-type-selection .vx-button--active {
+    background-color: var(--selected-background);
+}
+
+.daily-schedule .now-indicator {
+    color: var(--urgent);
+}
+
+.vx-button-group .vx-button:last-child:not(:first-child) {
+    background-color:  var(--selected-background);
+    color: var(--font-light);
+}
+
+.vx-button-group .vx-button:last-child:not(:first-child):hover {
+    background: var(--selected-background);
+    opacity: 0.8;
+    color: var(--font-light);
+}
+
+.vx-button-group .vx-button:first-child:not(:last-child) {
+    background: var(--dark-background);
+    color: var(--font-light);
+}
+
+.vx-button-group .vx-button:not(:first-child):not(:last-child) {
+    background: var(--dark-background);
+    color: var(--font-light);
+}
+
+.daily-schedule .day-number {
+    color: var(--font-light);
+}
+
+.daily-schedule .day-week {
+    color:  var(--font-darker);
+}
+
+border-bottom {
+    border-color: var(--home-border);
+}
+
+.daily-schedule .schedule a {
+    color: var(--font-darker);
+}
+
+.daily-schedule .day-selection {
+    border-color: var(--home-border);
+}
+
+
+/* Recent Activity */
+
+.recent-updates .vx-list__item:hover {
+    background-color: var(--darker-background);
+    color:  var(--font-light);
+}
+
+.recent-updates .vx-list__item {
+    color:  var(--font-light);
+}
+
+.vx-list__group-header {
+    border-color:  var(--home-border);
+}
+
+.vx-list__item {
+    border-color:  var(--home-border);
+}
+
+
+/* Assignments */
+
+#planner.timeline .timeline-header-y .closed .expand {  
+    width: 0%;
+}
+
+#planner.timeline .assignment .assignment-description {
+    background: var(--darker-background);
+    color: var(--font-light);
+}
+
+.app-container.full-width {
+    background: var(--darkest-background);
+}
+
+#facebox .body {
+    background: var(--darkest-background);
+}
+
+.iframe-loading {
+    background: var(--darkest-background);
+}
+
+.modal-body{
+    background: var(--darkest-background);
+    color: var(--font-light);
+}
+
+#facebox .modal-description {
+    border-color: var(--home-border);
+}
+
+#facebox .modal-attributes div {
+    color: var(--font-light);
+}
+
+#facebox .modal-attributes li {
+    border-color: var(--home-border);
+}
+
+#facebox {
+    border-color: var(--home-border);
+}
+
+#facebox .modal-header .title {
+    background: var(--darker-background) !important;
+    color: var(--font-light);
+}
+
+.vx-tag--primary, .vx-tag--blue {
+    background: var(--aqua-background);
+}
+
+#planner.timeline .timeline-row.header .count {
+    background-color: var(--dark-background);
+    border-color: var(--home-border);
+    color: var(--font-light)  !important;
+}
+
+.container .content {
+    background-color: var(--darkest-background) !important;
+    color: var(--font-light);
+}
+
+.vx-tab-bar, .vx-tab-bar__tab--active {
+    background-color: var(--darkest-background) !important;
+    color: var(--font-light);
+    border: none;
+}
+
+#planner.timeline .assignment .assignment-type{
+    background-color: var(--darkr-background) !important;
+    text-shadow: none;
+    box-shadow: 1px 1px 1px 0.5px var(--home-border);
+}
+
+#planner.timeline .assignment  {
+    border: none;
+    box-shadow: none !important;
+}
+
+.timeline-table, .timeline .timeline-records {
+    background-color: var(--darkest-background) !important;
+}
+
+.timeline .timeline-cell.current {
+    background-color: var(--darker-background)!important;
+}
+
+.timeline .timeline-row {
+    border-color: var(--home-border);
+}
+
+#planner.timeline .timeline-row.header {
+    background-color: var(--darker-background);
+    color: var(--font-light) !important;
+    border-color: var(--home-border);
+}
+
+.timeline .timeline-header-y {
+    background-color: var(--darker-background);
+    color: var(--font-light);
+    box-shadow: none;
+}
+
+.timeline .timeline-header-x{
+    box-shadow: none;
+}
+
+#planner.timeline .timeline-header-y .tools a {
+    color: inherit;
+}
+
+#planner.timeline .timeline-header-y .subtitle {
+    color: var(--font-darker);
+}
+
+#planner.timeline .timeline-row.header h4{
+    color: inherit;
+}
+
+.vx-tab-bar__tab{
+    color: inherit;
+    border-color: var(--home-border);
+}
+
+.vx-tab-bar__tab:hover {
+    background-color: var(--dark-background);
+    color: var(--blue-night);
+}
+
+body.chromeless .container {
+    border-color: var(--home-border);
+}
+
+.timeline .timeline-cell.divider {
+    border-color: var(--home-border) !important;
+}
+
+#planner.timeline .timeline-header-y .title,#planner.timeline .timeline-header-y .title:hover {
+    opacity: 0.8;
+}
+
+#planner.timeline .timeline-header-y .title {
+    color: var(--blue-night) !important;
+}
+
+#planner.timeline .timeline-header-y .tools a:hover {
+    color: var(--blue-night) !important;
+}
+
+#planner.timeline .timeline-controls ul.navigate a {
+    color:  var(--blue-night)!important;
+}
+
+/* Submissions */
+
+.assignment-submission .sidebar {
+    background-color: var(--darker-background);
+    color: var(--font-light);
+}
+
+.assignment-submission .vx-record-header {
+    background-color: var(--darkest-background);
+    border-color: var(--home-border);
+}
+
+.assignment-submission .assignment{
+    color: var(--font-light);
+}
+
+.vx-record-detail {
+    border-color: var(--home-border);
+}
+
+.vx-data-field_content {
+    color: var(--font-light);
+}
+
+.assignment-submission .assignment-submit .submit-confirmation-banner {
+    background-color: var(--completed-background);
+    border-color: var(--home-border);
+}
+
+.vx-empty-state-read-only{
+    color: var(--font-light);
+}
+
+.vx-form-control .vx-text-field__input, .vx-form-control .vx-date-field__input, .vx-form-control .vx-time-field__input, .vx-form-control .vx-number-field__input, .vx-form-control .vx-search-field__input, .vx-form-control .vx-text-area__input {
+    background-color: transparent;
+    border-color: var(--home-border);
+    color: var(--font-light);
+}
+
+.vx-message-banner--danger {
+    background-color: var(--urgent);
+    color: var(--font-light);
+}
+
+.vx-tag--success, .vx-tag--green {
+    background-color: var(--completed-background);
+    color: var(--font-darker);
+}
+
+.vx-tag--warning, .vx-tag--yellow {
+    background-color: var(--warning-background);
+}
+
+.assignment-submission .attach-button {
+    color: var(--font-light);
+}
+
+.assignment-submission .attach-button:hover {
+    background: var(--dark-background);
+}
+
+.vx-button--primary:hover {
+    color: var(--font-light);
+    background: var(--selected-background);
+    transition: all 0.3s ease-out;
+}
+
+.vx-switch__input[disabled] + .vx-switch__slider, .vx-switch--disabled {
+    background: var(--dark-background);
+    opacity: 0.8;
+}
+
+[data-uppy-drag-drop-supported="true"] .uppy-Dashboard-AddFiles {
+    background: var(--darker-background);
+}
+
+.uppy-Root, .uppy-Dashboard-AddFiles-title {
+    color: var(--font-light) !important;
+}
+
+.uppy-Dashboard-note{
+    color:  var(--font-darker);
+}
+
+.uppy-Dashboard-browse {
+    color: var(--blue-night);
+}
+
+.uppy-Dashboard-inner {
+    border-color: var(--home-border) !important;
+    background: var(--home-border);
+}
+
+.uppy-DashboardContent-bar {
+    border: none;
+    background: var(--dark-background);
+    color: var(--font-light);
+}
+
+.uppy-StatusBar {
+    background: var(--dark-background);
+    color: var(--font-light) !important;
+}
+
+.uppy-StatusBar-content {
+    color: var(--font-light) !important;
+}
+
+.uppy-size--md .uppy-Dashboard-files {
+    background: var(--darker-background)
+}
+
+.vx-message-banner--success {
+    background: var(--completed-background);
+    color: var(--font-light);
+    opacity: 0.7;
+}
+
+.nc-icon-glyph.files_single-folded-content{
+    filter:  invert(1);
+}
+
+/* Calendar */
+
+.vx-modal__content{
+    background-color: var(--darkest-background) !important;
+}
+
+.vx-modal__content footer{
+    background-color: var(--darker-background) !important;
+}
+
+.screen-toolbar{
+    background: var(--darkest-background);
+}
+
+.screen-title {
+    color: var(--font-light);
+}
+
+.fc-toolbar {
+    color: var(--font-light);
+    background: var(--darkest-background);
+}
+
+.fc-view-container {
+    color: var(--font-light);
+    background: var(--darkest-background);
+}
+
+.fc-unthemed .fc-content, .fc-unthemed .fc-divider, .fc-unthemed .fc-list-heading td, .fc-unthemed .fc-list-view, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
+    border-color: var(--home-border);
+}
+
+.control-calendar .fc-view th {
+    background: var(--darkest-background)  !important;
+    color: var(--font-dark);
+}
+
+.control-calendar .fc-unthemed .fc-day.fc-today {
+    background:  var(--darker-background);
+}
+
+.fc-toolbar.fc-header-toolbar {
+    margin: 0;
+}
+
+.control-calendar .fc-toolbar .fc-button {
+    background: var(--darker-background);
+    color: var(--font-light);
+}
+
+.control-calendar .fc-toolbar .fc-button:hover {
+    background: var(--dark-background);
+}
+
+.fc-icon-right-single-arrow::after, .fc-icon-left-single-arrow::after {
+    color: var(--font-light);
+}
+
+.control-calendar .fc-day-grid-event .fc-time {
+    color:  var(--font-darker) !important;
+}
+
+.fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+    color: var(--font-darker);
+}
+
+/* Pop-up Student */
+
+.vx-account-modal__header {
+    background: var(--main-palette-3);
+}
+
+.vx-account-info {
+    border-color: var(--home-border);
+    color: var(--font-light);
+}
+
+.vx-account-modal .vx-page-tabs__tab--active, .vx-account-modal .vx-page-tabs__tab--active:hover {
+    background-color: var(--dark-background);
+}
+
+.vx-account-modal .vx-page-tabs__tab--active, .vx-account-modal .vx-page-tabs__tab--active {
+    background-color: var(--darkest-background);
+}
+
+.vx-account-modal .vx-page-tabs__tab:hover {
+    background-color: var(--darkest-background);
+}
+
+.vx-account-modal .vx-page-tabs__tab:hover span, .vx-account-modal .vx-page-tabs__tab--active, .vx-account-modal .vx-page-tabs__tab--active span {
+    color: var(--font-darker);
+}
+
+.vx-account-modal__content, .vx-account-modal {
+    background-color: var(--darkest-background);
+}
+
+.vx-account-modal__instructions {
+    color: var(--font-light);
+}
+
+.vx-button {
+    color: var(--font-light);
+    border-color: var(--home-border);
+}
+
+.vx-portal-list__portal {
+    background: transparent;
+    
+}
+
+.vx-portal-list__portal-description {
+    color: var(--font-light);
+}
+
+.vx-portal-list__portal-icon, .vx-portal-list__portal:hover .vx-portal-list__portal-description {
+    color: var(--font-dark);
+}
+
+
+/* Directory */
+
+.DirectoryEntrySearchForm_InputFilter {
+    border-color: var(--home-border) !important;
+    background: var(--darker-background);
+    color: var(--font-light);
+}
+
+.DirectoryCard:last-child {
+    border-bottom-color: var(--home-border);
+}
+
+.DirectoryCard:hover {
+    background: var(--dark-background);
+    border-top-color: var(--home-border);
+    border-right-color: var(--home-border);
+    border-bottom-color: var(--home-border);
+}
+
+.DirectoryCard {
+    background: var(--darker-background);
+    border-top-color: var(--home-border);
+    border-right-color: var(--home-border);
+}
+
+.DirectoryCategoryCard {
+    background: var(--darker-background);
+}
+
+.DirectoryCategoryCard_CategoryName {
+    color: var(--font-light);
+}
+
+.DirectoryCategoryCard_DirectoriesCount {
+    color: var(--font-label);
+}
+
+.DirectorySection_Title {
+    color: var(--font-label);
+}
+
+.DirectoryCard_FieldValue {
+    color: var(--font-darker);
+}
+
+.DirectoryCard_FieldLabel {
+    color: var(--font-darkest);
+}
+
+.DirectoryEntrySearchForm {
+    border-bottom-color: var(--home-border);
+}
+
+.vx-tab-bar__tab--active {
+    border-bottom-color: var(--home-border) !important;
+}
+
+.DirectoryEntries_DirectoryEntriesGroup {
+    border-color:  var(--home-border);
+}
+
+.directory-Entry {
+    border-color: var(--home-border);
+}
+
+.DirectoryEntriesGroup_GroupName  {
+    color: var(--font-label);
+}
+
+.directory-Entry_Title {
+    color: var(--font-light);
+}
+
+.directory-Entry_FieldTitle {
+    color: var(--font-darker);
+}
+
+.directory-Entry_FieldTitle--blue {
+    color: var(--font-darker);
+}
+
+.directory-Entry_FieldLabel {
+    color: var(--font-darkest);
+}
+
+.item-sm--auto {
+    border-color: var(--home-border) !important;
+}
+
+.directory-Entry_FieldLink {
+    color: var(--blue-night);
+}
+
+.directory-Entry_Tag {
+    color: var(--font-light);
+    background: var(--lavender-background);
+}
+
+.DirectoryTabBar_PageType {
+    color: var(--font-darkest);
+}
+
+.recent-updates .item-detail-data {
+    color: var(--font-darker);
+}
+
+.recent-updates .item-detail-label {
+    color: var(--font-darker);
+}
+
+.recent-updates .item-detail-icon {
+    color: var(--font-darkest);
+}
+
+/* Messages */
+
+.messages .message:hover {
+    background-color: var(--darker-background);
+}
+
+.messages .message {
+    color: var(--font-light);
+}
+
+.messages .message-from {
+    color: var(--font-light);
+}
+
+.messages .message-link {
+    color: var(--font-light);
+}
+
+.messages .message-date-sent {
+    color: var(--font-darkest);
+}
+
+.vx-button:hover {
+    background: var(--selected-background);
+    color: var(--font-light);
+    transition: all 0.3s ease-out;
+}
+
+.messages-people .person .name {
+    color: var(--font-light);
+}
+
+.messages-people .vx-avatar {
+    border-color: var(--home-border);
+}
+
+.messages-people .people-group-header {
+    border-color: var(--home-border);
+}
+
+.messages-people .person.unread::after {
+    border-color: var(--home-border);
+}
+
+.messages-categories .channel-link {
+    color: var(--font-light);
+}
+
+.messages-categories .category-group-header {
+    border-color: var(--home-border);
+}
+
+.vx-record-header {
+    background-color: var(--darker-background); 
+}
+
+.vx-record-header__type {
+    color: var(--font-darkest);
+}
+
+.detail-email .small-data-field {
+    color: var(--font-light);
+}
+
+.detail-email .vx-record-body {
+    border-color: var(--home-border);
+}
+
+table.main-background {
+    background: var(--darkest-color) !important;
+}
+
+table.main:nth-child(5) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1), table.main:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) {
+    border-color: var(--home-border) !important;
+}
+
+.image-text > p:nth-child(2) > span:nth-child(3) > span:nth-child(2) > span:nth-child(1) > span:nth-child(1) > span:nth-child(1), .image-text > p:nth-child(2) > span:nth-child(2) > span:nth-child(1) > strong:nth-child(1) > span:nth-child(1) > span:nth-child(1), table.main:nth-child(4) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p:nth-child(1) > span:nth-child(1) {
+    color: var(--font-light);
+}
+
+table.main:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p:nth-child(1) > img:nth-child(1) {
+   -webkit-filter: invert(1);
+   filter: invert(1);
+}
+
+table.main:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p:nth-child(1) > a:nth-child(2) {
+    color: var(--blue-night) !important;
+}
+
+.vx-record-title-type {
+    color: var(--blue-day) !important;
+}
+
+.image-text {
+    color: var(--font-light) !important;
+}
+
+/*  Home page */
+
+.component-class-list-student .course  {
+    border-color: var(--home-border);
+}
+
+.component-class-list-student .meeting-today.today  {
+    background: transparent;
+    color: var(--font-light);
+}
+
+.component-class-list-student .meeting-today {
+    color: var(--font-darker);
+}
+
+.component-class-list-student .course-links a {
+    color: var(--font-darkest);
+}
+
+.component-class-list-student .course-teacher  {
+    color: var(--font-darkest);
+}
+
+.component-class-list-student .assignments-link {
+    color: var(--font-darkest);
+}
+
+.component-class-list-student .notifications-link {
+    color: var(--font-darker);
+}
+
+.vx-badge {
+    background-color: var(--darker-background);
+    color: var(--font-darkest);
+}
+
+.component-class-list-student .notifications-link.highlight  {
+    color: var(--warning-color);
+}
+
+.component-class-list-student .notifications-link.highlight .notification-badge {
+    background-color: var(--warning-background);
+    color: var(--font-light);
+}
+
+.component-unread-messages-count {
+    border-color: var(--home-border);
+    color: var(--font-light);
+}
+
+.component-unread-messages-count .mail-icon {
+    color: var(--font-darkest);
+}
+
+.component-unread-messages-count:hover {
+    background-color: var(--darker-background);
+    color: var(--font-light);
+    transition: all 0.3s ease-out;
+}
+
+.component-google-authorization {
+    background: var(--darkest-background) !important;
+}
+
+.vx-button.google-auth-button:hover {
+    background: var(--darker-background);
+}
+
+.component-my-events-student .day {
+    border-color: var(--home-border);
+}
+
+.component-my-events-student .days {
+    border-color: var(--home-border);
+}
+
+.component-my-events-student .day-header  {
+    border-color: var(--home-border);
+    color: var(--font-light);
+    background: var(--darker-background);
+}
+
+.day.today .day-header {
+    background: var(--dark-background) !important;
+}
+
+.component-notification-link .link:hover .icon.dark {
+    background: rgba(0,0,0,0.2);
+}
+
+.component-notification-link .notification-text:hover {
+    opacity: 0.7;
+}
+
+/* class pages */
+
+#discussions #discussion-feed .post h3 a.button.save {
+    background: transparent;
+}
+.button {
+    text-shadow: none;
+}
+textarea {
+    border-color: var(--home-border);
+    background-color: var(--darker-background);
+    color: var(--font-light);
+}
+#discussions #discussion-feed .post-content  {
+    border-color: var(--home-border);
+}
+#discussions #discussion-feed .post.new h3 {
+    background: transparent;
+}
+#discussions .discussion .discussion-metadata a:hover {
+    color: var(--blue-night);
+    opacity: 0.8;
+}
+#discussions .discussion .discussion-metadata a {
+    color: var(--blue-night);
+}
+#discussions.list .type {
+    background: transparent;
+}
+#discussions .discussion .discussion-metadata {
+    color: var(--font-label);
+}
+table.main:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1),  table.main:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1){
+    position: relative;
+    width: 60% !important;
+}
+
+#container { 
+    max-width: 80%;
+    max-width: 90%;
+    margin-bottom: 10%;
+}
+
+html, body {    
+    height: auto;
+    min-height: 100vh !important;
+}
+
+td.title {
+    text-align: center !important;
+}
+
+td.buttons {
+    position: relative;
+}
+
+div.timeline-item:nth-child(5) > p:nth-child(1) {
+    background-color: transparent;
+}
+
+div.section > ul {
+    color: var(--font-light) !important;
+}
+
+#main-content .class-calendar .lesson-plan {
+    color: var(--font-light);
+}
+
+.leftColumnContent {
+    color: var(--font-light) !important;
+}
+
+#main-content .class-calendar .class-schedule {
+    background-color: var(--darkest-background);
+    border-color: var(--home-border);
+}
+
+#cal .fc-grid .fc-event-time {
+    color: var(--font-light) !important;
+}
+
+.fc-event.fc-event-hori.fc-event-start.fc-event-end.class-schedule .fc-event-inner .fc-event-title {
+    color: var(--blue-night) !important;
+}
+
+.lesson-plan h1 {
+    background-color:  var(--darkest-background);
+}
+
+/* make class times invis */
+
+.fc-event.fc-event-hori.fc-event-start.fc-event-end.class-schedule {
+    transform: scale(0);
+    height: 0% !important;
+    width: 0% !important;
+    border: none !important;
+    opacity: 0;
+}
+
+.fc-event.fc-event-hori.fc-event-start.fc-event-end.assignment-due {
+    border-color: var(--home-border) !important;
+    color: var(--font-light) !important;
+    height: 2rem;
+    transform: translate(0%, 0%);
+}
+
+.fc-event-inner {
+    background-color: var(--darker-background);
+}
+
+#cal .fc-event {
+    background-color: var(--blue-night);
+    font-family: 'SourceSansPro', Helvetica, Arial
+}
+
+html body.custom.chromeless div#container div#main div#main-content div.messages.message-blog div.message div.message-body div#publisher.html-display div.parts table.main tbody tr td table.main-background tbody tr td.main-padding table.column-table tbody tr td.leftColumnContent {
+    color: var(--font-light) !important;
+}
+
+.website-page ul {
+    color: var(--font-light);
+}
+
+#main-content {
+    background-color: var(--darkest-background);
+}
+
+#container .class-information .card {
+    background-color: var(--darkest-background);
+    transform: scale(1.1) translate(10%,5%);
+}
+
+#main nav.something {
+    background-color: var(--darker-background);
+    border-color: var(--home-border);
+    opacity: 0.9;
+}
+
+#main nav.something a:hover {
+    background: var(--darker-background);
+    border-color: var(--blue-night);
+}
+
+#main nav.something a.selected {
+    background: var(--darker-background);
+    color: var(--blue-night);
+    border-color: var(--blue-night);
+}
+
+#main nav.something a {
+    color: var(--font-light);
+}
+
+.leftColumnContent p img {
+    -webkit-filter: invert(1);
+   filter: invert(1);
+}
+
+.leftColumnContent p a {
+    color: var(--blue-night) !important;
+}
+
+.divider-simple table {
+    border-color: var(--home-border) !important;
+}
+
+#container .upcoming h4 {
+    border-color: var(--home-border);
+}
+
+#container .upcoming--section a:hover {
+    background-color: var(--darker-background);
+}
+
+.teacher-pages.card.desktop h3 a {
+    color: var(--blue-night);
+}
+
+.messages .message-title {
+    border-color: var(--home-border);
+}
+
+.messages .message-date {
+    background-color: var(--darker-background);
+    border-color: var(--home-border);
+}
+
+.messages .message-title a {
+    color: var(--font-light);
+}
+
+.messages .message-title a:hover {
+    color: var(--blue-night);
+}
+
+.website-admin-timeline .timeline-item {
+    color: var(--font-light);
+}
+
+.website-admin-timeline .timeline h2 {
+    background:  var(--darkest-background);
+    border-color: var(--home-border);
+}
+
+.filters {
+    color: var(--font-light);
+}
+
+.website-admin-timeline.public-timeline .filter-links {
+    box-shadow: var(--home-border);
+    background-color: var(--darker-background);
+}
+
+.website-admin-timeline.public-timeline .filter-links a:hover {
+    background-color: var(--darker-background);
+    opacity: 0.8;
+    color: var(--blue-night);
+}
+
+.website-admin-timeline .timeline-item .callout {
+    background-color: var(--darker-background);
+}
+
+.website-admin-timeline .timeline-item.assignment-due .type {
+    color: var(--blue-night);
+}
+
+.website-admin-timeline .timeline-item .title {
+    color: var(--font-light);
+}
+
+.website-admin-timeline .timeline-item.assignment-assigned .type {
+    color: var(--aqua-night);
+}
+
+.website-admin-timeline .timeline-item.assignment-assigned .badge {
+    background: var(--aqua-night);
+}
+
+.website-admin-timeline .timeline-item.post .callout, .website-admin-timeline .timeline-item.quick-post .callout {
+    background: var(--darker-background);
+    border: none;
+}
+
+.website-admin-timeline .timeline-item.post .callout::before, .website-admin-timeline .timeline-item.quick-post .callout::before {
+    border: none;
+}
+
+.callout::after {
+    opacity: 0;
+}
+
+#cal .fc-header .fc-button {
+    background-color: var(--darker-background);
+    color: var(--font-lighter);
+}
+
+#cal .fc-header .fc-button:hover {
+    background-color: var(--darker-background);
+    opacity: 0.8;
+}
+
+#cal .fc-view th {
+    background-color: var(--darkest-background) !important;
+    color: var(--font-light) !important;
+}
+
+#cal .fc-content td {
+    background-color: var(--darkest-background) !important;
+}
+
+#cal .fc-sun {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-sat {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-mon {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-tue {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-wed {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-thu {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-fri {
+    border-color: var(--home-border) !important;
+}
+
+#cal .fc-day-number {
+    color: var(--font-lighter);
+}
+
+.info {
+    color: var(--font-lighter);
+}
+
+.messages .message-nav a:hover {
+    border-color: var(--emphasis-border);
+    color: var(--font-lighter);
+}
+
+.messages .message-nav a {
+    color: var(--font-light);
+    border-color: var(--home-border);
+}
+
+/* grades */
+
+.enrollment-assignments {
+    background: var(--darkest-background) !important;
+}
+
+.assignment-body.clear {
+    background: var(--darkest-background) !important;
+}
+
+.left-controls {
+    background: var(--darker-background);
+}
+
+#page-enrollment-details .enrollment-detail-tabs .active {
+    background: var(--darker-background);
+    color:  var(--font-light);
+}
+
+#page-enrollment-details .comment .comment-files {
+    background: var(--darkest-background);
+    color:  var(--font-light);
+}
+
+#page-enrollment-details .enrollment-detail-tabs a:hover{
+    color:  var(--font-darker);
+}
+
+#page-enrollment-details .type-teacher .comment-person {
+    background: var(--darker-background);
+}
+
+#page-enrollment-details .type-student .comment-person {
+    background: var(--darker-background);
+}
+
+#page-enrollment-details .assignment-details .assignment-attachments a {
+    color: var(--blue-night);
+}
+
+#page-enrollment-details .assignment.open .assignment-header {
+    background: var(--darkest-background);
+}
+
+#page-enrollment-details .enrollment-title .class-teacher {
+    color:  var(--font-darkest);
+}
+
+#page-enrollment-details .enrollment-title .class-website{
+    color: var(--blue-night);
+}
+
+#page-enrollment-details .enrollment-detail-tabs {
+    border-color: var(--home-border);
+}
+
+#page-enrollment-details .section-toolbar a:hover {
+    background-color: var(--dark-background);
+}
+
+#page-enrollment-details .section-toolbar .filter-updates, #page-enrollment-details .section-toolbar .filter-updates.active, #page-enrollment-details .section-toolbar .filter-updates.active:hover {
+    background-color: var(--warning-background);
+    color: var(--font-warning);
+    opacity: 0.7;
+}
+
+ #page-enrollment-details .section-toolbar label {
+    color: var(--font-darkest);
+ }
+ 
+ #page-enrollment-details .group-header .group-count {
+    color: var(--font-darkest);
+ }
+ 
+ #page-enrollment-details .assignment-header:hover {
+    background-color: var(--darker-background);
+ }
+ 
+ #page-enrollment-details .assignment {
+    border-color: var(--home-border);
+ }
+ 
+ #page-enrollment-details .group-header {
+    border-color: var(--home-border);
+ }
+ 
+ #page-enrollment-details .assignment-header .status-0 .status, #page-enrollment-details .assignment-header .status-4 .status {
+    color: var(--font-darkest);
+ }
+ 
+ #page-enrollment-details .section-toolbar .filter-updates {
+    background: var(--dark-background) !important;
+ }
+ 
+ #page-enrollment-details .assignment-header .assignment-type {
+    background: var(--dark-background) !important;
+ }
+ 
+ .assignment .type-1, .assignment .type-26 {  
+    border-color: var(--font-light) !important;
+    color: var(--font-light);
+ }
+ 
+ #page-enrollment-details .assignment.open {
+    box-shadow: 0px 0px 10px var(--home-border);
+ }
+ 
+ #page-enrollment-details .comment .comment-files .view-annotation {
+    box-shadow: 1px 1px 1px var(--home-border);
+ }
+ 
+ #page-enrollment-details .unread .assignment-header {
+    background-color: var(--darker-background);
+ }
+ 
+ .assignment .type-6 {
+    border-color: var(--blue-night) !important;
+    color: var(--blue-night);
+ }
+ 
+ .assignment .type-102 {
+    border-color: var(--font-light) !important;
+    color: var(--font-light);
+ }
+ 
+ .assignment .type-25 {
+    border-color: var(--font-light) !important;
+    color: var(--font-light);
+ }
+
