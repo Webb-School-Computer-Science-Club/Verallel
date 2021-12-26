@@ -1,1 +1,1 @@
-This folder contains all the media used for Verallel (icons, screenshots, etc.).
+This folder contains all the media used for Verallel (icons, screenshots, etc.). The icons are included in the media folder in the folders for each browser so the extension can be tested properly from the repository's source code. 
