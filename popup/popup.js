@@ -11,6 +11,7 @@ var lessonP = false;
 var dm = false; // light mode by default
 var miss = false;
 var r = document.querySelector(':root'); // For changing mode of the popup
+var rtext  = document.querySelector(".message");
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
 
@@ -20,12 +21,14 @@ function changePopupMode(dl)
     if(dl)
     {
         r.style.setProperty('--background-color', '#000000');
-        r.style.setProperty('--border-color', '#ffffff');
+        r.style.setProperty('--border-color', '#4d4d59');
+        r.style.setProperty('--text-color', '#ffffff');
     }
     else
     {
         r.style.setProperty('--background-color', '#ffffff');
         r.style.setProperty('--border-color', '#000000');
+        r.style.setProperty('--text-color', '#000000');
     }
 }
 
@@ -50,7 +53,7 @@ chrome.runtime.sendMessage({ msg: 'Popup Initialization', data: null}, function(
 async function getAssignments() // async for usage of fetch
 { 
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
-    const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
+    const txt = await respNew.text() + ''; // Trying to get json doesn't work unfortunatley
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
     const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
     const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
@@ -262,7 +265,7 @@ async function getAssignments() // async for usage of fetch
 async function getLP()
 {
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
-    const txt = await respNew.text();
+    const txt = await respNew.text() + '';
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
     const yr = txt.split(';')[16].split('"')[0].split('=')[1];
     const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
@@ -438,7 +441,7 @@ async function getLP()
 async function getMissing()
 {
     const db = await fetch('https://portals.veracross.com/webb/student/submit-assignments');
-    const dbTxt = await db.text();
+    const dbTxt = await db.text() + '';
     const missTxt = dbTxt.split('data-react-props')[1].split('data-react-cache-id')[0];
     let today = new Date();
     var missingAssignments = [];

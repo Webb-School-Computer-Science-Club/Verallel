@@ -155,12 +155,6 @@ a:hover{
     color: var(--font-light);
 }
 
-.course-links, .assignments-link {
-    width: 0%;
-    height: 0%;
-    transform: scale(0);
-}
-
 div.ae-grid__item:nth-child(10) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1), div.ae-grid__item:nth-child(14) a, div.ae-grid__item:nth-child(15) a, div.ae-grid__item:nth-child(16) a, div.ae-grid__item:nth-child(17) a, div.ae-grid__item:nth-child(18) a {
     color: var(--main-palette) !important;
     border-color: var(--main-palette) !important;
@@ -1169,6 +1163,10 @@ div.section > ul {
 
 .fc-event.fc-event-hori.fc-event-start.fc-event-end.class-schedule .fc-event-inner .fc-event-title {
     color: var(--blue-night) !important;
+}
+
+.lesson-plan h1 {
+    background-color:  var(--darkest-background);
 }
 
 /* make class times invis */

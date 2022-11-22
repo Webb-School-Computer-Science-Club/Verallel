@@ -148,7 +148,7 @@ function makeClassDropDown(classRows, classidlist, stuId)
 async function id2class(tabId, ur, typDict) // For when class isn't there but class IDs are
 {
    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
-   const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
+   const txt = await respNew.text()+ ''; // Trying to get json doesn't work unfortunatley
    const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
    const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
    const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
@@ -177,7 +177,7 @@ async function id2class(tabId, ur, typDict) // For when class isn't there but cl
 async function getClasses(tabId) //async to retrieve class ids from different page
 {
    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
-   const txt = await respNew.text();
+   const txt = await respNew.text() + '';
    const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
    const yr = txt.split(';')[16].split('"')[0].split('=')[1];
    const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
@@ -345,7 +345,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 				si.appendChild(confdiv)
 			}`});
 		}
-      else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
+		else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
       {
          id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
       }
@@ -353,18 +353,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
       {
          id2class(tabId, 1, typObj); // For main student portal. Shouldn't crash other content script in other domains where this doesn't do anything
       }
-      } 
-      else if (tab.url.match(/documents.veracross.com/))
-      {
-      	 if(dm)
-      	  {
-		   chrome.tabs.executeScript({code: darkmod});
-      	  }
-      	  else
-      	  {
-         	chrome.tabs.executeScript({code: lightmod});
-      	  }
-      }
+	} 
+	else if (tab.url.match(/documents.veracross.com/))
+	{
+		chrome.tabs.executeScript({code: `console.log('Ya Yeet');`});
+	}
 });
 
 

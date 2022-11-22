@@ -2,18 +2,31 @@
 {
 	--background-color: #ffffff;	
 	--border-color: #000000;
-	--box-background-color: #f44336;
+	--text-color: #000000;
+	--box-background-color: #0ea03c;
+	--dark-mode-border: #4d4d59;
+}
+
+html
+{
+	font-family: sans-serif;
 }
 
 body
 {
 	background-color: var(--background-color);
-	min-width: 300px;
+	width: 300px;
 	text-align: center;
-	color: var(--border-color);
+	color: var(--text-color);
 	border-color: var(--border-color);
 	border-style: solid;
 	border-width: 3px;
+	font-size: 87%;
+}
+
+.message
+{
+	color: var(--text-color);
 }
 
 a.box:link, a.box:visited
@@ -31,22 +44,23 @@ a.box:link, a.box:visited
 
 a.box:hover, a.box:active
 {
-	background-color: red;
+	background-color: rgb(6, 114, 38);
 }
 
 button
 {
-	height: 50px;
+	height: 70px;
 	width: 200px;
 	outline: none;
 	margin: 10px;
 	border-color: var(--border-color);
 	border-radius: 2px;
 	background-color: var(--box-background-color);
+	font-size: 112%;
 }
 
 button.current
 {
-	box-shadow: 0 0 0 2px white,
+	box-shadow: 0 0 0 2px rgb(79, 79, 79),
 	0 0 0 4px black;
 }

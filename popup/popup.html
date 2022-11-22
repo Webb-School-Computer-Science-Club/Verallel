@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <div> <!-- Pleasantries div-->  
+    <div class="message"> <!-- Pleasantries div-->  
       <p> <!-- Pleasantries Text -->  
         Thank you for using Verallel!
       </p>
@@ -12,7 +12,7 @@
     
     
     <div> <!-- Navigation div--> 
-      <p> <!-- Question Text -->  
+      <p class="message"> <!-- Question Text -->  
         Want to go somewhere?
       </p>
       
@@ -31,15 +31,15 @@
     
     
     <div> <!-- Issues div --> 
-      <p> <!-- Issues Text --> 
+      <p class="message"> <!-- Issues Text --> 
         Having issues with the extension or feature requests?
       </p>
       
-      <p> <!-- Request for an Issue Text --> 
+      <p class="message"> <!-- Request for an Issue Text --> 
         Leave an issue on <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel" target = "_blank">Verallel's Github page</a> or email vefairlyerallel@gmail.com if you have a complaint!
       </p>
     </div>
-    
+
     <hr>
     
     <div id='modeChange'> <!--Dark/light mode toggle div--> 
@@ -47,19 +47,19 @@
         Change viewing mode
       </button>
     </div>
+
+    <hr>
   
-    <hr> 
-    
     <div> <!-- Missing Assignments Div -->
       <button id="missing"> <!-- Div for Missing Assignments-->
         See your missing assignments
       </button>
       
-      <div id='miss' style="text-align: left; margin-left: 10px; margin-right: 10px;">> <!-- Div to display missing assignments -->
+      <div id='miss' style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!-- Div to display missing assignments -->
       </div>
     </div>
-    
-    <hr> 
+
+    <hr>
     
     <div> <!--Lesson Plans div--> 
       <button id="lessonP">
@@ -69,8 +69,8 @@
 
     <div id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
     </div>
-    
-    <hr> 
+
+    <hr>
     
     <div> <!-- Assignments div--> 
       <button id="notif"> <!-- Assignments Button -->
@@ -79,7 +79,7 @@
       <script src="popup.js"> </script> <!-- Initializes the popup script (popup.js) for the document -->
     </div>
     
-    <div id='assign' style="text-align: left; margin-left: 10px; margin-right: 10px;">> <!-- Div for viewing upcoming assignments-->
+    <div id='assign' style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!-- Div for viewing upcoming assignments-->
     </div>
   </body>
 </html>
