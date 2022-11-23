@@ -18,6 +18,9 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 
 
+## Current Issue Temp Fixes
+- you must sign in to veracross on *default* firefox container to activate the assignment getting function.
+
 # Helping with Development
 If you wish to help with the development of the site, the zip folder release of the extension will be provided (and maybe some other beta versions the dev team is working on). If you are not part of the dev team and end up making yor own working version please publish the code as a fork of this repository. Additionally, make sure to detail the changes you make in your fork compared to the original.<br>
 This is the repository for the Chrome extension for Verallel. If you want to help with Verallel as a Firefox add-on, you should check out <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel-Firefox">Verallel-Firefox</a><br>

@@ -4,4 +4,5 @@ Functions of popup page:
  - Get upcoming lesson plans
  - Get missing assignments, according to Dropbox
  - Dark/light mode toggle
+
  
