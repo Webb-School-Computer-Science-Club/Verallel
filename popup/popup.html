@@ -4,48 +4,61 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <div class="message"> <!-- Pleasantries div-->  
-      <p> <!-- Pleasantries Text -->  
-        Thank you for using Verallel!
-      </p>
-    </div>
-    
-    
-    <div> <!-- Navigation div--> 
-      <p class="message"> <!-- Question Text -->  
-        Want to go somewhere?
-      </p>
+    <div class="initial-wrapper">
+      <div class="row-1">
+        <div id='modeChange'> <!--Dark/light mode toggle div--> 
+          <button id="changMod">
+            Change viewing mode
+          </button>
+        </div>
+  
+        <div class="message"> <!-- Pleasantries div-->  
+          <p> <!-- Pleasantries Text -->  
+            Thank you for using Verallel!
+          </p>
+        </div>
+      </div>
       
-      <p> <!-- Main Student Portal Navigation Box -->
-        <a href = "https://portals.veracross.com/webb/student" target="_blank" class="box">
-          Main Student Portal
-        </a>
-      </p>
+      <div id="nav"> <!-- Navigation div--> 
+        <p class="message"> <!-- Question Text -->  
+          Want to go somewhere?
+        </p>
+        
+        <p id="student portal"> <!-- Main Student Portal Navigation Box -->
+          <a href = "https://portals.veracross.com/webb/student" target="_blank" class="box">
+            Main Student Portal
+          </a>
+        </p>
+        
+        <p id="dropbox"> <!-- Dropbox Navigation Box -->
+          <a href = "https://portals.veracross.com/webb/student/submit-assignments" target = "_blank" class="box">
+            Dropbox
+          </a>
+        </p>
+      </div>
       
-      <p> <!-- Dropbox Navigation Box -->
-        <a href = "https://portals.veracross.com/webb/student/submit-assignments" target = "_blank" class="box">
-          Dropbox
-        </a>
-      </p>
-    </div>
-    
-    
-    <div> <!-- Issues div --> 
-      <p class="message"> <!-- Issues Text --> 
-        Having issues with the extension or feature requests?
-      </p>
       
-      <p class="message"> <!-- Request for an Issue Text --> 
-        Leave an issue on <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel" target = "_blank">Verallel's Github page</a> or email vefairlyerallel@gmail.com if you have a complaint!
-      </p>
+      <div id="issues"> <!-- Issues div --> 
+        <p class="message"> <!-- Issues Text --> 
+          Having issues with the extension or feature requests?
+        </p>
+        
+        <p class="message"> <!-- Request for an Issue Text --> 
+          Leave an issue on <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel" target = "_blank">Verallel's Github page</a> or email vefairlyerallel@gmail.com if you have a complaint!
+        </p>
+      </div>
+
     </div>
 
     <hr>
-    
-    <div id='modeChange'> <!--Dark/light mode toggle div--> 
-      <button id="changMod">
-        Change viewing mode
+
+    <div> <!-- Assignments div--> 
+      <button id="notif"> <!-- Assignments Button -->
+        See all upcoming assignments
       </button>
+    </div>
+    
+    <div id='assign' style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!-- Div for viewing upcoming assignments-->
     </div>
 
     <hr>
@@ -65,21 +78,12 @@
       <button id="lessonP">
         View your upcoming lesson plans
       </button>
+      <script src="popup.js"> </script>
     </div>
 
     <div id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
     </div>
 
-    <hr>
-    
-    <div> <!-- Assignments div--> 
-      <button id="notif"> <!-- Assignments Button -->
-        See all upcoming assignments
-      </button>
-      <script src="popup.js"> </script> <!-- Initializes the popup script (popup.js) for the document -->
-    </div>
-    
-    <div id='assign' style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!-- Div for viewing upcoming assignments-->
-    </div>
+
   </body>
 </html>
