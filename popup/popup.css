@@ -177,12 +177,12 @@ button.current
 	color: var(--text-color);
 }
 
-a.box:link, a.box:visited
+.nav-link a.box:link, .nav-link a.box:visited
 {
 	background-color: var(--box-background-color);
 	color: var(--text-color);
 	font-weight: lighter;
-	padding: 5px 10px;
+	padding: 7px 12px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
