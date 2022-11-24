@@ -605,7 +605,7 @@ function changeMode()
                     var notVera = document.createElement('p')
                     notVera.appendChild(document.createTextNode('You must be in Veracross to switch modes!'));
                     notVera.id = 'not-vera';
-                    document.getElementById('welcome-message').appendChild(notVera);
+                    document.getElementById('not-veracross-error').appendChild(notVera);
                 }
             }
         }
@@ -640,7 +640,7 @@ function changeMode()
                     var notVera = document.createElement('p')
                     notVera.appendChild(document.createTextNode('You must be in Veracross to switch modes!'));
                     notVera.id = 'not-vera';
-                    document.getElementById('modeChange').appendChild(notVera);
+                    document.getElementById('not-veracross-error').appendChild(notVera);
                 }                
             }
         }
