@@ -2,10 +2,11 @@
 // Does notification button for assignments and for lesson plans
 // May or may not need to sort by year, but that will probably be an upcoming update for getAssignments()
 
-document.getElementById("notif").addEventListener("click", reqNotify); // Gives assignment button functionality by adding click listener
-document.getElementById("lessonP").addEventListener("click", reqLP); // Gives lesson plan button functionality by addig click listener
+document.getElementById("notif").addEventListener("click", displayNotif); // Gives assignment button functionality by adding click listener
+document.getElementById("lessonP").addEventListener("click", displayLP); // Gives lesson plan button functionality by addig click listener
 document.getElementById('changMod').addEventListener('click', changeMode); // Dark/light mode toggle button now functions
-document.getElementById("missing").addEventListener('click', reqMiss); // Gives missing assignment button functionality
+document.getElementById("missing").addEventListener('click', displayMiss); // Gives missing assignment button functionality
+document.getElementById("get-information-header").addEventListener('click', resetButtonSizes);
 var assign = false;
 var lessonP = false;
 var dm = false; // light mode by default
@@ -15,20 +16,85 @@ var rtext  = document.querySelector(".message");
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
 
+window.onload = function() {
+    reqNotify();
+    reqLP();
+    reqMiss();
+    document.getElementById("assign").setAttribute("style", "display:none;");
+    document.getElementById("miss").setAttribute("style", "display:none;");
+    document.getElementById("lppdiv").setAttribute("style", "display:none;");
+    tryErrors();
+};
+
+async function tryErrors() {
+    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
+    if (respNew.redirected == true) {
+        document.getElementById("display-information-error").setAttribute("style", "display: flex;");
+    } else {
+        document.getElementById("display-information-error").setAttribute("style", "display: none;");
+    }
+}
+
+async function resetButtonSizes() {
+    document.getElementById('missing').innerHTML = 'Missing'
+    document.getElementById('lessonP').innerHTML = 'Lessons';
+    document.getElementById('notif').innerHTML = 'Upcoming';
+
+    document.getElementById("assign").setAttribute("style", "display:none;");
+    document.getElementById("miss").setAttribute("style", "display:none;");
+    document.getElementById("lppdiv").setAttribute("style", "display:none;");
+}
+
+async function displayNotif() {
+    document.getElementById("assign").setAttribute("style", "display:flex;");
+    document.getElementById("miss").setAttribute("style", "display:none;");
+    document.getElementById("lppdiv").setAttribute("style", "display:none;");
+
+    document.getElementById('notif').innerHTML = 'Upcoming Assignments:';
+    document.getElementById('lessonP').innerHTML = 'Lessons';
+    document.getElementById('missing').innerHTML = 'Missing';
+}
+
+async function displayMiss() {
+    document.getElementById("miss").setAttribute("style", "display:flex;");
+    document.getElementById("assign").setAttribute("style", "display:none;");
+    document.getElementById("lppdiv").setAttribute("style", "display:none;");
+
+    document.getElementById('missing').innerHTML = 'Missing Assignments:'
+    document.getElementById('lessonP').innerHTML = 'Lessons';
+    document.getElementById('notif').innerHTML = 'Upcoming';
+
+}
+
+async function displayLP() {
+    document.getElementById("lppdiv").setAttribute("style", "display:flex;");
+    document.getElementById("assign").setAttribute("style", "display:none;");
+    document.getElementById("miss").setAttribute("style", "display:none;");
+
+    document.getElementById('lessonP').innerHTML = 'Lesson Plans:';
+    document.getElementById('missing').innerHTML = 'Missing';
+    document.getElementById('notif').innerHTML = 'Upcoming';
+}
 
 function changePopupMode(dl)
 {
     if(dl)
     {
-        r.style.setProperty('--background-color', '#000000');
+        r.style.setProperty('--background-color', '#000000'); //TODO: make this easier and more modular
         r.style.setProperty('--border-color', '#4d4d59');
         r.style.setProperty('--text-color', '#ffffff');
+        r.style.setProperty('--mode-change-background', 'rgb(67, 70, 102)');
+        r.style.setProperty('--mode-change-background-hover', 'rgb(51, 50, 64)');
+        r.style.setProperty('--divider-color', '#6f6f70');
     }
     else
     {
         r.style.setProperty('--background-color', '#ffffff');
-        r.style.setProperty('--border-color', '#000000');
+        r.style.setProperty('--border-color', '#8b8e9f');
         r.style.setProperty('--text-color', '#000000');
+        r.style.setProperty('--mode-change-background', 'rgb(196, 193, 209)');
+        r.style.setProperty('--mode-change-background-hover', 'rgb(170, 166, 184)');
+        r.style.setProperty('--divider-color', '#c1c1c1');
     }
 }
 
@@ -40,11 +106,11 @@ chrome.runtime.sendMessage({ msg: 'Popup Initialization', data: null}, function(
 	dm = response.data;
         if(response.data) //Response.data will either be true or false
         {
-            document.getElementById("changMod").innerHTML = 'Click for light mode';
+            document.getElementById("changMod").innerHTML = '🌑'; 
         }
         else
         {
-            document.getElementById("changMod").innerHTML = 'Click for dark mode';
+            document.getElementById("changMod").innerHTML = '🌕';
         }
 	changePopupMode(dm);
     }
@@ -100,7 +166,7 @@ async function getAssignments() // async for usage of fetch
                     assignStr = assignStr + fh[i].split(',')[7+j];
                 }
             }
-            assignStr =  'Due ' +  dueDate + ' - ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
+            assignStr =  dueDate + ' – ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
             if(dueDatelis[0] < today.getMonth() + 1) // Automatically removes less month
 	    { 
                 isOn = true;
@@ -237,28 +303,19 @@ async function getAssignments() // async for usage of fetch
             	g.appendChild(h);
             }
         }
-    	var pmed = document.createElement('p');
-    	pmed.appendChild(document.createTextNode('Due later:'))
-    	pmed.style = "font-size: 150%; text-align: center;";
-    	g.appendChild(pmed);
+        if (assignments.length > 0) {
+            var pmed = document.createElement('p');
+            pmed.appendChild(document.createTextNode('Due later:'))
+            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+            g.appendChild(pmed);
+        }
     	for (let k = 0; k < assignments.length; k++)
     	{
             var h = document.createElement('p');
 	    h.appendChild(document.createTextNode(assignments[k]));
 	    g.appendChild(h);
-    	}
-    	var pf = document.createElement('p'); // Adding ending link and p tag
-    	pf.appendChild(document.createTextNode('If you want more info, visit '));
-    	var a = document.createElement('a');
-    	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
-        a.setAttribute('target', '_blank');
-    	a.appendChild(document.createTextNode('your upcoming assignments page'));
-    	pf.appendChild(a);
-    	pf.style = "text-align: center;"
-    	pf.appendChild(document.createTextNode('!'));
-    	g.appendChild(pf);
+        }
     }
-    document.getElementById('notif').innerHTML = 'Here are your upcoming assignments:';
 }
 
 
@@ -407,26 +464,24 @@ async function getLP()
             h.appendChild(document.createTextNode(k));
             g.appendChild(h);
     	}
-    	var pmed = document.createElement('p');
-    	pmed.appendChild(document.createTextNode('Later:'))
-    	pmed.style = "font-size: 150%; text-align: center;";
-    	g.appendChild(pmed);
+        if (lessonPlans.length > 0) {
+            var pmed = document.createElement('p');
+            pmed.appendChild(document.createTextNode('Later:'))
+            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+            g.appendChild(pmed);
+        }
     	for (k of lessonPlans)
-	{
+	    {
             var h = document.createElement('p');
             h.appendChild(document.createTextNode(k));
             g.appendChild(h);
     	}
-    	var pf = document.createElement('p')
-    	pf.appendChild(document.createTextNode('If you want more info, visit '));
-    	var a = document.createElement('a');
-    	a.href = "https://portals.veracross.com/webb/student/student/upcoming-assignments";
-    	a.appendChild(document.createTextNode('your upcoming assignments page'));
-        a.setAttribute('target', '_blank');
-    	pf.appendChild(a);
-    	pf.style = "text-align: center;"
-    	pf.appendChild(document.createTextNode('!'));
-    	g.appendChild(pf);
+        if (lessonPlans.length < 1) {
+            var pf = document.createElement('p')
+            pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
+            pf.style = "text-align: center;"
+            g.appendChild(pf);
+        }
     }
     else
     {
@@ -434,7 +489,6 @@ async function getLP()
         h.appendChild(document.createTextNode('Congratulations (or how unfortunate)! You have no upcoming lesson plans for now!'));
 	g.appendChild(h);
     }
-    document.getElementById('lessonP').innerHTML = 'Here are your lesson plans:';
 }
 
 
@@ -470,7 +524,6 @@ async function getMissing()
             missingAssignments.push(missStr);
         }
     }
-    document.getElementById('missing').innerHTML = 'Here are your missing assignments (according to Dropbox):'
     var misDiv = document.getElementById('miss');
     for (missin of missingAssignments)
     {
@@ -478,15 +531,11 @@ async function getMissing()
         missP.appendChild(document.createTextNode(missin));
         misDiv.appendChild(missP);
     }
-    var misP = document.createElement('p')
-    misP.appendChild(document.createTextNode('If you want more info, visit '));
-    var misA = document.createElement('a');
-    misA.setAttribute('href', 'https://portals.veracross.com/webb/student/submit-assignments');
-    misA.setAttribute('target', '_blank');
-    misA.appendChild(document.createTextNode('your Submission Page'));
-    misP.appendChild(misA);
-    misP.appendChild(document.createTextNode('!'));
-    misDiv.appendChild(misP);
+    if (missingAssignments.length < 1) {
+        var misP = document.createElement('p')
+        misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
+        misDiv.appendChild(misP);
+    }
 }
 
 
@@ -530,7 +579,7 @@ function changeMode()
             dm = true;
             if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/) || activeTab.url.match(/documents.veracross.com/))
             {
-                document.getElementById('changMod').innerHTML = 'Click for light mode';
+                document.getElementById('changMod').innerHTML = '🌑';
                 chrome.runtime.sendMessage({msg: 'Change to dark', data: null});
                 if(!(p == null))
                 {
@@ -540,9 +589,9 @@ function changeMode()
             }
             else if(activeTab.url.match(/options/) && activeTab.url.match(/options.html/))
             {
-                document.getElementById('changMod').innerHTML = 'Click for light mode';
+                document.getElementById('changMod').innerHTML = '🌑';
                 chrome.runtime.sendMessage({msg: 'oChangeD', data: null});
-                chrome.tabs.sendMessage(activeTab.id, {mode: 'dark'}); // For options.js
+                chrome.tabs.sendMessage(activeTab.id, {mode: '🌕'}); // For options.js
                 if(!(p == null))
                 {
                     p.parentNode.removeChild(p);
@@ -556,7 +605,7 @@ function changeMode()
                     var notVera = document.createElement('p')
                     notVera.appendChild(document.createTextNode('You must be in Veracross to switch modes!'));
                     notVera.id = 'not-vera';
-                    document.getElementById('modeChange').appendChild(notVera);
+                    document.getElementById('welcome-message').appendChild(notVera);
                 }
             }
         }
@@ -565,7 +614,7 @@ function changeMode()
             dm = false;
             if(activeTab.url.match(/classes.veracross.com/) || activeTab.url.match(/portals.veracross.com/) || activeTab.url.match(/portals-embed.veracross.com/) || activeTab.url.match(/documents.veracross.com/))
             {
-                document.getElementById('changMod').innerHTML = 'Click for dark mode';
+                document.getElementById('changMod').innerHTML = '🌕';
                 chrome.runtime.sendMessage({msg: 'Change to light', data: null});
                 if(!(p == null))
                 {
@@ -575,9 +624,9 @@ function changeMode()
             }
             else if(activeTab.url.match(/options/) && activeTab.url.match(/options.html/))
             {
-                document.getElementById('changMod').innerHTML = 'Click for dark mode';
+                document.getElementById('changMod').innerHTML = '🌕';
                 chrome.runtime.sendMessage({msg: 'oChangeL', data: null});
-                chrome.tabs.sendMessage(activeTab.id, {mode: 'light'}); // For options.js
+                chrome.tabs.sendMessage(activeTab.id, {mode: '🌑'}); // For options.js
                 if(!(p == null))
                 {
                     p.parentNode.removeChild(p);
