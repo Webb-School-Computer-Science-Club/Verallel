@@ -2,18 +2,43 @@
 Check out <a href = 'https://2023popn.github.io/VeraNav/'>VeraNav</a>, a website made for easier navigation of Veracross!
 
 # Verallel
-A student-made, student-tailored web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.<br>
-Version 1.1.5 released, with a trough of new features that are detailed in the release notes. There is definitley more to do for further developing Verallel though!
+A student-made, student-tailored web extension for Veracross. Provides ease of navigation in Veracross, with other quality of life features, and even more in progress.
+
 <br>
 Unfortunatley, at the moment, this extension is compatible only for Webb students, as the links will not work if your Veracross is a different school. 
 
+<br>
+
+<div style="display:flex; flex-direction:row; justify-content:space-evenly"> 
+  <img src="verallel-dark-mode.jpg" style="width:40%">
+  <img src="verallel-light-mode.jpg" style="width:40%">
+</div>
+
+<br>
+
+![](veracross-dark-mode.jpg)
+
+<br>
+
 # Jump to
+
+[Chrome Installation](#chrome-installation)
 
 [Issue Handling](#issue-handling)
 
 [Helping with Development](#helping-with-development)
 
 [Potential Feature Additions](#potential-feature-addons-the-dev-team-has-high-on-the-bucket-list)
+
+# Chrome Installation
+
+For the Firefox extension go to [https://github.com/Webb-School-Computer-Science-Club/Verallel/tree/firefox](https://github.com/Webb-School-Computer-Science-Club/Verallel/tree/firefox).
+
+First, we need to download the [latest version](https://github.com/Webb-School-Computer-Science-Club/Verallel/releases/) of the extension. Scroll down the page of the latest versions list until you see a file link that says "VerallelCV(some version here).zip" (the C part is important, as it means chromium). Download the file to your Downloads folder and extract it.
+
+Now, go to [chrome://extensions/](chrome://extensions/) in chrome. Toggle "developer mode" which is located in the top right corner of the screen. A bar should pop up with three options. Click "load unpacked" and navigate to the extracted extension folder. Click the folder, then click select.
+
+Congrats! Verallel is now installed. Pin the extension via the chrome extensions menu in the top bar to make acessing Verallel more convenient.
 
 # Issue Handling
 When it comes to repository issues, please keep in mind that the developer team for Verallel has an order of priorities for issue fixing. There isn't a rigid order, but expect issues about major bugs to be solved first over adding minor feature enhancements. This shouldn't deter you from making an issue for a bug or a feature request if you have one, but acknowledge that there a limited amount of people on the team, each with other commitments of their own. <br> If you make an issue about a bug, please detail how you got to the bug and if that bug is consistently reproducible. Additionally, make sure your issue is not already an issue on the repository. 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="popup.css">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="initial-wrapper">
+      <div class="row-1">
+        <div id='modeChange'> <!--Dark/light mode toggle div--> 
+          <button id="changMod">
+          </button>
+        </div>
+        <div id="not-veracross-error">
+        </div>
+        <div id="welcome-message">
+          <div class="message"> <!-- Pleasantries div-->  
+            <p> <!-- Pleasantries Text -->  
+              Verallel
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      
+      <div id="nav"> <!-- Navigation div--> 
+        <div id="nav-row 1" class="nav-row">
+          <p id="student-portal"> <!-- Main Student Portal Navigation Box -->
+            <a href = "https://portals.veracross.com/webb/student" target="_blank" class="box">
+              Home
+            </a>
+          </p>
+
+          <p id="assignments-link"> <!-- Main Student Portal Navigation Box -->
+            <a href = "https://portals.veracross.com/webb/student/student/upcoming-assignments" target="_blank" class="box">
+              Assignments
+            </a>
+          </p>
+          
+          <p id="dropbox"> <!-- Dropbox Navigation Box -->
+            <a href = "https://portals.veracross.com/webb/student/submit-assignments" target = "_blank" class="box">
+              Dropbox
+            </a>
+          </p>          
+        </div>
+        <div id="nav-row-2" class="nav-row">
+          <p id="lunch-link"> <!-- Main Student Portal Navigation Box -->
+            <a href = "https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_5/v1668801332/webbschoolorg/tvbdwvpm7d58cwyfdnnj/UpperSchoolMenu.jpg" target="_blank" class="box">
+              Lunch
+            </a>
+          </p>
+          
+          <p id="schedule link"> <!-- Dropbox Navigation Box -->
+            <a href = "https://portals.veracross.com/webb/student/student/daily-schedule" target = "_blank" class="box">
+              Schedule
+            </a>
+          </p>  
+        </div>
+        
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div id="get-information-header">
+      <p>
+        Get Assignments:
+      </p>
+    </div>
+    <div class="get-information-wrapper">
+      <div class="get-information-box"> <!-- Assignments div--> 
+        <button id="notif"> <!-- Assignments Button -->
+          Upcoming
+        </button>
+      </div>
+    
+      <div class="get-information-box"> <!-- Missing Assignments Div -->
+        <button id="missing"> <!-- Div for Missing Assignments-->
+          Missing
+        </button>
+      </div>
+      
+      <div class="get-information-box"> <!--Lesson Plans div--> 
+        <button id="lessonP">
+          Lessons
+        </button>
+      </div>
+
+    </div>
+
+    <div class="display-information-wrapper">
+      <div class="display-information-box" id = "display-information-error">
+        <p>
+          Error getting your assignments. Are you sure you're logged in to Veracross?
+        </p>
+      </div>
+      <div class="display-information-box" id='assign' style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!-- Div for viewing upcoming assignments-->
+      </div>
+      <div class="display-information-box" id='miss' style="text-align: left;"> <!-- Div to display missing assignments -->
+      </div>
+      <div class="display-information-box" id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
+      </div>
+    </div>
+
+    <hr>
+          
+    <div id="issues"> <!-- Issues div --> 
+      <p class="message"> <!-- Request for an Issue Text --> 
+        Issues or feature requests? Visit <a href="https://github.com/Webb-School-Computer-Science-Club/Verallel" target = "_blank">Verallel's Github</a> or email <a href="mailto:vefairlyerallel@gmail.com">vefairlyerallel@gmail.com</a>.
+      </p>
+    </div>
+
+
+  </body>
+  <script src="popup.js"> </script>
+</html>

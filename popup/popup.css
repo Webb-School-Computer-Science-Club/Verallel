@@ -1,0 +1,216 @@
+:root
+{
+	--background-color: #ffffff;	
+	--border-color: #404148;
+	--divider-color: #c1c1c1;
+	--text-color: #000000;
+	--box-background-color: #0ea03c;
+	--box-background-color-hover: #127732;
+	--mode-change-background: rgb(196, 193, 209);
+	--mode-change-background-hover: rgb(170, 166, 184);
+	--dark-mode-border: #4d4d59;
+	--text-link-color: rgb(21, 127, 60);
+
+}
+
+html
+{
+	font-family: sans-serif;
+	width: 300px;
+	height: auto;
+	max-height: 900px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+body
+{
+	background-color: var(--background-color);
+	text-align: center;
+	width: inherit;
+	height: inherit;
+	margin:3px;
+	color: var(--text-color);
+	font-size: 87%;
+}
+
+#issues a:visited, #issues a:link {
+	color: var(--text-link-color);
+	text-decoration: none;
+}
+
+.initial-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.initial-wrapper .row-1 {
+	display: flex;
+	flex-direction: row !important;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	width: 100%;
+	height: auto;
+	margin-top: 10px;
+}
+
+#welcome-message {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 5px;
+}
+
+hr {
+	width: 99%;
+	height: 0;
+	border: none;
+	border-bottom: 1px solid var(--divider-color);
+	margin: 15px 0px;
+	background: none;
+
+}
+
+#welcome-message .message {
+	font-size: 28px;
+	font-weight: bold;
+	margin: auto 5px;
+}
+
+#welcome-message .message p {
+	margin: 0px;
+}
+
+#modeChange button {
+	height: 35px !important;
+	width: 35px !important;
+	background: var(--mode-change-background);
+}
+
+#modeChange {
+	margin: auto 5px;
+}
+
+button.current
+{
+	box-shadow: 0 0 0 2px var(--divider-color),
+	0 0 0 4px var(--border-color);
+}
+
+#modeChange button:hover {
+	background: var(--mode-change-background-hover);
+}
+
+#nav {
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+}
+
+.nav-row {
+	display: flex;
+	flex-direction: row;
+	margin: 3px auto;
+}
+
+
+
+.nav-row p {
+	width: auto;
+	height: auto;
+	margin: 0px 5px;
+}
+
+#get-information-header {
+	font-size: 18px;
+	margin: 8px 0px;
+}
+
+
+
+.get-information-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.get-information-box {
+	width: auto;
+}
+
+.get-information-box button {
+	height: auto;
+	width: auto;
+	padding: 10px;
+	margin-right: 1px;
+}
+
+.get-information-box button:hover {
+	background-color: var(--box-background-color-hover);
+}
+
+#display-information-error {
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.display-information-wrapper {
+	min-height: 200px;
+	margin: 8px 4px;
+}
+
+.display-information-box {
+	margin: 10px;
+	flex-direction: column;
+}
+
+#assign p {
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+
+.message
+{
+	color: var(--text-color);
+}
+
+a.box:link, a.box:visited
+{
+	background-color: var(--box-background-color);
+	color: var(--text-color);
+	padding: 5px 10px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 10px;
+	border-color: var(--border-color);
+}
+
+a.box:hover, a.box:active
+{
+	background-color: rgb(6, 114, 38);
+}
+
+button
+{
+	outline: none;
+	color: var(--text-color);
+	border-color: var(--border-color);
+	border-radius: 10px;
+	background-color: var(--box-background-color);
+	font-size: 112%;
+}
+
+p {
+	margin: 0px;
+}
+
+#issues {
+	margin-bottom: 15px;
+}
+
