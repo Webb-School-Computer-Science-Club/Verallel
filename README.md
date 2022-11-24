@@ -34,7 +34,7 @@ Unfortunatley, at the moment, this extension is compatible only for Webb student
 
 For the Firefox extension go to [https://github.com/Webb-School-Computer-Science-Club/Verallel/tree/firefox](https://github.com/Webb-School-Computer-Science-Club/Verallel/tree/firefox).
 
-First, we need to download the [latest version](https://github.com/Webb-School-Computer-Science-Club/Verallel/releases/) of the extension. Scroll down the page of the latest versions list until you see a file link that says "VerallelCV(some version here).zip" (the C part is important, as it means chromium). Download the file to your Downloads folder and extract it.
+First, we need to download the [latest version](https://github.com/Webb-School-Computer-Science-Club/Verallel/releases/) of the extension. Scroll down the page of the latest versions list until you see a file link that says "VerallelChromeV(some version here).zip" (the C part is important, as it means chromium). Download the file to your Downloads folder and extract it.
 
 Now, go to [chrome://extensions/](chrome://extensions/) in chrome. Toggle "developer mode" which is located in the top right corner of the screen. A bar should pop up with three options. Click "load unpacked" and navigate to the extracted extension folder. Click the folder, then click select.
 
