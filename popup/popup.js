@@ -44,8 +44,8 @@ window.onload = function() {
     
     const calcUpdate = new Promise( (resolve, reject) => { // I hate promises with a passion
         (chrome.storage.local.get('unupdatedTime', (items) => {
-        val = ((new Date().valueOf() - items.unupdatedTime) > updateTime);
-        console.log(val);
+        val = ((new Date().valueOf() - items.unupdatedTime) > updateTime) || (Object.keys(items).length == 0);
+        console.log(items);
         console.log(items.unupdatedTime);
         console.log(new Date().valueOf());
         console.log(new Date().valueOf() - items.unupdatedTime);
