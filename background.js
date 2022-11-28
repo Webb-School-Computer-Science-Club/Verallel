@@ -205,11 +205,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 	{
       if(dm)
       {
-		   chrome.tabs.executeScript({code: darkmod});
+		   chrome.tabs.executeScript({code: darkmod, allFrames: true});
       }
       else
       {
-         chrome.tabs.executeScript({code: lightmod});
+         chrome.tabs.executeScript({code: lightmod, allFrames: true});
       }
 		chrome.tabs.executeScript({code: `	
       var links = document.getElementsByTagName('a');
