@@ -6,25 +6,85 @@ document.getElementById("notif").addEventListener("click", displayNotif); // Giv
 document.getElementById("lessonP").addEventListener("click", displayLP); // Gives lesson plan button functionality by addig click listener
 document.getElementById('changMod').addEventListener('click', changeMode); // Dark/light mode toggle button now functions
 document.getElementById("missing").addEventListener('click', displayMiss); // Gives missing assignment button functionality
-document.getElementById("get-information-header").addEventListener('click', resetButtonSizes);
+document.getElementById('post-btn').addEventListener('click', displayPosts);
+document.getElementById('get-information-info').addEventListener('click', async () => {
+    await getLP();
+    await getMissing();
+    await getAssignments();
+    await getRecentPosts();
+    changeByClass(true); 
+    chrome.storage.local.set({
+        'unupdatedTime': new Date().valueOf(),
+    }, () => {resolve(new Date().valueOf())});
+});
+// document.getElementById("get-information-header").addEventListener('click', resetButtonSizes);
 var assign = false;
 var lessonP = false;
 var dm = false; // light mode by default
 var miss = false;
+var hasMadeClassList = false;
 var r = document.querySelector(':root'); // For changing mode of the popup
 var rtext  = document.querySelector(".message");
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
+var updateTime = 200000;
+var recentPostNum = 7;
 
-window.onload = function() {
-    reqNotify();
-    reqLP();
-    reqMiss();
+var assignmentsDictList = [];
+var uniqueClassList = [];
+var lessonPlansDictList = [];
+var missingAssignmentsDictList = [];
+var postDictList = [];
+
+window.onload = function() {  
     document.getElementById("assign").setAttribute("style", "display:none;");
     document.getElementById("miss").setAttribute("style", "display:none;");
     document.getElementById("lppdiv").setAttribute("style", "display:none;");
     tryErrors();
+    
+    const calcUpdate = new Promise( (resolve, reject) => { // I hate promises with a passion
+        (chrome.storage.local.get('unupdatedTime', (items) => {
+        val = ((new Date().valueOf() - items.unupdatedTime) > updateTime);
+        console.log(val);
+        console.log(items.unupdatedTime);
+        console.log(new Date().valueOf());
+        console.log(new Date().valueOf() - items.unupdatedTime);
+        resolve(val);
+    }))});
+    
+    var waitingFunction = async () => {
+        await calcUpdate.then(
+            async (update) => {
+                if (update) {
+                    await getLP();
+                    await getMissing();
+                    await getAssignments();
+                    await getRecentPosts();
+                    changeByClass(true); 
+                    chrome.storage.local.set({
+                        'unupdatedTime': new Date().valueOf(),
+                    }, () => {resolve(new Date().valueOf())});
+                    
+                } else {
+                    createAssignmentsFromDict(false);
+                    createLPFromDict(false);
+                    createMissingFromDict(false);
+                    createPostsFromDict(false);
+                    changeByClass(false); 
+            }
+    });
+        
+    };
+    waitingFunction();
+    
 };
+
+function setToStorage() {
+    chrome.storage.local.set({
+        'unupdatedTime': new Date().valueOf(),
+    });
+    return true;
+}
 
 async function tryErrors() {
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
@@ -35,45 +95,41 @@ async function tryErrors() {
     }
 }
 
-async function resetButtonSizes() {
+function resetButtonSizes() {
     document.getElementById('missing').innerHTML = 'Missing'
     document.getElementById('lessonP').innerHTML = 'Lessons';
     document.getElementById('notif').innerHTML = 'Upcoming';
+    document.getElementById('post-btn').innerHTML = 'Posts';
 
-    document.getElementById("assign").setAttribute("style", "display:none;");
-    document.getElementById("miss").setAttribute("style", "display:none;");
-    document.getElementById("lppdiv").setAttribute("style", "display:none;");
-}
-
-async function displayNotif() {
-    document.getElementById("assign").setAttribute("style", "display:flex;");
-    document.getElementById("miss").setAttribute("style", "display:none;");
-    document.getElementById("lppdiv").setAttribute("style", "display:none;");
-
-    document.getElementById('notif').innerHTML = 'Upcoming Assignments:';
-    document.getElementById('lessonP').innerHTML = 'Lessons';
-    document.getElementById('missing').innerHTML = 'Missing';
-}
-
-async function displayMiss() {
-    document.getElementById("miss").setAttribute("style", "display:flex;");
-    document.getElementById("assign").setAttribute("style", "display:none;");
-    document.getElementById("lppdiv").setAttribute("style", "display:none;");
-
-    document.getElementById('missing').innerHTML = 'Missing Assignments:'
-    document.getElementById('lessonP').innerHTML = 'Lessons';
-    document.getElementById('notif').innerHTML = 'Upcoming';
+    document.getElementById("assign").style.display = "none";
+    document.getElementById("miss").style.display = "none";
+    document.getElementById("lppdiv").style.display = "none";
+    document.getElementById("post-box").style.display = "none";
 
 }
 
-async function displayLP() {
-    document.getElementById("lppdiv").setAttribute("style", "display:flex;");
-    document.getElementById("assign").setAttribute("style", "display:none;");
-    document.getElementById("miss").setAttribute("style", "display:none;");
+function displayNotif() {
+    resetButtonSizes();
+    document.getElementById("assign").style.display = "flex";
+    document.getElementById('notif').innerHTML = 'Upcoming:';
+}
 
-    document.getElementById('lessonP').innerHTML = 'Lesson Plans:';
-    document.getElementById('missing').innerHTML = 'Missing';
-    document.getElementById('notif').innerHTML = 'Upcoming';
+function displayMiss() {
+    resetButtonSizes();
+    document.getElementById("miss").style.display = "flex";
+    document.getElementById('missing').innerHTML = 'Missing:'
+}
+
+function displayPosts() {
+    resetButtonSizes();
+    document.getElementById("post-box").style.display = "flex";
+    document.getElementById('post-btn').innerHTML = 'Posts:';
+}
+
+function displayLP() {
+    resetButtonSizes();
+    document.getElementById("lppdiv").style.display = "flex";
+    document.getElementById('lessonP').innerHTML = 'Lessons:';
 }
 
 function changePopupMode(dl)
@@ -128,26 +184,22 @@ async function getAssignments() // async for usage of fetch
     let today = new Date(); // Defining today and tomorrow
     let tommorow = new Date(today);
     tommorow.setDate(tommorow.getDate() + 1);
-    const fh = ((fg.split(';')[15]).split('},{')); // More text splitting to retrieve features
-    var assignments = []; // Defining arrays and objects for use in the function
+    const fh = ((fg.split(';')[15]).split('},{')); // More text splitting to retrieve features // Defining arrays and objects for use in the function
     var classRows = {};
-    var assignDate = {'today': [], 'tmrw': []};
     var isOn = false; // Mostly for making sure no assignment repeats and no assignments before current date are on there
     for (let i = 0; i < fh.length; i++) // Loops through all possible assignments
     { 
-        var isToday = false;
-        var isTmrw = false;
 	if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
 	{
 	    classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
 	}
         if ((fh[i].split(',')[3]).split(':')[1] == '"assignment-upcoming"')
-	{
+	    {
             var dueDate = fh[i].split(',')[5].split(':')[1].replace('\\', '').slice(1, fh[i].split(',')[5].split(':')[1].replace('\\', '').length - 1);
             var dueDatelis = [monthdict[dueDate.slice(0, 3)], parseInt(dueDate.slice(4, dueDate.length))];
             var assignStr = '';
             let commaMuch = fh[i].split(',').length - 11;
-	    let colonMuch = fh[i].split(',')[7].split(':').length - 2;
+	        let colonMuch = fh[i].split(',')[7].split(':').length - 2;
             assignStr = fh[i].split(',')[7].split(':')[1];
             if(colonMuch > 0)
             {
@@ -166,156 +218,281 @@ async function getAssignments() // async for usage of fetch
                     assignStr = assignStr + fh[i].split(',')[7+j];
                 }
             }
-            assignStr =  dueDate + ' – ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '') + ')';
-            if(dueDatelis[0] < today.getMonth() + 1) // Automatically removes less month
-	    { 
-                isOn = true;
-            }
-            else
-	    {
-                if((dueDatelis[1] < today.getDate()) && (dueDatelis[0] == today.getMonth() + 1))
-		{
-                    isOn = true;
-                }
-                else if(dueDatelis[1] == today.getDate()  && dueDatelis[0] == today.getMonth() + 1) // If the assignment is due the day of
-		{ 
-                    assignStr = 'Due today - ' + assignStr.slice(dueDate.length + 7, assignStr.length);
-                    isToday = true;
+            let currentClass = classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '');
+            
+            assignStr =  dueDate + ' – ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + currentClass + ')';
+            
+            let potentialAssignmentsEntry = 
+            {"entry": assignStr, 
+            "month": dueDatelis[0], 
+            "day": dueDatelis[1],
+            "className": classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '')};
+        
+            if (assignmentsDictList.some(({entry}) => entry === assignStr)) { //check if dupe
+                console.log('contains')
+            } else {
+                assignmentsDictList.push(potentialAssignmentsEntry);
 
-                }
-                else if(dueDatelis[1] == tommorow.getDate() && dueDatelis[0] == tommorow.getMonth() + 1) // If the assignment is due the day after
-		{ 
-                    assignStr = 'Due tommorow - ' + assignStr.slice(dueDate.length + 7, assignStr.length);
-                    isTmrw = true;
-                }
+                if (uniqueClassList.some((element) => element === currentClass)) { //check if class is dupe
+                    console.log('contains class')
+                } else 
+                    uniqueClassList.push(currentClass);
             }
-	    for (let j = 0; j < assignments.length; j++) // For assignments due later than a day after the date the program is runned in
-	    { 
-                if(assignments[j] == assignStr)
-		{
-                    isOn = true;
-	        }
-            }
-            if(!(assignDate['today'] == null)) // If is an assignment due today that may be repeated
-	    { 
-                for (let j = 0; j < assignDate['today'].length; j++)
-		{
-                    if(assignDate['today'][j] == assignStr)
-		    {
-                         isOn = true;
-                    }
-                }
-            }
-	    if(!(assignDate['tmrw'] == null)) // If an assignment that is due tommorow is repeated
-	    { 
-                for (let j = 0; j < assignDate['tmrw'].length; j++)
-		{
-		    if(assignDate['tmrw'][j] == assignStr)
-		    {
-		        isOn = true;
-		    }
-		}
-	    }
-            if(!isOn) // Adding elements to assignDate[today], assignDate[tmrw], or assignments if need be
-	    { 
-                if(!isToday)
-		{
-                    if(isTmrw)
-		    {
-                        if(assignDate['tmrw'] == null)
-			{
-                            assignDate['tmrw'] = [assignStr];
-                        }
-                        else
-			{
-                            assignDate['tmrw'].push(assignStr);
-                        }
-                    }
-                    else
-		    {
-                        assignments.push(assignStr);
-                    }
-                }
-                else
-		{
-                    if (assignDate['today'] == null)
-		    {
-                        assignDate['today'] = [assignStr];
-                    }
-                    else
-		    {
-                        assignDate['today'].push(assignStr);
-                    }
-                }
-            }
-	    isOn = false; // Resets every iteration
-        }
     }
-    var g = document.getElementById('assign'); // Getting the empty div in popup.html
-    if(assignDate['today'] == null && assignDate['tmrw'] == null && assignments == null)
-    {
-        var h = document.createElement('p')
-        h.appendChild(document.createTextNode('Congratulations! According to Veracross, you have no upcoming assignments!'));
     }
-    else
-    {	    
-	assignments = assignments.sort(function(x, y)
-        {
-            if(monthdict[x.slice(4, 7)] > monthdict[y.slice(4, 7)])
-            {
-                return 1
-            }
-            else if(monthdict[y.slice(4, 7)] > monthdict[x.slice(4, 7)])
-            {
-                return -1
-            }
-            else
-            {
-                if(parseInt(x.split('-')[0].slice(8, x.split('-')[0].length - 1)) > parseInt(y.split('-')[0].slice(8, y.split('-')[0].length - 1)))
-                {
-                    return 1
-                }
-                else if(parseInt(y.split('-')[0].slice(8, y.split('-')[0].length - 1)) > parseInt(x.split('-')[0].slice(8, x.split('-')[0].length - 1)))
-                {
-                    return -1
-                }
-                else
-                {
-                    return 0
-                }
-            }
-        });
-    	if(!(assignDate['today'] == null)) // Needs to exist if the length attribute can be collected from it
-    	{ 
-    	    for (let k = 0; k < assignDate['today'].length; k++) // Assignments due today
-	    { 
-            	var h = document.createElement('p');
-            	h.appendChild(document.createTextNode(assignDate['today'][k]));
-            	g.appendChild(h);
-            }
+    assignmentsDictList.sort(function(a, b) {
+        if (a.month > b.month)
+            return 1;
+        if (a.month < b.month)
+            return -1;
+        if (a.month == b.month) {
+            if (a.day >= b.day)
+                return 1;
+            if (a.day < b.day)
+                return -1;
+        }});
+
+    const set = true;
+    createAssignmentsFromDict(set);
+
+    return;
+    
+}
+
+async function createAssignmentsFromDict(set) {
+    const objDone = new Promise((resolve, reject) => {
+        if (set) {
+            chrome.storage.local.set({
+                'assignments': assignmentsDictList,
+            }, () => {resolve(true);});
+        } else {
+            chrome.storage.local.get('assignments', (items) => {
+                assignmentsDictList = items.assignments;
+                console.log(items.assignments);
+                resolve(true);
+            });
         }
-        if(!(assignDate['tmrw'] == null)) // Needs to exist if the length attribute can be collected from it
-        { 
-            for (let k = 0; k < assignDate['tmrw'].length; k++) // Assignments due tomorrow
-	    { 
-            	var h = document.createElement('p');
-            	h.appendChild(document.createTextNode(assignDate['tmrw'][k]));
-            	g.appendChild(h);
-            }
+    });
+
+    objDone.then(() => {
+        
+        var g = document.getElementById('assign'); // Getting the empty div in popup.html
+        while(g.firstChild) {
+            g.removeChild(g.firstChild);
         }
-        if (assignments.length > 0) {
+        if (assignmentsDictList.length > 0) {
             var pmed = document.createElement('p');
             pmed.appendChild(document.createTextNode('Due later:'))
             pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
             g.appendChild(pmed);
         }
-    	for (let k = 0; k < assignments.length; k++)
-    	{
+        for (let k = 0; k < assignmentsDictList.length; k++)
+        {
             var h = document.createElement('p');
-	    h.appendChild(document.createTextNode(assignments[k]));
-	    g.appendChild(h);
+            h.appendChild(document.createTextNode(assignmentsDictList[k]["entry"]));
+            g.appendChild(h);
         }
-    }
+    });  
+}
+
+
+
+async function changeByClass(set) {
+    const objDone = new Promise((resolve, reject) => {
+        if (set) {
+            chrome.storage.local.set({
+                'uniqueClass': uniqueClassList,
+            }, () => {resolve(true);});
+        } else {
+            chrome.storage.local.get('uniqueClass', (items) => {
+                uniqueClassList = items.uniqueClass;
+                index = uniqueClassList.findIndex(value => /all/.test(value));
+                uniqueClassList.splice(index, 1);
+                console.log(items.uniqueClass);
+                resolve(true);
+            });
+        }
+    });
+
+    objDone.then( () => {
+        var dropdown = document.getElementById("change-assignment-dropdown");
+        var selectedFromDropdown = document.getElementById("selected-assignment-box");
+
+        while(dropdown.childNodes.length > 2) {
+            dropdown.removeChild(dropdown.lastChild);
+        }
+
+        var assignmentsBox = document.getElementById('assign');
+        var LPBox = document.getElementById('lppdiv');
+        var missBox = document.getElementById('miss');
+        var postBox = document.getElementById('post-box');
+
+        var modifiedAssignmentList = [];
+        var modifiedLPList = [];
+        var modifiedMissingList = [];
+        var modifiedPostList = [];
+
+        var selectedClass = "All";
+        
+        uniqueClassList.sort();
+        uniqueClassList.splice(0, 0, "All");
+    
+        console.log("class generation started");
+    
+        uniqueClassList.forEach(uniqueClassName => {
+            var classBox = document.createElement("div");
+            classBox.className = "change-assignment-box";
+            classBox.id = "box-" + uniqueClassName;
+            classBox.appendChild(
+                document.createElement("p").appendChild(
+                    document.createTextNode(uniqueClassName))
+                );
+            console.log(uniqueClassName);
+    
+            dropdown.appendChild(classBox);
+    
+            if (uniqueClassName == "All") {
+                classBox.style.display = "none";
+            }
+    
+            classBox.addEventListener("click", function() {
+                selectedClass = uniqueClassName;
+                selectedFromDropdown.getElementsByTagName("p")[0].innerText = selectedClass;
+                px = classBox.offsetHeight + "px";
+                dropdown.style.height = px;
+                
+                let c = dropdown.getElementsByClassName("change-assignment-box");
+                Array.prototype.forEach.call(c, child => {
+                    if (child.innerText == selectedClass)
+                        child.style.display = "none";     
+                    else 
+                        child.style.display = "flex"; 
+                });
+    
+                if(c[c.length-1].style.display == "none") { // set bottom class entry in list to have specific CSS 
+                    c[c.length-2].classList.add("change-assignment-box-last");
+                    c[c.length-1].classList.remove("change-assignment-box-last");
+                }
+                if(c[c.length-1].style.display == "flex") {
+                    c[c.length-2].classList.remove("change-assignment-box-last");
+                    c[c.length-1].classList.add("change-assignment-box-last");
+                }
+                
+                if (selectedClass == "All") {
+                    modifiedAssignmentList = assignmentsDictList;
+                    modifiedLPList = lessonPlansDictList;
+                    modifiedMissingList = missingAssignmentsDictList;
+                    modifiedPostList = postDictList;
+                    
+                } else {
+                    modifiedAssignmentList = assignmentsDictList.filter(({className}) => className === selectedClass);
+                    modifiedLPList = lessonPlansDictList.filter(({className}) => className === selectedClass);
+                    modifiedMissingList = missingAssignmentsDictList.filter(({className}) => className === selectedClass);
+                    modifiedPostList = postDictList.filter(({className}) => className === selectedClass);
+                }
+                // console.log(modifiedAssignmentList);
+                
+                while(assignmentsBox.firstChild) {
+                    assignmentsBox.removeChild(assignmentsBox.firstChild);
+                }
+                while (LPBox.firstChild) {
+                    LPBox.removeChild(LPBox.firstChild);
+                }
+                while (missBox.firstChild) {
+                    missBox.removeChild(missBox.firstChild);
+                }
+
+                while (postBox.firstChild) {
+                    postBox.removeChild(postBox.firstChild);
+                }
+    
+                if (modifiedAssignmentList.length > 0) { //TODO: make this modular
+                    var pmed = document.createElement('p');
+                    pmed.appendChild(document.createTextNode('Due later:'))
+                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+                    assignmentsBox.appendChild(pmed);
+                }
+                for (let k = 0; k < modifiedAssignmentList.length; k++)
+                {
+                    var h = document.createElement('p');
+                    h.appendChild(document.createTextNode(modifiedAssignmentList[k]["entry"]));
+                    assignmentsBox.appendChild(h);
+                }
+    
+                if (modifiedLPList.length > 0) {
+                    var pmed = document.createElement('p');
+                    pmed.appendChild(document.createTextNode('Later:'))
+                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+                    LPBox.appendChild(pmed);
+                    
+                    for (k of modifiedLPList)
+                    {
+                        var h = document.createElement('p');
+                        h.appendChild(document.createTextNode(k['entry']));
+                        LPBox.appendChild(h);
+                    }
+                } else {
+                    var pf = document.createElement('p')
+                    pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
+                    pf.style.textAlign = "center";
+                    LPBox.appendChild(pf);
+                }
+    
+                
+                if (modifiedMissingList.length > 0) {
+    
+                    var pmed = document.createElement('p');
+                    pmed.appendChild(document.createTextNode('Missing:'))
+                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+                    missBox.appendChild(pmed);
+    
+                    for (missin of modifiedMissingList)
+                    {
+                        var missP = document.createElement('p');
+                        missP.appendChild(document.createTextNode(missin['entry']));
+                        missBox.appendChild(missP);
+                    }
+                } else {
+                    var misP = document.createElement('p')
+                    misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
+                    misP.style.textAlign = "center";
+                    missBox.appendChild(misP);
+                }
+
+                if (modifiedPostList.length > 0) {
+                    var pmed = document.createElement('p');
+                    pmed.appendChild(document.createTextNode('Recent Posts:'))
+                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+                    postBox.appendChild(pmed);
+            
+                    modifiedPostList.forEach((val, ind) => {
+                        if (ind < recentPostNum) {
+                            var postA = document.createElement('a');
+                            postA.appendChild(document.createTextNode(val['entry']));
+                            postA.setAttribute("href", val['link']);
+                            postA.setAttribute("target", "_blank");
+                            postBox.appendChild(postA); 
+                        }    
+                    });
+            
+                } else {
+                    var postP = document.createElement('p')
+                    postP.appendChild(document.createTextNode('No recent posts.'));
+                    postP.style.textAlign = "center";
+                    postBox.appendChild(postP);
+                }
+    
+    
+    
+                displayNotif();
+            });
+        });
+    
+        var a = dropdown.getElementsByClassName("change-assignment-box");
+        a[a.length-1].classList.add("change-assignment-box-last");
+
+    });
+
 }
 
 
@@ -332,14 +509,12 @@ async function getLP()
     let tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const fh = ((fg.split(';')[15]).split('},{'));
-    var lessonPlans = [];
     var classRows = {};
     var lpDate = {'today': [], 'tmrw': []};
+
+
     for (let i = 0; i < fh.length; i++)
     {
-        var isOn = false;
-        var isToday = false;
-        var isTmrw = false;
         if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
         {
             classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
@@ -369,126 +544,87 @@ async function getLP()
                     lpStr = lpStr + fh[i].split(',')[6+j];
                 }
             }
+
             lpStr = lpStr.slice(1, lpStr.length - 1) + ' (' + cls + ')';
-            if(parseInt(lpDateLis[0]) < today.getMonth() + 1)
-            {
-                isOn = true;
-            }
-            else
-            {
-                if(parseInt(lpDateLis[0]) == today.getMonth() + 1 && parseInt(lpDateLis[1]) < today.getDate())
-                {
-                    isOn = true;
-                }
-                else if (parseInt(lpDateLis[0]) == today.getMonth() + 1 && parseInt(lpDateLis[1]) == today.getDate())
-                {
-                    isToday = true;
-                    lpStr = 'Today - ' + lpStr;
-                }
-                else if (parseInt(lpDateLis[0]) == tomorrow.getMonth() + 1 && parseInt(lpDateLis[1]) == tomorrow.getDate())
-                {
-                    isTmrw = true;
-                    lpStr = 'Tomorrow - ' + lpStr;
-                }
-                else
-                {
-                    lpStr = monthdictInv[parseInt(lpDateLis[0])] + ' ' + lpDateLis[1] + ' - ' + lpStr;
-                }
-            }
-            var totLis = [lessonPlans, lpDate['today'], lpDate['tmrw']]
-            for(lis of totLis)
-            {
-                for(f of lis)
-                {
-                    if(f==lpStr)
-                    {
-                        isOn = true;
-                    }
-                }
-            }
-            if(!isOn)
-            {
-                if(isToday)
-                {
-                    lpDate['today'].push(lpStr);
-                }
-                else if(isTmrw)
-                {
-                    lpDate['tmrw'].push(lpStr);
-                }
-                else
-                {
-                    lessonPlans.push(lpStr);
-                }
+            lpStr = monthdictInv[parseInt(lpDateLis[0])] + ' ' + lpDateLis[1] + ' - ' + lpStr;
+
+            let potentialLPEntry = 
+            {"entry": lpStr, 
+            "month": lpDateLis[0], 
+            "day": lpDateLis[1],
+            "className": cls};
+        
+            if (lessonPlansDictList.some(({entry}) => entry === lpStr)) { //check if dupe
+                console.log('contains')
+            } else {
+                lessonPlansDictList.push(potentialLPEntry);
+
+                if (uniqueClassList.some((element) => element === currentClass)) { //check if class is dupe
+                    console.log('contains class')
+                } else 
+                    uniqueClassList.push(currentClass);
             }
         }
     }
-    var g = document.getElementById('lppdiv');
-    if(lpDate['today'] || lpDate['tommorow'] || lessonPlans)
-    {
-	lessonPlans = lessonPlans.sort(function(x, y)
-        {
-            if(monthdict[x.slice(0, 3)] > monthdict[y.slice(0, 3)])
-            {
-                return 1
-            }
-            else if(monthdict[y.slice(0, 3)] > monthdict[x.slice(0, 3)])
-            {
-                return -1
-            }
-            else
-            {
-                if(parseInt(x.split('-')[0].slice(4, x.split('-')[0].length - 1)) > parseInt(y.split('-')[0].slice(4, y.split('-')[0].length - 1)))
-                {
-                    return 1
-                }
-                else if(parseInt(y.split('-')[0].slice(4, y.split('-')[0].length - 1)) > parseInt(x.split('-')[0].slice(4, x.split('-')[0].length - 1)))
-                {
-                    return -1
-                }
-                else
-                {
-                    return 0
-                }
-            }
-        });
-    	for (k of lpDate['today']) // Today's lesson plans
-    	{ 
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(k));
-            g.appendChild(h);
-    	}
-    	for (k of lpDate['tmrw']) // Tommorow's lesson plans
-    	{ 
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(k));
-            g.appendChild(h);
-    	}
-        if (lessonPlans.length > 0) {
+
+    lessonPlansDictList.sort(function(a, b) {
+        if (a.month > b.month)
+            return 1;
+        if (a.month < b.month)
+            return -1;
+        if (a.month == b.month) {
+            if (a.day >= b.day)
+                return 1;
+            if (a.day < b.day)
+                return -1;
+        }});
+
+    createLPFromDict(true);
+
+    return;
+}
+
+function createLPFromDict(set) {
+    const objDone = new Promise((resolve, reject) => {
+        if (set) {
+            chrome.storage.local.set({
+                'lessonPlans': lessonPlansDictList,
+            }, () => {resolve(true);});
+        } else {
+            chrome.storage.local.get('lessonPlans', (items) => {
+                lessonPlansDictList = items.lessonPlans;
+                console.log(items.lessonPlans);
+                resolve(true);
+            });
+        }
+    });
+
+    objDone.then(() => {
+        
+        var g = document.getElementById('lppdiv');
+        while (g.firstChild) {
+            g.removeChild(g.firstChild);
+        }
+        if (lessonPlansDictList.length > 0) {
             var pmed = document.createElement('p');
             pmed.appendChild(document.createTextNode('Later:'))
             pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
             g.appendChild(pmed);
-        }
-    	for (k of lessonPlans)
-	    {
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(k));
-            g.appendChild(h);
-    	}
-        if (lessonPlans.length < 1) {
+            
+            for (k of lessonPlansDictList)
+            {
+                var h = document.createElement('p');
+                h.appendChild(document.createTextNode(k['entry']));
+                g.appendChild(h);
+            }
+        } else {
             var pf = document.createElement('p')
             pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
             pf.style = "text-align: center;"
             g.appendChild(pf);
         }
-    }
-    else
-    {
-        var h = document.createElement('p');
-        h.appendChild(document.createTextNode('Congratulations (or how unfortunate)! You have no upcoming lesson plans for now!'));
-	g.appendChild(h);
-    }
+
+    });
 }
 
 
@@ -498,7 +634,6 @@ async function getMissing()
     const dbTxt = await db.text() + '';
     const missTxt = dbTxt.split('data-react-props')[1].split('data-react-cache-id')[0];
     let today = new Date();
-    var missingAssignments = [];
     for(assignm of missTxt.split('},{'))
     {
         var pastDue = false;
@@ -520,52 +655,202 @@ async function getMissing()
         }
         if(pastDue)
         {
-            missStr = assignm.split('assignment_description&quot;:&quot;')[1].split('&quot;')[0] + ' (' + assignm.split('class_description&quot;:&quot;')[1].split('&quot')[0] + ')';
-            missingAssignments.push(missStr);
+            let cls = assignm.split('class_description&quot;:&quot;')[1].split('&quot')[0];
+            missStr = assignm.split('assignment_description&quot;:&quot;')[1].split('&quot;')[0] + ' (' + cls + ')';
+            let potentialMissEntry = 
+            {"entry": missStr, 
+            "month": dueDateLis[1], 
+            "day": dueDateLis[0],
+            "className": cls};
+            missingAssignmentsDictList.push(potentialMissEntry);
         }
     }
-    var misDiv = document.getElementById('miss');
-    for (missin of missingAssignments)
-    {
-        var missP = document.createElement('p');
-        missP.appendChild(document.createTextNode(missin));
-        misDiv.appendChild(missP);
-    }
-    if (missingAssignments.length < 1) {
-        var misP = document.createElement('p')
-        misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
-        misDiv.appendChild(misP);
-    }
+
+    missingAssignmentsDictList.sort(function(a, b) {
+        if (a.month > b.month)
+            return 1;
+        if (a.month < b.month)
+            return -1;
+        if (a.month == b.month) {
+            if (a.day >= b.day)
+                return 1;
+            if (a.day < b.day)
+                return -1;
+        }});
+    
+    createMissingFromDict(true);
+    
+    return;
+}
+
+function createMissingFromDict(set) {
+    const objDone = new Promise((resolve, reject) => {
+        if (set) {
+            chrome.storage.local.set({
+                'missingAssignments': missingAssignmentsDictList,
+            }, () => {resolve(true);});
+        } else {
+            chrome.storage.local.get('missingAssignments', (items) => {
+                missingAssignmentsDictList = items.missingAssignments;
+                console.log(items.missingAssignments);
+                resolve(true);
+            });
+        }
+    });
+
+    objDone.then(() => {
+        
+        var misDiv = document.getElementById('miss');
+        while (misDiv.firstChild) {
+            misDiv.removeChild(misDiv.firstChild);
+        }
+        if (missingAssignmentsDictList.length > 0) {
+            var pmed = document.createElement('p');
+            pmed.appendChild(document.createTextNode('Missing:'))
+            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+            misDiv.appendChild(pmed);
+    
+            for (missin of missingAssignmentsDictList)
+            {
+                var missP = document.createElement('p');
+                missP.appendChild(document.createTextNode(missin['entry']));
+                misDiv.appendChild(missP);
+            }
+        } else {
+            var misP = document.createElement('p')
+            misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
+            misP.style.textAlign = "center";
+            misDiv.appendChild(misP);
+        }
+    });
 }
 
 
-function reqNotify()
-{ 
-    if (!(assign)) // To make sure getAssignments doesn't run more than once
-    {
-	getAssignments();
-        assign = true;
-    }
-}
 
-
-function reqLP()
+async function getRecentPosts()
 {
-    if(!lessonP)
-    {
-        getLP();
-        lessonP = true;
-    }
+    const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data');
+    const classListText = await classList.json();
+    const classListTextLen = classListText["courses"].length;
+
+    const promise = new Promise( function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry) => {
+        var class_pk = classEntry["class_pk"];
+        var class_name = classEntry["class_name"];
+
+        class_name = class_name.replace(/ \(AP\)/, '');
+        class_name = class_name.replace(/ \(Honors\)/, '');
+
+        classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts";
+        const classPostsText = await (await fetch(classPostsLink)).text();
+        var parser = new DOMParser();
+		var doc = parser.parseFromString(classPostsText, 'text/html');
+        Array.prototype.forEach.call(doc.getElementsByClassName("message"), (post) => {
+            let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
+  
+            let monthNum = monthdict[date.slice(0,3)];
+            let day = parseInt(date.slice(4,5));
+            let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
+            let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
+
+            let entry = date + " – " + title + " (" + class_name + ")";
+
+            let postDict = {
+            "entry": entry,
+            "link": "https://classes.veracross.com" + titleLink,
+            "month": monthNum,
+            "day": day,
+            "className": class_name
+            };
+
+            postDictList.push(postDict);
+
+            if (uniqueClassList.some((element) => element === class_name)) { //check if class is dupe
+                console.log('contains class')
+            } else 
+                uniqueClassList.push(class_name);
+
+            if (postDictList.length == classListTextLen) {
+                resolve("resolve length")
+            }
+            
+        });
+    })
+
+    });
+
+    await promise; // promises are the devil incarnate
+
+    promise.then(
+        ((res) => {
+            console.log(res);
+            postDictList.sort(function(a, b) {
+                if (a.month > b.month)
+                    return -1;
+                if (a.month < b.month)
+                    return 1;
+                    
+                if (a.month == b.month) {
+                    if (a.day >= b.day)
+                        return -1;
+                        
+                    if (a.day < b.day)
+                        return 1;
+            }});
+            console.log(postDictList);
+        }
+    ),
+    () => {}
+    );
+
+    createPostsFromDict(true);
+
+    return;
 }
 
+function createPostsFromDict(set) {
+    const objDone = new Promise((resolve, reject) => {
+        if (set) {
+            chrome.storage.local.set({
+                'posts': postDictList,
+            }, () => {resolve(postDictList);});
+        } else {
+            chrome.storage.local.get('posts', (items) => {
+                postDictList = items.posts;
+                console.log(items.posts);
+                resolve(postDictList);
+            });
+        }
+    });
 
-function reqMiss()
-{
-    if(!miss)
-    {
-        getMissing();
-        miss = true;
-    }
+    objDone.then(() => {
+        
+        var g = document.getElementById('post-box');
+        while (g.firstChild) {
+            g.removeChild(g.firstChild);
+        }
+        if (postDictList.length > 0) {
+            var pmed = document.createElement('p');
+            pmed.appendChild(document.createTextNode('Recent Posts:'))
+            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+            g.appendChild(pmed);
+    
+            postDictList.forEach((val, ind) => {
+                if (ind < recentPostNum) {
+                    var postA = document.createElement('a');
+                    postA.appendChild(document.createTextNode(val['entry']));
+                    postA.setAttribute("href", val['link']);
+                    postA.setAttribute("target", "_blank");
+                    g.appendChild(postA); 
+                }    
+            });
+            
+        } else {
+            var postP = document.createElement('p')
+            postP.appendChild(document.createTextNode('No recent posts.'));
+            postP.style.textAlign = "center";
+            g.appendChild(postP);
+        }
+    }); 
 }
 
 
@@ -646,3 +931,4 @@ function changeMode()
         }
     });
 }
+
