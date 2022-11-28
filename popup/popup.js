@@ -306,8 +306,6 @@ async function changeByClass(set) {
         } else {
             chrome.storage.local.get('uniqueClass', (items) => {
                 uniqueClassList = items.uniqueClass;
-                index = uniqueClassList.findIndex(value => /all/.test(value));
-                uniqueClassList.splice(index, 1);
                 console.log(items.uniqueClass);
                 resolve(true);
             });
