@@ -231,7 +231,13 @@ async function getAssignments() // async for usage of fetch
             if (assignmentsDictList.some(({entry}) => entry === assignStr)) { //check if dupe
                 console.log('contains')
             } else {
-                assignmentsDictList.push(potentialAssignmentsEntry);
+                if (
+                    (new Date().getMonth() + 1 == potentialAssignmentsEntry["month"] &&
+                    new Date().getDate() <= potentialAssignmentsEntry["day"]) ||
+                    (new Date().getMonth() + 1 < potentialAssignmentsEntry["month"])
+                ) { 
+                    assignmentsDictList.push(potentialAssignmentsEntry); 
+                }         
 
                 if (uniqueClassList.some((element) => element === currentClass)) { //check if class is dupe
                     console.log('contains class')
