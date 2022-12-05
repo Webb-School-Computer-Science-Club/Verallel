@@ -86,6 +86,7 @@ hr {
 	height: 35px !important;
 	width: 35px !important;
 	background: var(--mode-change-background);
+	cursor: pointer;
 }
 
 #modeChange {
@@ -123,8 +124,87 @@ button.current
 }
 
 #get-information-header {
-	font-size: 18px;
 	margin: 8px 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-content: center;
+}
+
+#get-information-info {
+	font-size: 18px;
+	height: fit-content;
+	text-align: left;
+	margin: auto 0px;
+}
+
+#change-assignment-dropdown {
+	display: flex;
+	font-size: 15px !important;
+	flex-direction: column;
+	overflow: hidden;
+	height: 26.5167px;
+	width: 130px;
+
+}
+
+.change-assignment-box {
+	padding: 4px 2px 4px 6px;
+	background: var(--mode-change-background);
+	text-align: left;
+	cursor: pointer;
+	display: flex;
+}
+
+
+
+#selected-assignment-box {
+	padding: 4px 2px 4px 6px;
+	background: var(--mode-change-background);
+	text-align: left;
+	height: auto;
+	display: flex;
+	justify-content: left;
+	align-content: center;
+	cursor: pointer;
+	border: 0px solid var(--border-color);
+	border-radius: 10px;
+	overflow: visible;
+	margin-bottom: 4px;
+}
+
+#selected-assignment-box p {
+	height: max-content;
+	margin: auto 0px;
+	height: auto;
+}
+
+.change-assignment-box:hover {
+	background: var(--mode-change-background-hover);
+}
+
+
+#change-assignment-dropdown:hover {
+	overflow: visible;
+	z-index: 0;
+}
+
+#change-assignment-dropdown:hover #selected-assignment-box {
+	border-bottom: none;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	margin-bottom: 0px;
+}
+
+#change-assignment-dropdown:hover .change-assignment-box {
+	border-right: 0px solid var(--border-color);
+	border-left: 0px solid var(--border-color);
+}
+
+#change-assignment-dropdown:hover .change-assignment-box-last {
+	border-bottom: 0px solid var(--border-color);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 
@@ -144,6 +224,7 @@ button.current
 	width: auto;
 	padding: 10px;
 	margin-right: 1px;
+	cursor: pointer;
 }
 
 .get-information-box button:hover {
@@ -166,10 +247,26 @@ button.current
 	flex-direction: column;
 }
 
-#assign p {
+#assign p, #miss p, #lppdiv p {
 	text-align: left;
 	margin-bottom: 5px;
 }
+
+#post-box {
+	display: none;
+}
+
+#post-box a {
+	width: 100%;
+	margin: 3px auto;
+	color: var(--text-link-color);
+	text-decoration: none;
+}
+
+div.get-information-box:nth-child(3) {
+	display: none;
+}
+
 
 
 .message
@@ -177,11 +274,11 @@ button.current
 	color: var(--text-color);
 }
 
-a.box:link, a.box:visited
+.nav-link a.box:link, .nav-link a.box:visited
 {
 	background-color: var(--box-background-color);
 	color: var(--text-color);
-	padding: 5px 10px;
+	padding: 7px 12px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
@@ -191,7 +288,7 @@ a.box:link, a.box:visited
 	border-color: var(--border-color);
 }
 
-a.box:hover, a.box:active
+.nav-link a.box:hover, .nav-link a.box:active
 {
 	background-color: rgb(6, 114, 38);
 }

@@ -26,32 +26,32 @@
       
       <div id="nav"> <!-- Navigation div--> 
         <div id="nav-row 1" class="nav-row">
-          <p id="student-portal"> <!-- Main Student Portal Navigation Box -->
+          <p id="student-portal" class="nav-link"> <!-- Main Student Portal Navigation Box -->
             <a href = "https://portals.veracross.com/webb/student" target="_blank" class="box">
               Home
             </a>
           </p>
 
-          <p id="assignments-link"> <!-- Main Student Portal Navigation Box -->
+          <p id="assignments-link" class="nav-link"> <!-- Main Student Portal Navigation Box -->
             <a href = "https://portals.veracross.com/webb/student/student/upcoming-assignments" target="_blank" class="box">
               Assignments
             </a>
           </p>
           
-          <p id="dropbox"> <!-- Dropbox Navigation Box -->
+          <p id="dropbox" class="nav-link"> <!-- Dropbox Navigation Box -->
             <a href = "https://portals.veracross.com/webb/student/submit-assignments" target = "_blank" class="box">
               Dropbox
             </a>
           </p>          
         </div>
         <div id="nav-row-2" class="nav-row">
-          <p id="lunch-link"> <!-- Main Student Portal Navigation Box -->
+          <p id="lunch-link" class="nav-link"> <!-- Main Student Portal Navigation Box -->
             <a href = "https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_5/v1668801332/webbschoolorg/tvbdwvpm7d58cwyfdnnj/UpperSchoolMenu.jpg" target="_blank" class="box">
               Lunch
             </a>
           </p>
           
-          <p id="schedule link"> <!-- Dropbox Navigation Box -->
+          <p id="schedule link" class="nav-link"> <!-- Dropbox Navigation Box -->
             <a href = "https://portals.veracross.com/webb/student/student/daily-schedule" target = "_blank" class="box">
               Schedule
             </a>
@@ -67,9 +67,18 @@
     <hr>
 
     <div id="get-information-header">
-      <p>
-        Get Assignments:
-      </p>
+      <div id="get-information-info">
+        <p>
+          Get Assignments:
+        </p>
+      </div>
+      <div id="change-assignment-dropdown">
+        <div id="selected-assignment-box">
+          <p>
+            All
+          </p>
+        </div>
+      </div>
     </div>
     <div class="get-information-wrapper">
       <div class="get-information-box"> <!-- Assignments div--> 
@@ -90,6 +99,12 @@
         </button>
       </div>
 
+      <div class="get-information-box">
+        <button id="post-btn">
+          Posts
+        </button>
+      </div>
+
     </div>
 
     <div class="display-information-wrapper">
@@ -103,6 +118,8 @@
       <div class="display-information-box" id='miss' style="text-align: left;"> <!-- Div to display missing assignments -->
       </div>
       <div class="display-information-box" id="lppdiv" style="text-align: left; margin-left: 10px; margin-right: 10px;"> <!--Div for viewing lesson plan--> 
+      </div>
+      <div class="display-information-box" id="post-box" style="text-align: left;">
       </div>
     </div>
 
