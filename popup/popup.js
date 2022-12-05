@@ -735,9 +735,9 @@ async function getRecentPosts()
 {
     const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data');
     const classListText = await classList.json();
-    const classListTextLen = classListText["courses"].length;
+    var classListTextLen = classListText["courses"].length;
 
-    const promise = new Promise( function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry) => {
+    const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry) => {
         var class_pk = classEntry["class_pk"];
         var class_name = classEntry["class_name"];
 
@@ -772,19 +772,16 @@ async function getRecentPosts()
                 console.log('contains class')
             } else 
                 uniqueClassList.push(class_name);
-
-            if (postDictList.length == classListTextLen) {
-                resolve("resolve length")
-            }
             
+            classListTextLen--;
+            if (classListTextLen == 0) {
+                resolve("resolve length");
+            }
         });
-    })
-
     });
+    }); 
 
-    await promise; // promises are the devil incarnate
-
-    promise.then(
+    await promise.then( // promises are the devil incarnate
         ((res) => {
             console.log(res);
             postDictList.sort(function(a, b) {
