@@ -566,7 +566,6 @@ async function getLP()
                 console.log('contains')
             } else {
                 lessonPlansDictList.push(potentialLPEntry);
-
                 if (uniqueClassList.some((element) => element === cls)) { //check if class is dupe
                     console.log('contains class')
                 } else 
