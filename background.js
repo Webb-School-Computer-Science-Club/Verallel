@@ -169,7 +169,7 @@ async function id2class(tabId, ur, typDict) // For when class isn't there but cl
 
       }
    }
-   chrome.tabs.executeScript({code: conv + 
+   chrome.scripting.executeScript({code: conv + 
       'convert(' + ur + ', ' + JSON.stringify(id2clas) + ', ' + JSON.stringify(typDict) + ');'});
 }
 
@@ -194,7 +194,7 @@ async function getClasses(tabId) //async to retrieve class ids from different pa
          classidlist.push(fh[i].split(',')[0].split(':')[1]);
       }
    }
-   chrome.tabs.executeScript({code: clsdd + 'makeClassDropDown(' + JSON.stringify(classRows) + ', [' + classidlist + '], ' + stuId + ');'});
+   chrome.scripting.executeScript({code: clsdd + 'makeClassDropDown(' + JSON.stringify(classRows) + ', [' + classidlist + '], ' + stuId + ');'});
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
@@ -205,19 +205,19 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 	{
       if(dm)
       {
-		   chrome.tabs.executeScript({code: darkmod, allFrames: true});
+		   chrome.scripting.executeScript({code: darkmod, allFrames: true});
       }
       else
       {
-         chrome.tabs.executeScript({code: lightmod, allFrames: true});
+         chrome.scripting.executeScript({code: lightmod, allFrames: true});
       }
-		chrome.tabs.executeScript({code: `	
+		chrome.scripting.executeScript({code: `	
       var links = document.getElementsByTagName('a');
    	for (link of links)
    	{
       		link.setAttribute('target', '_self');
    	}`});
-		chrome.tabs.executeScript({code: `
+		chrome.scripting.executeScript({code: `
       var lin = document.getElementById('better-link-class-home');
       if (lin == null) //Link shouldn't appear twice
       { 
@@ -243,13 +243,13 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 	{
       if(dm)
       {
-		   chrome.tabs.executeScript({code: darkmod, allFrames: true});
+		   chrome.scripting.executeScript({code: darkmod, allFrames: true});
       }
       else
       {
-         chrome.tabs.executeScript({code: lightmod, allFrames: true});
+         chrome.scripting.executeScript({code: lightmod, allFrames: true});
       }
-		chrome.tabs.executeScript({code: `	
+		chrome.scripting.executeScript({code: `	
       var verallelDb = document.getElementById('verallel-db-link');
    	if(verallelDb == null)
    	{
@@ -308,7 +308,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
       		li.appendChild(dbLink);
       		ul.appendChild(li);
    	}`});
-		chrome.tabs.executeScript({code: `      
+		chrome.scripting.executeScript({code: `      
       var links = document.getElementsByTagName('a');
    	for (link of links)
    	{
@@ -317,7 +317,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 		getClasses(tabId);
 		if (tab.url.match(/submit-assignments/)) // Dropbox improvement (more features are to be added here!)
 		{ 
-			chrome.tabs.executeScript({code: `			
+			chrome.scripting.executeScript({code: `			
          var si = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0];
 			var g = si.getElementsByTagName('div')[0].getElementsByClassName('assignment-submission')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('item-xs-12')[1].getElementsByClassName('vx-record-detail');
 			var conf = document.getElementById('confirm-div');
@@ -356,7 +356,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 	} 
 	else if (tab.url.match(/documents.veracross.com/))
 	{
-		chrome.tabs.executeScript({code: `console.log('Ya Yeet');`});
+		chrome.scripting.executeScript({code: `console.log('Ya Yeet');`});
 	}
 });
 
@@ -374,7 +374,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // 
          var f = chrome.runtime.getURL("css/veracross-dark.css");
          dm = false;
          chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            chrome.tabs.executeScript({code: lightmod, allFrames: true});
+            chrome.scripting.executeScript({code: lightmod, allFrames: true});
          });
       }
       else if(request.msg == 'Change to dark') // Dark mode change
@@ -382,7 +382,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // 
          var f = chrome.runtime.getURL("css/veracross-dark.css");
          dm = true;
          chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            chrome.tabs.executeScript({code: darkmod, allFrames: true});
+            chrome.scripting.executeScript({code: darkmod, allFrames: true});
          });
       }
       else if(request.msg == 'oChangeL') // For if popup is in Verallel options tab
