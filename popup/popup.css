@@ -274,6 +274,14 @@ div.get-information-box:nth-child(3) {
 	color: var(--text-color);
 }
 
+.settings-btn {
+	width: 35px;
+}
+
+#not-veracross-error p {
+	margin-top: 10px;
+}
+
 .nav-link a.box:link, .nav-link a.box:visited
 {
 	background-color: var(--box-background-color);
