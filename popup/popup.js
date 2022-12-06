@@ -40,6 +40,7 @@ window.onload = function() {
     document.getElementById("assign").setAttribute("style", "display:none;");
     document.getElementById("miss").setAttribute("style", "display:none;");
     document.getElementById("lppdiv").setAttribute("style", "display:none;");
+    document.getElementById("verallel-title").innerHTML = "Verallel";
     tryErrors();
     
     const calcUpdate = new Promise( (resolve, reject) => { // I hate promises with a passion
