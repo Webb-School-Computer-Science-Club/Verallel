@@ -567,10 +567,10 @@ async function getLP()
             } else {
                 lessonPlansDictList.push(potentialLPEntry);
 
-                if (uniqueClassList.some((element) => element === currentClass)) { //check if class is dupe
+                if (uniqueClassList.some((element) => element === cls)) { //check if class is dupe
                     console.log('contains class')
                 } else 
-                    uniqueClassList.push(currentClass);
+                    uniqueClassList.push(cls);
             }
         }
     }
