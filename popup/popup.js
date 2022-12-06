@@ -13,9 +13,11 @@ document.getElementById('get-information-info').addEventListener('click', async 
     await getAssignments();
     await getRecentPosts();
     changeByClass(true); 
-    chrome.storage.local.set({
-        'unupdatedTime': new Date().valueOf(),
-    }, () => {resolve(new Date().valueOf())});
+    new Promise((resolve, reject) => {
+        chrome.storage.local.set({
+            'unupdatedTime': new Date().valueOf(),
+        }, () => {resolve(new Date().valueOf())});
+    });
 });
 // document.getElementById("get-information-header").addEventListener('click', resetButtonSizes);
 var assign = false;
@@ -61,9 +63,11 @@ window.onload = function() {
                     await getAssignments();
                     await getRecentPosts();
                     changeByClass(true); 
-                    chrome.storage.local.set({
-                        'unupdatedTime': new Date().valueOf(),
-                    }, () => {resolve(new Date().valueOf())});
+                    new Promise((resolve, reject) => {
+                        chrome.storage.local.set({
+                            'unupdatedTime': new Date().valueOf(),
+                        }, () => {resolve(new Date().valueOf())});
+                    });
                     
                 } else {
                     createAssignmentsFromDict(false);
