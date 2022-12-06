@@ -29,8 +29,8 @@ var r = document.querySelector(':root'); // For changing mode of the popup
 var rtext  = document.querySelector(".message");
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
-var updateTime = 200000;
 var recentPostNum = 7;
+var updateTime = 200 * 1000; // this is in seconds (first num)
 
 var assignmentsDictList = [];
 var uniqueClassList = [];
