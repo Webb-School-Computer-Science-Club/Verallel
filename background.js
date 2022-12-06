@@ -17,8 +17,215 @@ chrome.storage.sync.get(['key'], function(result) // For acquiring dark mode if 
 });
 
 
+function improve(type) // The function that adds dropbox links, removes class ids from class names, etc.
+{
+	switch(type) // Uses switch because more types will be added in the future for different class tabs
+	{ 
+			
+		case 0:
+			var lin = document.getElementById('better-link-class-home');
+			if (lin == null) //Link shouldn't appear twice
+			{ 
+				var h = ((document.getElementById('container').getElementsByClassName('class-header')[0]).getElementsByTagName('h1')[0]).getElementsByTagName('a')[0];
+				h.innerHTML = (h.innerHTML).split(':')[1]; // Removing mess of numbers (probably class ID) from class page to make it look nicer
+				var needrop = document.getElementById('facebox').getElementsByClassName('popup')[0]; // Element exists even when not actually visible
+				var link = document.createElement('a');
+				link.appendChild(document.createTextNode('Click Here to go to the Dropbox'));
+				link.href = "https://portals.veracross.com/webb/student/submit-assignments"; // Changing attributes
+				link.target = "_blank";
+				link.title = "Dropbox Link";
+				var li = document.createElement("div");
+				li.id="better-link-class-home";
+				li.appendChild(document.createTextNode('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0')); //Spaces (looks nicer)
+				li.appendChild(link);
+				li.appendChild(document.createElement('br')); // Line breaks (to make it look nicer)
+				li.appendChild(document.createElement('br'));
+				li.classList.add("body"); // If not added than background would be behind the main page text
+				needrop.appendChild(li); // Adding to popup
+			}
 
-const conv = `
+
+		case 1: // assignments detail page
+		        var lin = document.getElementById('link-to-dropbox');
+			if(lin == null)
+			{
+				var h = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0].getElementsByClassName('detail-assignment')[0].getElementsByClassName('vx-record-header')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('ae-grid__item')[0].getElementsByClassName('vx-record-header__title')[0];
+				h.innerHTML = h.innerHTML.split(':')[1];
+				h.style="font-size: 150%;"
+				var nedrop = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0].getElementsByClassName('detail-assignment')[0].getElementsByClassName('vx-record-body')[0];
+				var link = document.createElement('a');
+				link.appendChild(document.createTextNode('Click Here to go to the Dropbox'));
+				link.href = "https://portals.veracross.com/webb/student/submit-assignments";
+				link.target = "_blank";
+				link.style = "font-size: 125%;"
+				link.title = "Dropbox Link";
+				var li = document.createElement("div");
+				li.id="link-to-dropbox";
+				li.appendChild(document.createElement('br'));
+				li.appendChild(document.createTextNode('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0')); //Spaces (looks nicer)
+				li.appendChild(link);
+				li.appendChild(document.createElement('br')); // Line breaks (to make it look nicer)
+				li.appendChild(document.createElement('br'));
+				nedrop.appendChild(li);      
+			}
+
+
+		case 2: // Takes class ID out of every class for Dropbox. Eventually it will also go directly to the bottom. 
+			var si = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0];
+			var g = si.getElementsByTagName('div')[0].getElementsByClassName('assignment-submission')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('item-xs-12')[1].getElementsByClassName('vx-record-detail');
+			var conf = document.getElementById('confirm-div');
+			if (conf==null)
+			{
+				for (k = 0; k < g.length; k ++)
+				{
+					var h = g[k].getElementsByClassName('vx-record-header')[0].getElementsByClassName('vx-record-header__title')[0];
+					if (h.innerHTML.split(':').length > 2)
+					{
+						var finalclassName = h.innerHTML.split(':')[1]
+						for (l = 0; l < h.innerHTML.split(':').length - 2; l++)
+						{
+							finalclassName = finalclassName + ': ' + h.innerHTML.split(':')[2+l];
+						}
+						h.innerHTML = finalclassName;
+					}
+					else
+					{
+						h.innerHTML = h.innerHTML.split(':')[1];
+					}
+				}
+				var confdiv = document.createElement('div');
+				confdiv.id = 'confirm-div';
+				si.appendChild(confdiv)
+			}
+	}
+}
+
+
+function linkImprove() // Nothing will take you to a new tab in Veracross now. Much easier to Cmd-click than to right click then click open in current tab.
+{
+	var links = document.getElementsByTagName('a');
+   	for (link of links)
+   	{
+      		link.setAttribute('target', '_self');
+   	}
+}
+
+
+function dropboxOnTop() // Creates a link to the dropbox on the top for every portals.veracross.com page, and adds dropdown link for directories
+{
+	var verallelDb = document.getElementById('verallel-db-link');
+   	if(verallelDb == null)
+   	{
+      		var ul = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('vx-portal-nav')[0];
+		var dirLi = ul.getElementsByTagName('li')[4];         
+            	var dirDropDown = document.createElement('div');
+            	dirDropDown.classList.add('vx-hover-menu');
+            	dirDropDown.classList.add('vx-hover-menu--one-column');
+            	var dirdirDropDown = document.createElement('div');
+            	dirdirDropDown.classList.add('vx-hover-menu__hover-links-container');
+            	var ull = document.createElement('ul');
+            	ull.classList.add('vx-hover-menu__hover-links');
+            	var stuLi = document.createElement('li');
+            	var stuA = document.createElement('a');
+            	stuA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/students');
+            	var stuSpan = document.createElement('span');
+            	stuSpan.classList.add('vx-hover-menu__item-link-text');
+            	stuSpan.appendChild(document.createTextNode('Student Directory'));
+            	stuA.appendChild(stuSpan);
+            	stuLi.appendChild(stuA);
+            	var houseLi = document.createElement('li');
+            	var houseA = document.createElement('a');
+            	houseA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/households');
+            	var houseSpan = document.createElement('span');
+            	houseSpan.appendChild(document.createTextNode('Household Directories'));
+            	houseA.appendChild(houseSpan);
+            	houseLi.appendChild(houseA);
+            	var fsLi = document.createElement('li');
+            	var fsA = document.createElement('a');
+            	fsA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/faculty-staff');
+            	var fsSpan = document.createElement('span');
+            	fsSpan.appendChild(document.createTextNode('Faculty and Staff Directories'));
+            	fsA.appendChild(fsSpan);
+            	fsLi.appendChild(fsA);
+            	ull.appendChild(stuLi);
+            	ull.appendChild(houseLi);
+            	ull.appendChild(fsLi);
+            	dirdirDropDown.appendChild(ull);
+            	dirdirDropDown.setAttribute('style', 'min-height: 60px !important;');
+            	dirDropDown.appendChild(dirdirDropDown);
+            	dirDropDown.setAttribute('style', 'margin-left: 58% !important;')
+            	dirLi.appendChild(dirDropDown);
+      		var dbLink = document.createElement('a');
+      		dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
+		var dbIcon = document.createElement('img');
+            	dbIcon.classList.add('nc-icon-glyph');
+            	dbIcon.classList.add('dropbox-logo');
+            	dbIcon.setAttribute('src', 'https://cdn.iconscout.com/icon/free/png-256/dropbox-164-734858.png'); //Image licensed via Creative Commons at iconsout.com
+            	dbLink.appendChild(dbIcon);
+            	dbLink.appendChild(document.createTextNode('\xa0\xa0'));
+      		dbLink.appendChild(document.createTextNode('Dropbox'));
+      		dbLink.classList.add('vx-portal-nav__item-link');
+      		var li = document.createElement('li');
+      		li.classList.add('vx-portal-nav__item');
+      		li.id = 'verallel-db-link';
+      		li.appendChild(dbLink);
+      		ul.appendChild(li);
+   	}
+}
+
+
+function darkLightMode(dm, url) // For changing mode of Veracross page. 
+{
+    var verStyl = document.getElementById('verallel-styl');
+    if(verStyl == null)
+    {
+        if(dm)
+        {
+            var newStyl = document.createElement('link');
+            newStyl.setAttribute('rel', 'stylesheet');
+            newStyl.setAttribute('href', url);
+            newStyl.id = 'verallel-styl';
+            document.getElementsByTagName('head')[0].appendChild(newStyl);
+        }
+    }
+    else
+    {
+        if(!(dm))
+        {
+           verStyl.parentNode.removeChild(verStyl); 
+        }
+    }
+}
+
+
+async function id2class(tabId, ur, typDict) // For when class isn't there but class IDs are
+{
+   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
+   const txt = await respNew.text(); // Trying to get json doesn't work unfortunatley
+   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
+   const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
+   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
+   const response = await fetch(fetchUrl); // New fetching
+   const fg = await response.text();
+   const fh = ((fg.split(';')[15]).split('},{'));
+   var id2clas = {}
+   for(f of fh)
+   {
+      if (f.split(',')[2].split(':')[0] == '"class_id"')
+      {
+         var finalclsStr = f.split(',')[3].split(':')[1].replace('"', '').replace('\\', '');
+         if(finalclsStr[finalclsStr.length - 1] == '"')
+         {
+            finalclsStr = finalclsStr.slice(0, finalclsStr.length - 1);
+         }
+         id2clas[f.split(',')[2].split(':')[1]] = finalclsStr;
+
+      }
+   }
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: convert, args: [ur, id2clas, typDict]});
+}
+
+
 function convert(which, id2cls, typDict) // For actually executing class Id -> class within script
 {
    switch(which)
@@ -74,32 +281,32 @@ function convert(which, id2cls, typDict) // For actually executing class Id -> c
 	 
    }
 }
-`;
 
-let f = chrome.runtime.getURL("css/veracross-dark.css");
-const darkmod = 
-`
-var verStyl = document.getElementById('verallel-styl');
-if(verStyl == null)
-{
-        var newStyl = document.createElement('link');
-        newStyl.setAttribute('rel', 'stylesheet');` + '\n' + 
-        'newStyl.setAttribute("href",' + '"' + f + '");' + '\n' + 
-        `newStyl.id = 'verallel-styl';
-        document.getElementsByTagName('head')[0].appendChild(newStyl);
-}`;
 
-const lightmod = 
-`
-var verStyl = document.getElementById('verallel-styl');
-if(verStyl == null){}
-else
+async function getClasses(tabId) //async to retrieve class ids from different page
 {
-   verStyl.parentNode.removeChild(verStyl); 
+   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
+   const txt = await respNew.text();
+   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
+   const yr = txt.split(';')[16].split('"')[0].split('=')[1];
+   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
+   const response = await fetch(fetchUrl);
+   const fg = await response.text();
+   const fh = ((fg.split(';')[15]).split('},{'));
+   var classRows = {};
+   var classidlist = [];
+   for (let i = 0; i < fh.length; i++)
+   {
+      if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
+      {
+         classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
+         classidlist.push(fh[i].split(',')[0].split(':')[1]);
+      }
+   }
+   chrome.scripting.executeScript({target: {tabId: tabId}, func: makeClassDropDown, args: [classRows, classidlist, stuId]});
 }
-`;
 
-const clsdd = `
+
 function makeClassDropDown(classRows, classidlist, stuId)
 {
    var classDrop = document.getElementById('class-link-container');
@@ -143,59 +350,7 @@ function makeClassDropDown(classRows, classidlist, stuId)
       classes.appendChild(classDropDown);
    }
 }
-`;
 
-async function id2class(tabId, ur, typDict) // For when class isn't there but class IDs are
-{
-   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
-   const txt = await respNew.text()+ ''; // Trying to get json doesn't work unfortunatley
-   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1]; // Getting student id out of raw text of source code
-   const yr = txt.split(';')[16].split('"')[0].split('=')[1]; // Gets the year from the raw text of the source code
-   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
-   const response = await fetch(fetchUrl); // New fetching
-   const fg = await response.text();
-   const fh = ((fg.split(';')[15]).split('},{'));
-   var id2clas = {}
-   for(f of fh)
-   {
-      if (f.split(',')[2].split(':')[0] == '"class_id"')
-      {
-         var finalclsStr = f.split(',')[3].split(':')[1].replace('"', '').replace('\\', '');
-         if(finalclsStr[finalclsStr.length - 1] == '"')
-         {
-            finalclsStr = finalclsStr.slice(0, finalclsStr.length - 1);
-         }
-         id2clas[f.split(',')[2].split(':')[1]] = finalclsStr;
-
-      }
-   }
-   chrome.scripting.executeScript({code: conv + 
-      'convert(' + ur + ', ' + JSON.stringify(id2clas) + ', ' + JSON.stringify(typDict) + ');'});
-}
-
-
-async function getClasses(tabId) //async to retrieve class ids from different page
-{
-   const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
-   const txt = await respNew.text() + '';
-   const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
-   const yr = txt.split(';')[16].split('"')[0].split('=')[1];
-   const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
-   const response = await fetch(fetchUrl);
-   const fg = await response.text();
-   const fh = ((fg.split(';')[15]).split('},{'));
-   var classRows = {};
-   var classidlist = [];
-   for (let i = 0; i < fh.length; i++)
-   {
-      if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
-      {
-         classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
-         classidlist.push(fh[i].split(',')[0].split(':')[1]);
-      }
-   }
-   chrome.scripting.executeScript({code: clsdd + 'makeClassDropDown(' + JSON.stringify(classRows) + ', [' + classidlist + '], ' + stuId + ');'});
-}
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated tab event listener
 {
@@ -203,160 +358,35 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) // Updated ta
 	let f = chrome.runtime.getURL("css/veracross-dark.css");
 	if (tab.url.match(/classes.veracross.com/))
 	{
-      if(dm)
-      {
-		   chrome.scripting.executeScript({code: darkmod, allFrames: true});
-      }
-      else
-      {
-         chrome.scripting.executeScript({code: lightmod, allFrames: true});
-      }
-		chrome.scripting.executeScript({code: `	
-      var links = document.getElementsByTagName('a');
-   	for (link of links)
-   	{
-      		link.setAttribute('target', '_self');
-   	}`});
-		chrome.scripting.executeScript({code: `
-      var lin = document.getElementById('better-link-class-home');
-      if (lin == null) //Link shouldn't appear twice
-      { 
-         var h = ((document.getElementById('container').getElementsByClassName('class-header')[0]).getElementsByTagName('h1')[0]).getElementsByTagName('a')[0];
-         h.innerHTML = (h.innerHTML).split(':')[1]; // Removing mess of numbers (probably class ID) from class page to make it look nicer
-         var needrop = document.getElementById('facebox').getElementsByClassName('popup')[0]; // Element exists even when not actually visible
-         var link = document.createElement('a');
-         link.appendChild(document.createTextNode('Click Here to go to the Dropbox'));
-         link.href = "https://portals.veracross.com/webb/student/submit-assignments"; // Changing attributes
-         link.target = "_blank";
-         link.title = "Dropbox Link";
-         var li = document.createElement("div");
-         li.id="better-link-class-home";
-         li.appendChild(document.createTextNode('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0')); //Spaces (looks nicer)
-         li.appendChild(link);
-         li.appendChild(document.createElement('br')); // Line breaks (to make it look nicer)
-         li.appendChild(document.createElement('br'));
-         li.classList.add("body"); // If not added than background would be behind the main page text
-         needrop.appendChild(li); // Adding to popup
-      }`}); // Executes improve function
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [0]}); // Executes improve function
 	}
 	else if (tab.url.match(/portals.veracross.com/) && tab.url.match(/student/))
 	{
-      if(dm)
-      {
-		   chrome.scripting.executeScript({code: darkmod, allFrames: true});
-      }
-      else
-      {
-         chrome.scripting.executeScript({code: lightmod, allFrames: true});
-      }
-		chrome.scripting.executeScript({code: `	
-      var verallelDb = document.getElementById('verallel-db-link');
-   	if(verallelDb == null)
-   	{
-      		var ul = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('vx-portal-nav')[0];
-		var dirLi = ul.getElementsByTagName('li')[4];         
-            	var dirDropDown = document.createElement('div');
-            	dirDropDown.classList.add('vx-hover-menu');
-            	dirDropDown.classList.add('vx-hover-menu--one-column');
-            	var dirdirDropDown = document.createElement('div');
-            	dirdirDropDown.classList.add('vx-hover-menu__hover-links-container');
-            	var ull = document.createElement('ul');
-            	ull.classList.add('vx-hover-menu__hover-links');
-            	var stuLi = document.createElement('li');
-            	var stuA = document.createElement('a');
-            	stuA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/students');
-            	var stuSpan = document.createElement('span');
-            	stuSpan.classList.add('vx-hover-menu__item-link-text');
-            	stuSpan.appendChild(document.createTextNode('Student Directory'));
-            	stuA.appendChild(stuSpan);
-            	stuLi.appendChild(stuA);
-            	var houseLi = document.createElement('li');
-            	var houseA = document.createElement('a');
-            	houseA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/households');
-            	var houseSpan = document.createElement('span');
-            	houseSpan.appendChild(document.createTextNode('Household Directories'));
-            	houseA.appendChild(houseSpan);
-            	houseLi.appendChild(houseA);
-            	var fsLi = document.createElement('li');
-            	var fsA = document.createElement('a');
-            	fsA.setAttribute('href', 'https://portals.veracross.com/webb/student/directory/faculty-staff');
-            	var fsSpan = document.createElement('span');
-            	fsSpan.appendChild(document.createTextNode('Faculty and Staff Directories'));
-            	fsA.appendChild(fsSpan);
-            	fsLi.appendChild(fsA);
-            	ull.appendChild(stuLi);
-            	ull.appendChild(houseLi);
-            	ull.appendChild(fsLi);
-            	dirdirDropDown.appendChild(ull);
-            	dirdirDropDown.setAttribute('style', 'min-height: 60px !important;');
-            	dirDropDown.appendChild(dirdirDropDown);
-            	dirDropDown.setAttribute('style', 'margin-left: 58% !important;')
-            	dirLi.appendChild(dirDropDown);
-      		var dbLink = document.createElement('a');
-      		dbLink.href = 'https://portals.veracross.com/webb/student/submit-assignments';
-		      var dbIcon = document.createElement('img');
-            dbIcon.classList.add('nc-icon-glyph');
-            dbIcon.classList.add('dropbox-logo');
-            dbIcon.setAttribute('src', 'https://cdn.iconscout.com/icon/free/png-256/dropbox-164-734858.png'); //Image licensed via Creative Commons at iconsout.com
-            dbLink.appendChild(dbIcon);
-            dbLink.appendChild(document.createTextNode('\xa0\xa0'));
-      		dbLink.appendChild(document.createTextNode('Dropbox'));
-      		dbLink.classList.add('vx-portal-nav__item-link');
-      		var li = document.createElement('li');
-      		li.classList.add('vx-portal-nav__item');
-      		li.id = 'verallel-db-link';
-      		li.appendChild(dbLink);
-      		ul.appendChild(li);
-   	}`});
-		chrome.scripting.executeScript({code: `      
-      var links = document.getElementsByTagName('a');
-   	for (link of links)
-   	{
-      		link.setAttribute('target', '_self');
-   	}`});
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: dropboxOnTop});
+		chrome.scripting.executeScript({target: {tabId: tabId}, func: linkImprove});
 		getClasses(tabId);
-		if (tab.url.match(/submit-assignments/)) // Dropbox improvement (more features are to be added here!)
+		if (tab.url.match(/assignment/) && tab.url.match(/detail/)) // Specific part of the domain improve is improving
 		{ 
-			chrome.scripting.executeScript({code: `			
-         var si = document.getElementsByClassName('full-screen-bg')[0].getElementsByClassName('app-container')[0];
-			var g = si.getElementsByTagName('div')[0].getElementsByClassName('assignment-submission')[0].getElementsByClassName('ae-grid')[0].getElementsByClassName('item-xs-12')[1].getElementsByClassName('vx-record-detail');
-			var conf = document.getElementById('confirm-div');
-			if (conf==null)
-			{
-				for (k = 0; k < g.length; k ++)
-				{
-					var h = g[k].getElementsByClassName('vx-record-header')[0].getElementsByClassName('vx-record-header__title')[0];
-					if (h.innerHTML.split(':').length > 2)
-					{
-						var finalclassName = h.innerHTML.split(':')[1]
-						for (l = 0; l < h.innerHTML.split(':').length - 2; l++)
-						{
-							finalclassName = finalclassName + ': ' + h.innerHTML.split(':')[2+l];
-						}
-						h.innerHTML = finalclassName;
-					}
-					else
-					{
-						h.innerHTML = h.innerHTML.split(':')[1];
-					}
-				}
-				var confdiv = document.createElement('div');
-				confdiv.id = 'confirm-div';
-				si.appendChild(confdiv)
-			}`});
+			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [1]}); // For assignment detail
+		}
+		else if (tab.url.match(/submit-assignments/)) // Dropbox improvement (more features are to be added here!)
+		{ 
+			chrome.scripting.executeScript({target: {tabId: tabId}, func: improve, args: [2]});
 		}
 		else if (tab.url.match(/calendar/)) // Calendar page (only improves for month though)
-      {
-         id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
-      }
-      else
-      {
-         id2class(tabId, 1, typObj); // For main student portal. Shouldn't crash other content script in other domains where this doesn't do anything
-      }
+      		{
+         		id2class(tabId, 2, typObj); // Different function called because it needs to be async and fetching will fail in executeScript function call
+      		}
+      		else{
+         		id2class(tabId, 1, typObj); // For main student portal. Shouldn't crash other content script in other domains where this doesn't do anything
+      		}
 	} 
 	else if (tab.url.match(/documents.veracross.com/))
 	{
-		chrome.scripting.executeScript({code: `console.log('Ya Yeet');`});
+		chrome.scripting.executeScript({target: {tabId: tabId, allFrames: true}, func: darkLightMode, args: [dm, f]});
 	}
 });
 
@@ -374,7 +404,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // 
          var f = chrome.runtime.getURL("css/veracross-dark.css");
          dm = false;
          chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            chrome.scripting.executeScript({code: lightmod, allFrames: true});
+            chrome.scripting.executeScript({target: {tabId: tabs[0].id, allFrames: true}, func: darkLightMode, args: [dm, f]});
          });
       }
       else if(request.msg == 'Change to dark') // Dark mode change
@@ -382,7 +412,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) // 
          var f = chrome.runtime.getURL("css/veracross-dark.css");
          dm = true;
          chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            chrome.scripting.executeScript({code: darkmod, allFrames: true});
+            chrome.scripting.executeScript({target: {tabId: tabs[0].id, allFrames: true}, func: darkLightMode, args: [dm, f]});
          });
       }
       else if(request.msg == 'oChangeL') // For if popup is in Verallel options tab
