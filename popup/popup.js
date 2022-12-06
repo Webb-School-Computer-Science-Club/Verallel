@@ -30,6 +30,7 @@ const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun"
 var updateTime = 200000;
 var recentPostNum = 7;
 var updateTime = 200 * 1000; // first num is seconds
+var recentPostNum = 10;
 
 var assignmentsDictList = [];
 var uniqueClassList = [];
