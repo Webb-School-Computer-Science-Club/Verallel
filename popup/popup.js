@@ -12,7 +12,7 @@ document.getElementById('get-information-info').addEventListener('click', async 
     await getMissing();
     await getAssignments();
     await getRecentPosts();
-    changeByClass(true); 
+    updateByClass(true); 
     new Promise((resolve, reject) => {
         chrome.storage.local.set({
             'unupdatedTime': new Date().valueOf(),
@@ -29,8 +29,9 @@ var r = document.querySelector(':root'); // For changing mode of the popup
 var rtext  = document.querySelector(".message");
 const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}; //3-letter month to number conversion
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
+
 var updateTime = 200 * 1000; // this is in seconds (first num)
-var recentPostNum = 10;
+var recentPostNum = 20;
 
 var assignmentsDictList = [];
 var uniqueClassList = [];
@@ -47,10 +48,9 @@ window.onload = function() {
     const calcUpdate = new Promise( (resolve, reject) => { // I hate promises with a passion
         (chrome.storage.local.get('unupdatedTime', (items) => {
         val = ((new Date().valueOf() - items.unupdatedTime) > updateTime) || (Object.keys(items).length == 0);
-        console.log(items);
-        console.log(items.unupdatedTime);
-        console.log(new Date().valueOf());
-        console.log(new Date().valueOf() - items.unupdatedTime);
+        console.log("Unupdated time (ms): ", items.unupdatedTime);
+        console.log("Current time (ms): ", new Date().valueOf());
+        console.log("Current time diff (ms): ", new Date().valueOf() - items.unupdatedTime);
         resolve(val);
     }))});
     
@@ -62,7 +62,7 @@ window.onload = function() {
                     await getMissing();
                     await getAssignments();
                     await getRecentPosts();
-                    changeByClass(true); 
+                    updateByClass(true); 
                     new Promise((resolve, reject) => {
                         chrome.storage.local.set({
                             'unupdatedTime': new Date().valueOf(),
@@ -70,11 +70,11 @@ window.onload = function() {
                     });
                     
                 } else {
-                    createAssignmentsFromDict(false);
-                    createLPFromDict(false);
-                    createMissingFromDict(false);
-                    createPostsFromDict(false);
-                    changeByClass(false); 
+                    updateAssignmentsDict(false);
+                    updateLPDict(false);
+                    updateMissingDict(false);
+                    updatePostsDict(false);
+                    updateByClass(false); 
             }
     });
         
@@ -185,71 +185,52 @@ async function getAssignments() // async for usage of fetch
     const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr; // Configures student-unique url to fetch the iframe (can't fetch in original because of CORS)
     const response = await fetch(fetchUrl); // New fetching
     const fg = await response.text();
-    let today = new Date(); // Defining today and tomorrow
-    let tommorow = new Date(today);
-    tommorow.setDate(tommorow.getDate() + 1);
-    const fh = ((fg.split(';')[15]).split('},{')); // More text splitting to retrieve features // Defining arrays and objects for use in the function
-    var classRows = {};
-    var isOn = false; // Mostly for making sure no assignment repeats and no assignments before current date are on there
-    for (let i = 0; i < fh.length; i++) // Loops through all possible assignments
-    { 
-	if (fh[i].split(',')[2].split(':')[0] == '"class_id"')
-	{
-	    classRows[fh[i].split(',')[0].split(':')[1]] = fh[i].split(',')[3].split(':')[1];
-	}
-        if ((fh[i].split(',')[3]).split(':')[1] == '"assignment-upcoming"')
-	    {
-            var dueDate = fh[i].split(',')[5].split(':')[1].replace('\\', '').slice(1, fh[i].split(',')[5].split(':')[1].replace('\\', '').length - 1);
-            var dueDatelis = [monthdict[dueDate.slice(0, 3)], parseInt(dueDate.slice(4, dueDate.length))];
-            var assignStr = '';
-            let commaMuch = fh[i].split(',').length - 11;
-	        let colonMuch = fh[i].split(',')[7].split(':').length - 2;
-            assignStr = fh[i].split(',')[7].split(':')[1];
-            if(colonMuch > 0)
-            {
-                for (j = 1; j <= colonMuch; j++)
-                {
-                    console.log(assignStr);
-                    assignStr = assignStr + ': ';
-                    assignStr = assignStr + fh[i].split(',')[7].split(':')[1+j];
-                }
-            }
-            if(commaMuch > 0)
-            {
-                for (j = 1; j <= commaMuch; j++)
-                {
-                    assignStr = assignStr + ', ';
-                    assignStr = assignStr + fh[i].split(',')[7+j];
-                }
-            }
-            let currentClass = classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '');
-            
-            assignStr =  dueDate + ' – ' + assignStr.slice(1, assignStr.length - 1).replace('\\', '') + ' (' + currentClass + ')';
-            
-            let potentialAssignmentsEntry = 
-            {"entry": assignStr, 
-            "month": dueDatelis[0], 
-            "day": dueDatelis[1],
-            "className": classRows[fh[i].split(',')[1].split(':')[1]].replace('"', '').replace('"', '')};
-        
-            if (assignmentsDictList.some(({entry}) => entry === assignStr)) { //check if dupe
-                console.log('contains')
-            } else {
-                if (
-                    (new Date().getMonth() + 1 == potentialAssignmentsEntry["month"] &&
-                    new Date().getDate() <= potentialAssignmentsEntry["day"]) ||
-                    (new Date().getMonth() + 1 < potentialAssignmentsEntry["month"])
-                ) { 
-                    assignmentsDictList.push(potentialAssignmentsEntry); 
-                }         
 
-                if (uniqueClassList.some((element) => element === currentClass)) { //check if class is dupe
-                    console.log('contains class')
-                } else 
-                    uniqueClassList.push(currentClass);
-            }
-    }
-    }
+    var parser = new DOMParser();
+    var script = parser.parseFromString(fg, 'text/html').scripts[3];
+    var classText = script.innerHTML.match(/rows: \[{.*}\]/gm);
+    var classJSON = JSON.parse("{" + classText[0].replace("rows: ", '"rows":') + "}");
+    var itemsText = script.innerHTML.match(/items: \[{.*}\]/gm);
+    var itemsJSON = JSON.parse("{" + itemsText[0].replace("items: ", '"items":') + "}");
+
+    classIDtoClassName = new Map();
+    classJSON["rows"].forEach((val) => {
+        classIDtoClassName[val["id"]] = val["description"];
+    });
+
+    currentMonth = new Date().getMonth()+1;
+    currentDay = new Date().getDate();
+            
+
+    itemsJSON["items"].forEach( (val) => {
+        if (val["formatted_date"] !== null) {
+            assignmentsDictList.push(
+                {"name": val["notes"], 
+                "id": val["item_id"],
+                "month": monthdict[val["formatted_date"].slice(0,3)], 
+                "day": Number(val["formatted_date"].slice(4,val["formatted_date"].length)),
+                "className": classIDtoClassName[val["row"]]}
+            );
+
+        }
+    });
+
+    assignmentsDictList = assignmentsDictList.filter(
+        (v,i,a)=> {
+            return (a.findIndex(v2=>(v2.id===v.id))===i) && 
+            (v.month >= currentMonth && v.day >= currentDay);
+        });
+    
+    assignmentsDictList.forEach((val) => {
+        uniqueClassList.push(val["className"]);
+    });
+    uniqueClassList = uniqueClassList.filter(
+        (v,i,a)=> {
+            return (a.findIndex(v2=>(v2===v))===i);
+        });
+
+    console.log("Sorted assignment list: ", assignmentsDictList);
+    
     assignmentsDictList.sort(function(a, b) {
         if (a.month > b.month)
             return 1;
@@ -260,16 +241,16 @@ async function getAssignments() // async for usage of fetch
                 return 1;
             if (a.day < b.day)
                 return -1;
-        }});
+    }});
 
     const set = true;
-    createAssignmentsFromDict(set);
+    updateAssignmentsDict(set);
 
     return;
     
 }
 
-async function createAssignmentsFromDict(set) {
+async function updateAssignmentsDict(set) {
     const objDone = new Promise((resolve, reject) => {
         if (set) {
             chrome.storage.local.set({
@@ -278,36 +259,52 @@ async function createAssignmentsFromDict(set) {
         } else {
             chrome.storage.local.get('assignments', (items) => {
                 assignmentsDictList = items.assignments;
-                console.log(items.assignments);
+                console.log("Stored assignment list: ", items.assignments);
                 resolve(true);
             });
         }
     });
 
-    objDone.then(() => {
+    objDone.then(() => generateAssignments(assignmentsDictList));
+}
+
+function generateAssignments(dict) {
         
-        var g = document.getElementById('assign'); // Getting the empty div in popup.html
-        while(g.firstChild) {
-            g.removeChild(g.firstChild);
-        }
-        if (assignmentsDictList.length > 0) {
-            var pmed = document.createElement('p');
-            pmed.appendChild(document.createTextNode('Due later:'))
-            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-            g.appendChild(pmed);
-        }
-        for (let k = 0; k < assignmentsDictList.length; k++)
-        {
-            var h = document.createElement('p');
-            h.appendChild(document.createTextNode(assignmentsDictList[k]["entry"]));
-            g.appendChild(h);
-        }
-    });  
+    var g = document.getElementById('assign'); // Getting the empty div in popup.html
+    while(g.firstChild) {
+        g.removeChild(g.firstChild);
+    }
+    if (dict.length > 0) {
+        var pmed = document.createElement('p');
+        pmed.appendChild(document.createTextNode('Due later:'))
+        pmed.style = "font-size: 150%; text-align: center; margin-bottom: 5px;";
+        g.appendChild(pmed);
+    }
+    for (let k = 0; k < dict.length; k++)
+    {
+        let assignmentEntry = document.createElement('div');
+        assignmentEntry.classList.add('assignment-entry');
+        let h = document.createElement('p');
+        let date = document.createElement('p');
+        date.appendChild(document.createTextNode(
+            monthdictInv[dict[k]["month"]] + " " + 
+            dict[k]["day"] + " - "
+        ));
+        assignmentEntry.appendChild(date);
+        h.appendChild(document.createTextNode(
+            dict[k]["name"] +
+            " (" + dict[k]["className"] + ")"
+            ));
+        h.classList.add('name');
+        assignmentEntry.appendChild(h);
+        date.classList.add('date');
+        g.appendChild(assignmentEntry);
+    }
 }
 
 
 
-async function changeByClass(set) {
+async function updateByClass(set) {
     const objDone = new Promise((resolve, reject) => {
         if (set) {
             chrome.storage.local.set({
@@ -316,7 +313,7 @@ async function changeByClass(set) {
         } else {
             chrome.storage.local.get('uniqueClass', (items) => {
                 uniqueClassList = items.uniqueClass;
-                console.log(items.uniqueClass);
+                console.log("Stored unique class list: ", items.uniqueClass);
                 resolve(true);
             });
         }
@@ -345,7 +342,7 @@ async function changeByClass(set) {
         uniqueClassList.sort();
         uniqueClassList.splice(0, 0, "All");
     
-        console.log("class generation started");
+        console.log("Class generation started: ");
     
         uniqueClassList.forEach(uniqueClassName => {
             var classBox = document.createElement("div");
@@ -355,7 +352,6 @@ async function changeByClass(set) {
                 document.createElement("p").appendChild(
                     document.createTextNode(uniqueClassName))
                 );
-            console.log(uniqueClassName);
     
             dropdown.appendChild(classBox);
     
@@ -398,99 +394,11 @@ async function changeByClass(set) {
                     modifiedMissingList = missingAssignmentsDictList.filter(({className}) => className === selectedClass);
                     modifiedPostList = postDictList.filter(({className}) => className === selectedClass);
                 }
-                // console.log(modifiedAssignmentList);
-                
-                while(assignmentsBox.firstChild) {
-                    assignmentsBox.removeChild(assignmentsBox.firstChild);
-                }
-                while (LPBox.firstChild) {
-                    LPBox.removeChild(LPBox.firstChild);
-                }
-                while (missBox.firstChild) {
-                    missBox.removeChild(missBox.firstChild);
-                }
-
-                while (postBox.firstChild) {
-                    postBox.removeChild(postBox.firstChild);
-                }
     
-                if (modifiedAssignmentList.length > 0) { //TODO: make this modular
-                    var pmed = document.createElement('p');
-                    pmed.appendChild(document.createTextNode('Due later:'))
-                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-                    assignmentsBox.appendChild(pmed);
-                }
-                for (let k = 0; k < modifiedAssignmentList.length; k++)
-                {
-                    var h = document.createElement('p');
-                    h.appendChild(document.createTextNode(modifiedAssignmentList[k]["entry"]));
-                    assignmentsBox.appendChild(h);
-                }
-    
-                if (modifiedLPList.length > 0) {
-                    var pmed = document.createElement('p');
-                    pmed.appendChild(document.createTextNode('Later:'))
-                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-                    LPBox.appendChild(pmed);
-                    
-                    for (k of modifiedLPList)
-                    {
-                        var h = document.createElement('p');
-                        h.appendChild(document.createTextNode(k['entry']));
-                        LPBox.appendChild(h);
-                    }
-                } else {
-                    var pf = document.createElement('p')
-                    pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
-                    pf.style.textAlign = "center";
-                    LPBox.appendChild(pf);
-                }
-    
-                
-                if (modifiedMissingList.length > 0) {
-    
-                    var pmed = document.createElement('p');
-                    pmed.appendChild(document.createTextNode('Missing:'))
-                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-                    missBox.appendChild(pmed);
-    
-                    for (missin of modifiedMissingList)
-                    {
-                        var missP = document.createElement('p');
-                        missP.appendChild(document.createTextNode(missin['entry']));
-                        missBox.appendChild(missP);
-                    }
-                } else {
-                    var misP = document.createElement('p')
-                    misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
-                    misP.style.textAlign = "center";
-                    missBox.appendChild(misP);
-                }
-
-                if (modifiedPostList.length > 0) {
-                    var pmed = document.createElement('p');
-                    pmed.appendChild(document.createTextNode('Recent Posts:'))
-                    pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-                    postBox.appendChild(pmed);
-            
-                    modifiedPostList.forEach((val, ind) => {
-                        if (ind < recentPostNum) {
-                            var postA = document.createElement('a');
-                            postA.appendChild(document.createTextNode(val['entry']));
-                            postA.setAttribute("href", val['link']);
-                            postA.setAttribute("target", "_blank");
-                            postBox.appendChild(postA); 
-                        }    
-                    });
-            
-                } else {
-                    var postP = document.createElement('p')
-                    postP.appendChild(document.createTextNode('No recent posts.'));
-                    postP.style.textAlign = "center";
-                    postBox.appendChild(postP);
-                }
-    
-    
+                generateAssignments(modifiedAssignmentList);
+                generateLP(modifiedLPList);
+                generateMissing(modifiedMissingList);
+                generatePosts(modifiedPostList);
     
                 displayNotif();
             });
@@ -562,14 +470,11 @@ async function getLP()
             "day": lpDateLis[1],
             "className": cls};
         
-            if (lessonPlansDictList.some(({entry}) => entry === lpStr)) { //check if dupe
-                console.log('contains')
-            } else {
+            if (lessonPlansDictList.some(({entry}) => entry !== lpStr)) { //check if dupe
                 lessonPlansDictList.push(potentialLPEntry);
-                if (uniqueClassList.some((element) => element === cls)) { //check if class is dupe
-                    console.log('contains class')
-                } else 
+                if (uniqueClassList.some((element) => element !== cls)) { //check if class is dupe
                     uniqueClassList.push(cls);
+                } 
             }
         }
     }
@@ -586,12 +491,13 @@ async function getLP()
                 return -1;
         }});
 
-    createLPFromDict(true);
+    let set = true;
+    updateLPDict(set);
 
     return;
 }
 
-function createLPFromDict(set) {
+function updateLPDict(set) {
     const objDone = new Promise((resolve, reject) => {
         if (set) {
             chrome.storage.local.set({
@@ -600,39 +506,42 @@ function createLPFromDict(set) {
         } else {
             chrome.storage.local.get('lessonPlans', (items) => {
                 lessonPlansDictList = items.lessonPlans;
-                console.log(items.lessonPlans);
+                console.log("Stored lesson plan list: ", items.lessonPlans);
                 resolve(true);
             });
         }
     });
 
-    objDone.then(() => {
-        
-        var g = document.getElementById('lppdiv');
-        while (g.firstChild) {
-            g.removeChild(g.firstChild);
-        }
-        if (lessonPlansDictList.length > 0) {
-            var pmed = document.createElement('p');
-            pmed.appendChild(document.createTextNode('Later:'))
-            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-            g.appendChild(pmed);
-            
-            for (k of lessonPlansDictList)
-            {
-                var h = document.createElement('p');
-                h.appendChild(document.createTextNode(k['entry']));
-                g.appendChild(h);
-            }
-        } else {
-            var pf = document.createElement('p')
-            pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
-            pf.style = "text-align: center;"
-            g.appendChild(pf);
-        }
-
-    });
+    objDone.then(() => generateLP(lessonPlansDictList));
 }
+
+function generateLP(dict) {
+        
+    var g = document.getElementById('lppdiv');
+    while (g.firstChild) {
+        g.removeChild(g.firstChild);
+    }
+    if (dict.length > 0) {
+        var pmed = document.createElement('p');
+        pmed.appendChild(document.createTextNode('Later:'))
+        pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+        g.appendChild(pmed);
+        
+        for (k of dict)
+        {
+            var h = document.createElement('p');
+            h.appendChild(document.createTextNode(k['entry']));
+            g.appendChild(h);
+        }
+    } else {
+        var pf = document.createElement('p')
+        pf.appendChild(document.createTextNode('No upcoming lesson plans.'));
+        pf.style = "text-align: center;"
+        g.appendChild(pf);
+    }
+
+}
+
 
 
 async function getMissing()
@@ -685,12 +594,13 @@ async function getMissing()
                 return -1;
         }});
     
-    createMissingFromDict(true);
+        let set = true;
+        updateMissingDict(set);
     
     return;
 }
 
-function createMissingFromDict(set) {
+function updateMissingDict(set) {
     const objDone = new Promise((resolve, reject) => {
         if (set) {
             chrome.storage.local.set({
@@ -699,37 +609,38 @@ function createMissingFromDict(set) {
         } else {
             chrome.storage.local.get('missingAssignments', (items) => {
                 missingAssignmentsDictList = items.missingAssignments;
-                console.log(items.missingAssignments);
+                console.log("Stored missing assignments list: ", items.missingAssignments);
                 resolve(true);
             });
         }
     });
 
-    objDone.then(() => {
-        
-        var misDiv = document.getElementById('miss');
-        while (misDiv.firstChild) {
-            misDiv.removeChild(misDiv.firstChild);
+    objDone.then(() => generateMissing(missingAssignmentsDictList));
+}
+
+function generateMissing(dict) {
+    var misDiv = document.getElementById('miss');
+    while (misDiv.firstChild) {
+        misDiv.removeChild(misDiv.firstChild);
+    }
+    if (dict.length > 0) {
+        var pmed = document.createElement('p');
+        pmed.appendChild(document.createTextNode('Missing:'))
+        pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
+        misDiv.appendChild(pmed);
+
+        for (missin of dict)
+        {
+            var missP = document.createElement('p');
+            missP.appendChild(document.createTextNode(missin['entry']));
+            misDiv.appendChild(missP);
         }
-        if (missingAssignmentsDictList.length > 0) {
-            var pmed = document.createElement('p');
-            pmed.appendChild(document.createTextNode('Missing:'))
-            pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
-            misDiv.appendChild(pmed);
-    
-            for (missin of missingAssignmentsDictList)
-            {
-                var missP = document.createElement('p');
-                missP.appendChild(document.createTextNode(missin['entry']));
-                misDiv.appendChild(missP);
-            }
-        } else {
-            var misP = document.createElement('p')
-            misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
-            misP.style.textAlign = "center";
-            misDiv.appendChild(misP);
-        }
-    });
+    } else {
+        var misP = document.createElement('p')
+        misP.appendChild(document.createTextNode('No missing assignments according to the Dropbox.'));
+        misP.style.textAlign = "center";
+        misDiv.appendChild(misP);
+    }
 }
 
 
@@ -748,45 +659,53 @@ async function getRecentPosts()
         class_name = class_name.replace(/ \(Honors\)/, '');
 
         classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts";
+        let classPostLinkList = [];
+
         const classPostsText = await (await fetch(classPostsLink)).text();
         var parser = new DOMParser();
 		var doc = parser.parseFromString(classPostsText, 'text/html');
-        Array.prototype.forEach.call(doc.getElementsByClassName("message"), (post) => {
-            let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
-  
-            let monthNum = monthdict[date.slice(0,3)];
-            let day = parseInt(date.slice(4,5));
-            let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
-            let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
 
-            let entry = date + " – " + title + " (" + class_name + ")";
+        do {
+            Array.prototype.forEach.call(doc.getElementsByClassName("message"), (post) => {
+                let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
 
-            let postDict = {
-            "entry": entry,
-            "link": "https://classes.veracross.com" + titleLink,
-            "month": monthNum,
-            "day": day,
-            "className": class_name
-            };
+                let monthNum = monthdict[date.slice(0,3)];
+                let day = parseInt(date.slice(4,date.length));
+                let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
+                let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
 
-            postDictList.push(postDict);
+                let postDict = {
+                "title": title,
+                "link": "https://classes.veracross.com" + titleLink,
+                "month": monthNum,
+                "day": day,
+                "className": class_name
+                };
 
-            if (uniqueClassList.some((element) => element === class_name)) { //check if class is dupe
-                console.log('contains class')
-            } else 
-                uniqueClassList.push(class_name);
-            
-            classListTextLen--;
-            if (classListTextLen == 0) {
-                resolve("resolve length");
+                postDictList.push(postDict);
+
+                if (uniqueClassList.some((element) => element !== class_name)) { //check if class is dupe
+                    uniqueClassList.push(class_name);
+                }
+                
+                classListTextLen--;
+                if (classListTextLen == 0) {
+                    resolve("resolve length");
+                }
+            });
+            if(doc.getElementsByClassName('older').length>0) {
+                classPostsLink = "https://classes.veracross.com/" + doc.getElementsByClassName('older')[0].getAttribute('href');
+                const classPostsText = await (await fetch(classPostsLink)).text();
+                var doc = parser.parseFromString(classPostsText, 'text/html');
             }
-        });
+        } while (doc.getElementsByClassName('older').length>0)
+
+        
     });
     }); 
 
     await promise.then( // promises are the devil incarnate
-        ((res) => {
-            console.log(res);
+        (function() {
             postDictList.sort(function(a, b) {
                 if (a.month > b.month)
                     return -1;
@@ -800,18 +719,30 @@ async function getRecentPosts()
                     if (a.day < b.day)
                         return 1;
             }});
-            console.log(postDictList);
+            
+            postDictList = postDictList.filter(
+                (v,i,a)=> {
+                    return (a.findIndex(v2=>(v2.title===v.title))===i);
+                });
+            console.log("Sorted posts list: ", postDictList);
+
+            uniqueClassList = uniqueClassList.filter(
+                (v,i,a)=> {
+                    return (a.findIndex(v2=>(v2===v))===i);
+                });
+            
         }
     ),
     () => {}
     );
 
-    createPostsFromDict(true);
+    let set = true;
+    updatePostsDict(set);
 
     return;
 }
 
-function createPostsFromDict(set) {
+function updatePostsDict(set) {
     const objDone = new Promise((resolve, reject) => {
         if (set) {
             chrome.storage.local.set({
@@ -820,31 +751,46 @@ function createPostsFromDict(set) {
         } else {
             chrome.storage.local.get('posts', (items) => {
                 postDictList = items.posts;
-                console.log(items.posts);
+                console.log("Sorted posts list", items.posts);
                 resolve(postDictList);
             });
         }
     });
 
-    objDone.then(() => {
-        
-        var g = document.getElementById('post-box');
+    objDone.then(() => generatePosts(postDictList)); 
+}
+
+function generatePosts(dict) {
+    var g = document.getElementById('post-box');
         while (g.firstChild) {
             g.removeChild(g.firstChild);
         }
-        if (postDictList.length > 0) {
+        if (dict.length > 0) {
             var pmed = document.createElement('p');
             pmed.appendChild(document.createTextNode('Recent Posts:'))
             pmed.style = "font-size: 150%; text-align: center; margin-bottom: 3px;";
             g.appendChild(pmed);
     
-            postDictList.forEach((val, ind) => {
+            dict.forEach((val, ind) => {
                 if (ind < recentPostNum) {
-                    var postA = document.createElement('a');
-                    postA.appendChild(document.createTextNode(val['entry']));
+                    let postEntry = document.createElement('div');
+                    postEntry.classList.add('post-entry');
+                    let postDate = document.createElement('a');
+                    postDate.appendChild(
+                        document.createTextNode(
+                            monthdictInv[val['month']] + " " + 
+                            val['day'] + " - "
+                    ));
+                    let postA = document.createElement('a');
+                    postA.appendChild(document.createTextNode(
+                        val['title'] + " (" + val["className"] + ")"
+                        ));
                     postA.setAttribute("href", val['link']);
                     postA.setAttribute("target", "_blank");
-                    g.appendChild(postA); 
+
+                    postEntry.appendChild(postDate);
+                    postEntry.appendChild(postA);
+                    g.appendChild(postEntry); 
                 }    
             });
             
@@ -854,7 +800,6 @@ function createPostsFromDict(set) {
             postP.style.textAlign = "center";
             g.appendChild(postP);
         }
-    }); 
 }
 
 

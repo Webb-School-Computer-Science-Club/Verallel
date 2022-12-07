@@ -247,16 +247,34 @@ button.current
 	flex-direction: column;
 }
 
-#assign p, #miss p, #lppdiv p {
+#miss p, #lppdiv p {
 	text-align: left;
 	margin-bottom: 5px;
+}
+
+#assign .assignment-entry {
+	text-align: left;
+	margin-bottom: 5px;
+	display:flex;
+}
+.assignment-entry .entry {
+	color: var(--divider-color);
+	width: fit-content;
+}
+
+.assignment-entry .date {
+	min-width: max-content;
+	margin-right: 3px;
+	padding: 0px;
+
+
 }
 
 #post-box {
 	display: none;
 }
 
-#post-box a {
+#post-box a:link, #post-box a:visited {
 	width: 100%;
 	margin: 3px auto;
 	color: var(--text-link-color);
