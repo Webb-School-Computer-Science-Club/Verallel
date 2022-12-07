@@ -247,16 +247,38 @@ button.current
 	flex-direction: column;
 }
 
-#assign p, #miss p, #lppdiv p {
+#miss p, #lppdiv p {
 	text-align: left;
 	margin-bottom: 5px;
+}
+
+#assign .assignment-entry {
+	text-align: left;
+	margin-bottom: 5px;
+	display:flex;
+}
+.assignment-entry .entry {
+	color: var(--divider-color);
+	width: fit-content;
+}
+
+.assignment-entry .date {
+	min-width: max-content;
+	margin-right: 3px;
+	padding: 0px;
+
+
+}
+
+.post-entry {
+	margin-bottom: 3px;
 }
 
 #post-box {
 	display: none;
 }
 
-#post-box a {
+#post-box a:link, #post-box a:visited {
 	width: 100%;
 	margin: 3px auto;
 	color: var(--text-link-color);
@@ -274,11 +296,18 @@ div.get-information-box:nth-child(3) {
 	color: var(--text-color);
 }
 
+.settings-btn {
+	width: 35px;
+}
+
+#not-veracross-error p {
+	margin-top: 10px;
+}
+
 .nav-link a.box:link, .nav-link a.box:visited
 {
 	background-color: var(--box-background-color);
 	color: var(--text-color);
-	font-weight: lighter;
 	padding: 7px 12px;
 	text-align: center;
 	text-decoration: none;
@@ -310,13 +339,5 @@ p {
 
 #issues {
 	padding-bottom: 15px;
-}
-
-#settings-btn {
-	width:35px;
-}
-
-#not-veracross-error p {
-	margin-top:10px;
 }
 
