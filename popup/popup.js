@@ -649,9 +649,8 @@ async function getRecentPosts()
 {
     const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data');
     const classListText = await classList.json();
-    var classListTextLen = classListText["courses"].length;
 
-    const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry) => {
+    const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry, ind, arr) => {
         var class_pk = classEntry["class_pk"];
         var class_name = classEntry["class_name"];
 
@@ -659,7 +658,6 @@ async function getRecentPosts()
         class_name = class_name.replace(/ \(Honors\)/, '');
 
         classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts";
-        let classPostLinkList = [];
 
         const classPostsText = await (await fetch(classPostsLink)).text();
         var parser = new DOMParser();
@@ -688,18 +686,20 @@ async function getRecentPosts()
                     uniqueClassList.push(class_name);
                 }
                 
-                classListTextLen--;
-                if (classListTextLen == 0) {
-                    resolve("resolve length");
-                }
+                
             });
             if(doc.getElementsByClassName('older').length>0) {
                 classPostsLink = "https://classes.veracross.com/" + doc.getElementsByClassName('older')[0].getAttribute('href');
                 const classPostsText = await (await fetch(classPostsLink)).text();
                 var doc = parser.parseFromString(classPostsText, 'text/html');
             }
-        } while (doc.getElementsByClassName('older').length>0)
 
+            
+        } while (doc.getElementsByClassName('older').length>0)
+        
+        if ((ind === arr.length-1) && doc.getElementsByClassName('older').length===0) {
+                        resolve("resolve length");
+                    }
         
     });
     }); 
@@ -730,16 +730,16 @@ async function getRecentPosts()
                 (v,i,a)=> {
                     return (a.findIndex(v2=>(v2===v))===i);
                 });
+
+            let set = true;
+            updatePostsDict(set);
+            return;
             
         }
     ),
     () => {}
     );
 
-    let set = true;
-    updatePostsDict(set);
-
-    return;
 }
 
 function updatePostsDict(set) {

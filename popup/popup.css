@@ -270,6 +270,10 @@ button.current
 
 }
 
+.post-entry {
+	margin-bottom: 3px;
+}
+
 #post-box {
 	display: none;
 }
