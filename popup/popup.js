@@ -341,6 +341,10 @@ async function updateByClass(set) {
         
         uniqueClassList.sort();
         uniqueClassList.splice(0, 0, "All");
+        uniqueClassList = uniqueClassList.filter(
+            (v,i,a)=> {
+                return (a.findIndex(v2=>(v2===v))===i);
+            });
     
         console.log("Class generation started: ");
     
@@ -649,6 +653,7 @@ async function getRecentPosts()
 {
     const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data');
     const classListText = await classList.json();
+    let inc = 0;
 
     const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry, ind, arr) => {
         var class_pk = classEntry["class_pk"];
@@ -659,54 +664,64 @@ async function getRecentPosts()
 
         classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts";
 
-        const classPostsText = await (await fetch(classPostsLink)).text();
+        var classPostsText = await (await fetch(classPostsLink)).text();
         var parser = new DOMParser();
 		var doc = parser.parseFromString(classPostsText, 'text/html');
 
-        do {
-            Array.prototype.forEach.call(doc.getElementsByClassName("message"), (post) => {
-                let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
 
-                let monthNum = monthdict[date.slice(0,3)];
-                let day = parseInt(date.slice(4,date.length));
-                let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
-                let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
-
-                let postDict = {
-                "title": title,
-                "link": "https://classes.veracross.com" + titleLink,
-                "month": monthNum,
-                "day": day,
-                "className": class_name
-                };
-
-                postDictList.push(postDict);
-
-                if (uniqueClassList.some((element) => element !== class_name)) { //check if class is dupe
-                    uniqueClassList.push(class_name);
-                }
-                
-                
-            });
-            if(doc.getElementsByClassName('older').length>0) {
-                classPostsLink = "https://classes.veracross.com/" + doc.getElementsByClassName('older')[0].getAttribute('href');
-                const classPostsText = await (await fetch(classPostsLink)).text();
-                var doc = parser.parseFromString(classPostsText, 'text/html');
-            }
-
-            
-        } while (doc.getElementsByClassName('older').length>0)
-        
-        if ((ind === arr.length-1) && doc.getElementsByClassName('older').length===0) {
-                        resolve("resolve length");
+        const scan = new Promise(async (resolve, reject) => {
+            do {
+                Array.prototype.forEach.call(doc.getElementsByClassName("message"), async (post) => {
+                    let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
+    
+                    let monthNum = monthdict[date.slice(0,3)];
+                    let day = parseInt(date.slice(4,date.length));
+                    let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
+                    let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
+    
+                    let postDict = {
+                    "title": title,
+                    "link": "https://classes.veracross.com" + titleLink,
+                    "month": monthNum,
+                    "day": day,
+                    "className": class_name
+                    };
+    
+                    postDictList.push(postDict);
+    
+                    if (uniqueClassList.some((element) => element !== class_name)) { //check if class is dupe
+                        uniqueClassList.push(class_name);
                     }
+                    
+                    
+                });
+                if(doc.getElementsByClassName('older').length>0) {
+                    classPostsLink = "https://classes.veracross.com/" + doc.getElementsByClassName('older')[0].getAttribute('href');
+                    classPostsText = await (await fetch(classPostsLink)).text();
+                    doc = parser.parseFromString(classPostsText, 'text/html');
+                }
+    
+                
+            } while (doc.getElementsByClassName('older').length>0)
+            resolve();
+        });
+
+        await scan.then(()=> {
+            inc++;
+            if ((inc === arr.length) && doc.getElementsByClassName('older').length===0) {
+                resolve("resolve length");
+                console.log("finished getting posts");
+}
+        });
+        
+        
         
     });
     }); 
 
     await promise.then( // promises are the devil incarnate
-        (function() {
-            postDictList.sort(function(a, b) {
+        (() => {
+            postDictList = postDictList.sort(function(a, b) {
                 if (a.month > b.month)
                     return -1;
                 if (a.month < b.month)
@@ -715,7 +730,6 @@ async function getRecentPosts()
                 if (a.month == b.month) {
                     if (a.day >= b.day)
                         return -1;
-                        
                     if (a.day < b.day)
                         return 1;
             }});
@@ -729,7 +743,7 @@ async function getRecentPosts()
             uniqueClassList = uniqueClassList.filter(
                 (v,i,a)=> {
                     return (a.findIndex(v2=>(v2===v))===i);
-                });
+            });
 
             let set = true;
             updatePostsDict(set);
