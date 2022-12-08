@@ -212,6 +212,17 @@ async function getAssignments() // async for usage of fetch
                 "className": classIDtoClassName[val["row"]]}
             );
 
+        } else {
+            d = 
+            assignmentsDictList.push(
+                {"name": val["notes"], 
+                "id": val["item_id"],
+                "month": new Date(val["date"]).getMonth()+1, 
+                "day": new Date(val["date"]).getDate()+1,
+                "className": classIDtoClassName[val["row"]]}
+            );
+            console.log(new Date(val["date"]).getMonth());
+
         }
     });
 
