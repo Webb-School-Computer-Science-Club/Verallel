@@ -599,6 +599,11 @@ async function getMissing()
             if (a.day < b.day)
                 return -1;
         }});
+
+        missingAssignmentsDictList = missingAssignmentsDictList.filter(
+            (v,i,a)=> {
+                return (a.findIndex(v2=>(v2.entry===v.entry))===i);
+        });
     
         let set = true;
         updateMissingDict(set);
@@ -680,7 +685,7 @@ async function getRecentPosts()
                     let day = parseInt(date.slice(4,date.length));
                     let title = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].innerHTML;
                     let titleLink = post.getElementsByClassName("message-title")[0].getElementsByTagName("a")[0].getAttribute("href");
-    
+                    
                     let postDict = {
                     "title": title,
                     "link": "https://classes.veracross.com" + titleLink,
