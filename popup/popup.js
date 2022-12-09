@@ -7,7 +7,7 @@ document.getElementById("lessonP").addEventListener("click", displayLP); // Give
 document.getElementById('changMod').addEventListener('click', changeMode); // Dark/light mode toggle button now functions
 document.getElementById("missing").addEventListener('click', displayMiss); // Gives missing assignment button functionality
 document.getElementById('post-btn').addEventListener('click', displayPosts);
-document.getElementById('get-information-info').addEventListener('click', async () => {
+document.getElementById('get-information-info').addEventListener('click', async () => { // refresh button to get assignments (for when you don't want to wait for autorefresh)
     await getLP();
     await getMissing();
     await getAssignments();
@@ -19,7 +19,7 @@ document.getElementById('get-information-info').addEventListener('click', async 
         }, () => {resolve(new Date().valueOf())});
     });
 });
-// document.getElementById("get-information-header").addEventListener('click', resetButtonSizes);
+
 var assign = false;
 var lessonP = false;
 var dm = false; // light mode by default
@@ -31,21 +31,21 @@ const monthdict = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "
 const monthdictInv = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"}; //3-letter month to number conversion
 
 var updateTime = 200 * 1000; // this is in seconds (first num)
-var recentPostNum = 20;
+var recentPostNum = 20; // post display limit
 
-var assignmentsDictList = [];
+var assignmentsDictList = []; // initialize lists
 var uniqueClassList = [];
 var lessonPlansDictList = [];
 var missingAssignmentsDictList = [];
 var postDictList = [];
 
-window.onload = function() {  
-    document.getElementById("assign").setAttribute("style", "display:none;");
-    document.getElementById("miss").setAttribute("style", "display:none;");
-    document.getElementById("lppdiv").setAttribute("style", "display:none;");
-    tryErrors();
+window.onload = function() {  // initialize on page load
+    document.getElementById("assign").style.display = "none"; // ensure displays are hidden
+    document.getElementById("miss").style.display = "none";
+    document.getElementById("lppdiv").style.display = "none";
+    tryErrors(); // throw any errors for the user
     
-    const calcUpdate = new Promise( (resolve, reject) => { // I hate promises with a passion
+    const calcUpdate = new Promise( (resolve, reject) => { // update time elapse and initial load to see if info should be updated
         (chrome.storage.local.get('unupdatedTime', (items) => {
         val = ((new Date().valueOf() - items.unupdatedTime) > updateTime) || (Object.keys(items).length == 0);
         console.log("Unupdated time (ms): ", items.unupdatedTime);
@@ -54,7 +54,7 @@ window.onload = function() {
         resolve(val);
     }))});
     
-    var waitingFunction = async () => {
+    var waitingFunction = async () => { // update info or pull from local
         await calcUpdate.then(
             async (update) => {
                 if (update) {
@@ -83,19 +83,12 @@ window.onload = function() {
     
 };
 
-function setToStorage() {
-    chrome.storage.local.set({
-        'unupdatedTime': new Date().valueOf(),
-    });
-    return true;
-}
-
 async function tryErrors() {
-    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // Link not unique to student
+    const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments'); // See if link is redirected
     if (respNew.redirected == true) {
-        document.getElementById("display-information-error").setAttribute("style", "display: flex;");
+        document.getElementById("display-information-error").style.display = "flex";
     } else {
-        document.getElementById("display-information-error").setAttribute("style", "display: none;");
+        document.getElementById("display-information-error").style.display = "none";
     }
 }
 
@@ -187,13 +180,13 @@ async function getAssignments() // async for usage of fetch
     const fg = await response.text();
 
     var parser = new DOMParser();
-    var script = parser.parseFromString(fg, 'text/html').scripts[3];
+    var script = parser.parseFromString(fg, 'text/html').scripts[3]; // parse script with assignments, convert to jsons
     var classText = script.innerHTML.match(/rows: \[{.*}\]/gm);
-    var classJSON = JSON.parse("{" + classText[0].replace("rows: ", '"rows":') + "}");
+    var classJSON = JSON.parse("{" + classText[0].replace("rows: ", '"rows":') + "}"); 
     var itemsText = script.innerHTML.match(/items: \[{.*}\]/gm);
     var itemsJSON = JSON.parse("{" + itemsText[0].replace("items: ", '"items":') + "}");
 
-    classIDtoClassName = new Map();
+    classIDtoClassName = new Map(); // setup initial maps and variables
     classJSON["rows"].forEach((val) => {
         classIDtoClassName[val["id"]] = val["description"];
     });
@@ -202,7 +195,7 @@ async function getAssignments() // async for usage of fetch
     currentDay = new Date().getDate();
             
 
-    itemsJSON["items"].forEach( (val) => {
+    itemsJSON["items"].forEach( (val) => { // push assignment list
         if (val["formatted_date"] !== null) {
             assignmentsDictList.push(
                 {"name": val["notes"], 
@@ -213,7 +206,6 @@ async function getAssignments() // async for usage of fetch
             );
 
         } else {
-            d = 
             assignmentsDictList.push(
                 {"name": val["notes"], 
                 "id": val["item_id"],
@@ -221,17 +213,16 @@ async function getAssignments() // async for usage of fetch
                 "day": new Date(val["date"]).getDate()+1,
                 "className": classIDtoClassName[val["row"]]}
             );
-            console.log(new Date(val["date"]).getMonth());
         }
     });
 
-    assignmentsDictList = assignmentsDictList.filter(
+    assignmentsDictList = assignmentsDictList.filter( // filter assignments list
         (v,i,a)=> {
             return (a.findIndex(v2=>(v2.id===v.id))===i) && 
             (v.month >= currentMonth && v.day >= currentDay);
         });
     
-    assignmentsDictList.forEach((val) => {
+    assignmentsDictList.forEach((val) => { // add and filter unique class list
         uniqueClassList.push(val["className"]);
     });
     uniqueClassList = uniqueClassList.filter(
@@ -241,7 +232,7 @@ async function getAssignments() // async for usage of fetch
 
     console.log("Sorted assignment list: ", assignmentsDictList);
     
-    assignmentsDictList.sort(function(a, b) {
+    assignmentsDictList.sort(function(a, b) { // sort assignments list chronologically
         if (a.month > b.month)
             return 1;
         if (a.month < b.month)
@@ -254,14 +245,14 @@ async function getAssignments() // async for usage of fetch
     }});
 
     const set = true;
-    updateAssignmentsDict(set);
+    updateAssignmentsDict(set); // update storage and generate visual
 
     return;
     
 }
 
 async function updateAssignmentsDict(set) {
-    const objDone = new Promise((resolve, reject) => {
+    const objDone = new Promise((resolve, reject) => { // either set or get local storage
         if (set) {
             chrome.storage.local.set({
                 'assignments': assignmentsDictList,
@@ -275,47 +266,53 @@ async function updateAssignmentsDict(set) {
         }
     });
 
-    objDone.then(() => generateAssignments(assignmentsDictList));
+    objDone.then(() => generateAssignments(assignmentsDictList)); // after done, generate visual
 }
 
 function generateAssignments(dict) {
         
-    var g = document.getElementById('assign'); // Getting the empty div in popup.html
-    while(g.firstChild) {
+    var g = document.getElementById('assign');
+    while(g.firstChild) { // clear html list
         g.removeChild(g.firstChild);
     }
-    if (dict.length > 0) {
+    if (dict.length > 0) { // empty or existent list
         var pmed = document.createElement('p');
-        pmed.appendChild(document.createTextNode('Due later:'))
+        pmed.appendChild(document.createTextNode('Due later:'));
         pmed.style = "font-size: 150%; text-align: center; margin-bottom: 5px;";
         g.appendChild(pmed);
+    } else {
+        var pmed = document.createElement('p');
+        pmed.appendChild(document.createTextNode('No assignments due.'));
+        pmed.style.textAlign = "center";
+        g.appendChild(pmed);
     }
-    for (let k = 0; k < dict.length; k++)
-    {
+
+    dict.forEach((entry) => { // iterate through list and create assignments
         let assignmentEntry = document.createElement('div');
         assignmentEntry.classList.add('assignment-entry');
         let h = document.createElement('p');
         let date = document.createElement('p');
         date.appendChild(document.createTextNode(
-            monthdictInv[dict[k]["month"]] + " " + 
-            dict[k]["day"] + " - "
+            monthdictInv[entry["month"]] + " " + 
+            entry["day"] + " - "
         ));
         assignmentEntry.appendChild(date);
         h.appendChild(document.createTextNode(
-            dict[k]["name"] +
-            " (" + dict[k]["className"] + ")"
+            entry["name"] +
+            " (" + entry["className"] + ")"
             ));
         h.classList.add('name');
         assignmentEntry.appendChild(h);
         date.classList.add('date');
         g.appendChild(assignmentEntry);
-    }
+    });
+
 }
 
 
 
 async function updateByClass(set) {
-    const objDone = new Promise((resolve, reject) => {
+    const objDone = new Promise((resolve, reject) => { // either set or get local storage
         if (set) {
             chrome.storage.local.set({
                 'uniqueClass': uniqueClassList,
@@ -333,23 +330,18 @@ async function updateByClass(set) {
         var dropdown = document.getElementById("change-assignment-dropdown");
         var selectedFromDropdown = document.getElementById("selected-assignment-box");
 
-        while(dropdown.childNodes.length > 2) {
+        while(dropdown.childNodes.length > 2) { // remove all visual classes but initial
             dropdown.removeChild(dropdown.lastChild);
         }
 
-        var assignmentsBox = document.getElementById('assign');
-        var LPBox = document.getElementById('lppdiv');
-        var missBox = document.getElementById('miss');
-        var postBox = document.getElementById('post-box');
-
-        var modifiedAssignmentList = [];
+        var modifiedAssignmentList = []; // initialize modified lists and selected class
         var modifiedLPList = [];
         var modifiedMissingList = [];
         var modifiedPostList = [];
 
         var selectedClass = "All";
         
-        uniqueClassList.sort();
+        uniqueClassList.sort(); // sort and modify class list 
         uniqueClassList.splice(0, 0, "All");
         uniqueClassList = uniqueClassList.filter(
             (v,i,a)=> {
@@ -358,7 +350,7 @@ async function updateByClass(set) {
     
         console.log("Class generation started: ");
     
-        uniqueClassList.forEach(uniqueClassName => {
+        uniqueClassList.forEach(uniqueClassName => { // iterate through unique class list
             var classBox = document.createElement("div");
             classBox.className = "change-assignment-box";
             classBox.id = "box-" + uniqueClassName;
@@ -373,10 +365,10 @@ async function updateByClass(set) {
                 classBox.style.display = "none";
             }
     
-            classBox.addEventListener("click", function() {
+            classBox.addEventListener("click", function() { // add click function
                 selectedClass = uniqueClassName;
                 selectedFromDropdown.getElementsByTagName("p")[0].innerText = selectedClass;
-                px = classBox.offsetHeight + "px";
+                px = classBox.offsetHeight + "px"; // variable height to fit font
                 dropdown.style.height = px;
                 
                 let c = dropdown.getElementsByClassName("change-assignment-box");
@@ -396,7 +388,7 @@ async function updateByClass(set) {
                     c[c.length-1].classList.add("change-assignment-box-last");
                 }
                 
-                if (selectedClass == "All") {
+                if (selectedClass == "All") { // filter classes
                     modifiedAssignmentList = assignmentsDictList;
                     modifiedLPList = lessonPlansDictList;
                     modifiedMissingList = missingAssignmentsDictList;
@@ -409,7 +401,7 @@ async function updateByClass(set) {
                     modifiedPostList = postDictList.filter(({className}) => className === selectedClass);
                 }
     
-                generateAssignments(modifiedAssignmentList);
+                generateAssignments(modifiedAssignmentList); // generate visuals
                 generateLP(modifiedLPList);
                 generateMissing(modifiedMissingList);
                 generatePosts(modifiedPostList);
@@ -418,7 +410,7 @@ async function updateByClass(set) {
             });
         });
     
-        var a = dropdown.getElementsByClassName("change-assignment-box");
+        var a = dropdown.getElementsByClassName("change-assignment-box"); // logic for display of last class
         a[a.length-1].classList.add("change-assignment-box-last");
 
     });
@@ -661,27 +653,27 @@ function generateMissing(dict) {
 
 async function getRecentPosts()
 {
-    const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data');
+    const classList = await fetch('https://portals.veracross.com/webb/student/component/ClassListStudent/1308/load_data'); // get class JSON
     const classListText = await classList.json();
-    let inc = 0;
+    
+    let inc = 0; // set up incrementation counter for resolve condition
 
-    const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry, ind, arr) => {
+    const promise = new Promise(function(resolve, reject) {Array.prototype.forEach.call(classListText["courses"], async (classEntry, ind, arr) => { // iterate through number of classes
         var class_pk = classEntry["class_pk"];
         var class_name = classEntry["class_name"];
 
-        class_name = class_name.replace(/ \(AP\)/, '');
+        class_name = class_name.replace(/ \(AP\)/, ''); // remove redundant markers in class name
         class_name = class_name.replace(/ \(Honors\)/, '');
 
-        classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts";
-
+        var classPostsLink = "https://classes.veracross.com/webb/course/" + class_pk + "/website/posts"; // get document and parse it
         var classPostsText = await (await fetch(classPostsLink)).text();
         var parser = new DOMParser();
 		var doc = parser.parseFromString(classPostsText, 'text/html');
 
 
-        const scan = new Promise(async (resolve, reject) => {
+        const scan = new Promise(async (resolve, reject) => { 
             do {
-                Array.prototype.forEach.call(doc.getElementsByClassName("message"), async (post) => {
+                Array.prototype.forEach.call(doc.getElementsByClassName("message"), async (post) => { // iterate through each post
                     let date = post.getElementsByClassName("message-date")[0].getElementsByClassName("month")[0].innerHTML;
     
                     let monthNum = monthdict[date.slice(0,3)];
@@ -698,40 +690,33 @@ async function getRecentPosts()
                     };
     
                     postDictList.push(postDict);
-    
-                    if (uniqueClassList.some((element) => element !== class_name)) { //check if class is dupe
-                        uniqueClassList.push(class_name);
-                    }
-                    
+                    uniqueClassList.push(class_name);
                     
                 });
-                if(doc.getElementsByClassName('older').length>0) {
+                if(doc.getElementsByClassName('older').length>0) { // if there's a page 2, iterate through it again
                     classPostsLink = "https://classes.veracross.com/" + doc.getElementsByClassName('older')[0].getAttribute('href');
                     classPostsText = await (await fetch(classPostsLink)).text();
                     doc = parser.parseFromString(classPostsText, 'text/html');
                 }
-    
                 
             } while (doc.getElementsByClassName('older').length>0)
-            resolve();
+            resolve(); // resolve individual class scanning after do while completion
         });
 
         await scan.then(()=> {
             inc++;
-            if ((inc === arr.length) && doc.getElementsByClassName('older').length===0) {
-                resolve("resolve length");
+            if ((inc === arr.length) && doc.getElementsByClassName('older').length===0) { // resolve scanning posts after all classes have been scanned
+                resolve();
                 console.log("finished getting posts");
 }
-        });
-        
-        
+        });          
         
     });
     }); 
 
     await promise.then( // promises are the devil incarnate
         (() => {
-            postDictList = postDictList.sort(function(a, b) {
+            postDictList = postDictList.sort(function(a, b) { // sort and filter list of posts
                 if (a.month > b.month)
                     return -1;
                 if (a.month < b.month)
@@ -750,13 +735,13 @@ async function getRecentPosts()
                 });
             console.log("Sorted posts list: ", postDictList);
 
-            uniqueClassList = uniqueClassList.filter(
+            uniqueClassList = uniqueClassList.filter( // filter unique classes for dupes
                 (v,i,a)=> {
                     return (a.findIndex(v2=>(v2===v))===i);
             });
 
             let set = true;
-            updatePostsDict(set);
+            updatePostsDict(set); // update storage and generate visual
             return;
             
         }
@@ -767,7 +752,7 @@ async function getRecentPosts()
 }
 
 function updatePostsDict(set) {
-    const objDone = new Promise((resolve, reject) => {
+    const objDone = new Promise((resolve, reject) => { // get or set storage
         if (set) {
             chrome.storage.local.set({
                 'posts': postDictList,
@@ -784,7 +769,7 @@ function updatePostsDict(set) {
     objDone.then(() => generatePosts(postDictList)); 
 }
 
-function generatePosts(dict) {
+function generatePosts(dict) { // generate visuals for posts
     var g = document.getElementById('post-box');
         while (g.firstChild) {
             g.removeChild(g.firstChild);
