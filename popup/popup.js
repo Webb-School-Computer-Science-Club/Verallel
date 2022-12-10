@@ -202,6 +202,7 @@ async function getAssignments() // async for usage of fetch
                 "id": val["item_id"],
                 "month": monthdict[val["formatted_date"].slice(0,3)], 
                 "day": Number(val["formatted_date"].slice(4,val["formatted_date"].length)),
+                "year": new Date(val["date"]).getFullYear(),
                 "className": classIDtoClassName[val["row"]]}
             );
 
@@ -211,9 +212,11 @@ async function getAssignments() // async for usage of fetch
                 "id": val["item_id"],
                 "month": new Date(val["date"]).getMonth()+1, 
                 "day": new Date(val["date"]).getDate()+1,
+                "year": new Date(val["date"]).getFullYear(),
                 "className": classIDtoClassName[val["row"]]}
             );
         }
+        console.log(new Date(val["date"]).getFullYear());
     });
 
     assignmentsDictList = assignmentsDictList.filter( // filter assignments list
@@ -233,6 +236,10 @@ async function getAssignments() // async for usage of fetch
     console.log("Sorted assignment list: ", assignmentsDictList);
     
     assignmentsDictList.sort(function(a, b) { // sort assignments list chronologically
+        if (a.year > b.year)
+            return 1;
+        if (a.year < b.year)
+            return -1;
         if (a.month > b.month)
             return 1;
         if (a.month < b.month)
@@ -243,6 +250,7 @@ async function getAssignments() // async for usage of fetch
             if (a.day < b.day)
                 return -1;
     }});
+
 
     const set = true;
     updateAssignmentsDict(set); // update storage and generate visual
