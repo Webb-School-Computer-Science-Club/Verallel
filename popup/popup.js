@@ -181,9 +181,9 @@ async function getAssignments() // async for usage of fetch
 
     var parser = new DOMParser();
     var script = parser.parseFromString(fg, 'text/html').scripts[3]; // parse script with assignments, convert to jsons
-    var classText = script.innerHTML.match(/rows: \[{.*}\]/gm);
+    var classText = script.innerHTML.match(/rows: \[.*\]/gm);
     var classJSON = JSON.parse("{" + classText[0].replace("rows: ", '"rows":') + "}"); 
-    var itemsText = script.innerHTML.match(/items: \[{.*}\]/gm);
+    var itemsText = script.innerHTML.match(/items: \[.*\]/gm);
     var itemsJSON = JSON.parse("{" + itemsText[0].replace("items: ", '"items":') + "}");
 
     classIDtoClassName = new Map(); // setup initial maps and variables
