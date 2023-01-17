@@ -565,38 +565,40 @@ async function getMissing()
     const dbTxt = await db.text();
     const parser = new DOMParser;
     var htmlMissing = parser.parseFromString(dbTxt, 'text/html');
-    var missingList = htmlMissing.getElementsByClassName('vx-record-detail assignment');
+    var missingList = htmlMissing.querySelector('[data-react-class="system/assignment-submission/AssignmentSubmission"]');
+    var missingText = missingList.getAttribute("data-react-props");
+    var missingJson = JSON.parse(missingText);
     let today = new Date();
-    for(assignm of missingList)
-    {
+
+    missingJson["assignments"].forEach((assignm) => {
+        console.log(assignm);
         var pastDue = false;
         var missStr = '';
-        var dueDateLis = assignm.getElementsByClassName("vx-subtitle subtitle")[0].innerText;
-        var complete = assignm.getElementsByClassName("vx-tag vx-tag--green")[0].innerText;
-        if(today.getMonth() + 1 > dueDateLis[1])
+        var dueDate = new Date(assignm["due_date"]);
+        if((today.getMonth() + 1 > dueDate.getMonth() + 1) && (today.getDate() > dueDate.getDate()))
         {
             pastDue = true;
         }
-        else if(today.getMonth() + 1 == dueDateLis[1] && today.getDate() > dueDateLis[0])
+        else if(today.getMonth() + 1 == dueDate.getMonth() + 1 && today.getDate() > dueDate.getDate())
         {
             pastDue = true;
         }
-        if(complete == "COMPLETE")
+        if(assignm["completion_status"] == 3)
         {
             pastDue = false;
         }
         if(pastDue)
         {
-            let cls = assignm.getElementsByClassName("vx-record-header__course-description")[0].innerText;
-            missStr = assignm.getElementsByClassName("vx-subtitle")[0].innerText + ' (' + cls + ')';
+            let cls = assignm["class_description"];
+            missStr = assignm["assignment_description"];
             let potentialMissEntry = 
             {"entry": missStr, 
-            "month": dueDateLis[1], 
-            "day": dueDateLis[0],
+            "month": dueDate.getMonth() + 1, 
+            "day": dueDate.getDate(),
             "className": cls};
             missingAssignmentsDictList.push(potentialMissEntry);
         }
-    }
+    });
 
     missingAssignmentsDictList.sort(function(a, b) {
         if (a.month > b.month)
@@ -609,6 +611,12 @@ async function getMissing()
             if (a.day < b.day)
                 return -1;
         }});
+
+        missingAssignmentsDictList = missingAssignmentsDictList.filter(
+        (v,i,a)=> {
+            return (a.findIndex(v2=>(v2.entry===v.entry))===i);
+        });
+    
     
         let set = true;
         updateMissingDict(set);
@@ -636,7 +644,7 @@ function updateMissingDict(set) {
 
 function generateMissing(dict) {
     var misDiv = document.getElementById('miss');
-    while (misDiv.firstChild) {
+    while (misDiv.firstChild != null) {
         misDiv.removeChild(misDiv.firstChild);
     }
     if (dict.length > 0) {
@@ -648,7 +656,8 @@ function generateMissing(dict) {
         for (missin of dict)
         {
             var missP = document.createElement('p');
-            missP.appendChild(document.createTextNode(missin['entry']));
+            console.log(missin["month"]);
+            missP.appendChild(document.createTextNode(monthdictInv[missin['month']] + " " + missin['day'] + " - " + missin['entry'] + " (" + missin["className"] + ")"));
             misDiv.appendChild(missP);
         }
     } else {
@@ -733,18 +742,59 @@ async function getRecentPosts()
 
     await promise.then( // promises are the devil incarnate
         (() => {
-            postDictList = postDictList.sort(function(a, b) {
-                if (a.month > b.month)
-                    return -1;
-                if (a.month < b.month)
-                    return 1;
-                    
-                if (a.month == b.month) {
-                    if (a.day >= b.day)
+            function between(x, min, max) {
+                return x >= min && x <= max;
+            }              
+            let t = new Date();
+            console.log(t.getMonth());
+            if (between(t.getMonth(), 0, 3)) {
+                postDictList = postDictList.sort((a, b)=> {
+                    if (between(a.month, 0, 3) && b.month > 3) {
+                        console.log(t.getMonth());
                         return -1;
-                    if (a.day < b.day)
+                    } 
+                    if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
+                        if (a.month > b.month)
+                            return -1;
+                        if (a.month < b.month)
+                            return 1;
+                            
+                        if (a.month == b.month) {
+                            if (a.day >= b.day)
+                                return -1;
+                            if (a.day < b.day)
+                                return 1;
+                        }
+                    } if (a.month > 3 && b.month > 3) {
+                        if (a.month > b.month)
+                            return -1;
+                        if (a.month < b.month)
+                            return 1;
+                            
+                        if (a.month == b.month) {
+                            if (a.day >= b.day)
+                                return -1;
+                            if (a.day < b.day)
+                                return 1;
+                        }
+                    }
+                });
+            } else {
+                postDictList = postDictList.sort(function(a, b) {
+                    if (a.month > b.month)
+                        return -1;
+                    if (a.month < b.month)
                         return 1;
-            }});
+                        
+                    if (a.month == b.month) {
+                        if (a.day >= b.day)
+                            return -1;
+                        if (a.day < b.day)
+                            return 1; 
+                    }
+                    
+                });
+            }
             
             postDictList = postDictList.filter(
                 (v,i,a)=> {
