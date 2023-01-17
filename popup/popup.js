@@ -604,16 +604,16 @@ async function getMissing()
         return x >= min && x <= max;
     }              
     let t = new Date();
-    console.log(t.getMonth());
-    if (between(t.getMonth(), 0, 3)) {
+    let maxMonth = 5;
+    if (between(t.getMonth(), 0, maxMonth)) {
         missingAssignmentsDictList = missingAssignmentsDictList.sort((a, b)=> {
-            if (between(a.month, 0, 3) && b.month > 3) {
+            if (between(a.month, 0, maxMonth) && b.month > maxMonth) {
                 return -1;
             } 
-            if (between(b.month, 0, 3) && a.month > 3) {
+            if (between(b.month, 0, maxMonth) && a.month > maxMonth) {
                 return 1;
             }
-            if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
+            if (between(a.month, 0, maxMonth) && between(b.month, 0, maxMonth)) {
                 if (a.month > b.month)
                     return -1;
                 if (a.month < b.month)
@@ -625,7 +625,7 @@ async function getMissing()
                     if (a.day < b.day)
                         return 1;
                 }
-            } if (a.month > 3 && b.month > 3) {
+            } if (a.month > maxMonth && b.month > maxMonth) {
                 if (a.month > b.month)
                     return -1;
                 if (a.month < b.month)
@@ -790,16 +790,16 @@ async function getRecentPosts()
                 return x >= min && x <= max;
             }              
             let t = new Date();
-            console.log(t.getMonth());
-            if (between(t.getMonth(), 0, 3)) {
+            let maxMonth = 5;
+            if (between(t.getMonth(), 0, maxMonth)) {
                 postDictList = postDictList.sort((a, b)=> {
-                    if (between(a.month, 0, 3) && b.month > 3) {
+                    if (between(a.month, 0, maxMonth) && b.month > maxMonth) {
                         return -1;
                     } 
-                    if (between(b.month, 0, 3) && a.month > 3) {
+                    if (between(b.month, 0, maxMonth) && a.month > maxMonth) {
                         return 1;
                     }
-                    if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
+                    if (between(a.month, 0, maxMonth) && between(b.month, 0, maxMonth)) {
                         if (a.month > b.month)
                             return -1;
                         if (a.month < b.month)
@@ -811,7 +811,7 @@ async function getRecentPosts()
                             if (a.day < b.day)
                                 return 1;
                         }
-                    } if (a.month > 3 && b.month > 3) {
+                    } if (a.month > maxMonth && b.month > maxMonth) {
                         if (a.month > b.month)
                             return -1;
                         if (a.month < b.month)
