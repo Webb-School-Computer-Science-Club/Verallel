@@ -561,40 +561,43 @@ function generateLP(dict) {
 async function getMissing()
 {
     const db = await fetch('https://portals.veracross.com/webb/student/submit-assignments');
-    const dbTxt = await db.text() + '';
-    const missTxt = dbTxt.split('data-react-props')[1].split('data-react-cache-id')[0];
+    const dbTxt = await db.text();
+    const parser = new DOMParser;
+    var htmlMissing = parser.parseFromString(dbTxt, 'text/html');
+    var missingList = htmlMissing.querySelector('[data-react-class="system/assignment-submission/AssignmentSubmission"]');
+    var missingText = missingList.getAttribute("data-react-props");
+    var missingJson = JSON.parse(missingText);
     let today = new Date();
-    for(assignm of missTxt.split('},{'))
-    {
+
+    missingJson["assignments"].forEach((assignm) => {
+        console.log(assignm);
         var pastDue = false;
         var missStr = '';
-        var dueDate = assignm.split('due_date&quot;:&quot;')[1].split('&quot')[0];
-        var dueDateLis = [parseInt(dueDate.slice(8, 10)), parseInt(dueDate.slice(5, 7))];
-        var complete = assignm.split('assignment_submission_status&quot;:')[1][0];
-        if(today.getMonth() + 1 > dueDateLis[1])
+        var dueDate = new Date(assignm["due_date"]);
+        if((today.getMonth() + 1 > dueDate.getMonth() + 1) && (today.getDate() > dueDate.getDate()))
         {
             pastDue = true;
         }
-        else if(today.getMonth() + 1 == dueDateLis[1] && today.getDate() > dueDateLis[0])
+        else if(today.getMonth() + 1 == dueDate.getMonth() + 1 && today.getDate() > dueDate.getDate())
         {
             pastDue = true;
         }
-        if(complete == 2)
+        if(assignm["completion_status"] == 3)
         {
             pastDue = false;
         }
         if(pastDue)
         {
-            let cls = assignm.split('class_description&quot;:&quot;')[1].split('&quot')[0];
-            missStr = assignm.split('assignment_description&quot;:&quot;')[1].split('&quot;')[0] + ' (' + cls + ')';
+            let cls = assignm["class_description"];
+            missStr = assignm["assignment_description"];
             let potentialMissEntry = 
             {"entry": missStr, 
-            "month": dueDateLis[1], 
-            "day": dueDateLis[0],
+            "month": dueDate.getMonth() + 1, 
+            "day": dueDate.getDate(),
             "className": cls};
             missingAssignmentsDictList.push(potentialMissEntry);
         }
-    }
+    });
 
     missingAssignmentsDictList.sort(function(a, b) {
         if (a.month > b.month)
@@ -609,9 +612,10 @@ async function getMissing()
         }});
 
         missingAssignmentsDictList = missingAssignmentsDictList.filter(
-            (v,i,a)=> {
-                return (a.findIndex(v2=>(v2.entry===v.entry))===i);
+        (v,i,a)=> {
+            return (a.findIndex(v2=>(v2.entry===v.entry))===i);
         });
+    
     
         let set = true;
         updateMissingDict(set);
@@ -729,18 +733,59 @@ async function getRecentPosts()
 
     await promise.then( // promises are the devil incarnate
         (() => {
-            postDictList = postDictList.sort(function(a, b) { // sort and filter list of posts
-                if (a.month > b.month)
-                    return -1;
-                if (a.month < b.month)
-                    return 1;
-                    
-                if (a.month == b.month) {
-                    if (a.day >= b.day)
+            function between(x, min, max) {
+                return x >= min && x <= max;
+            }              
+            let t = new Date();
+            console.log(t.getMonth());
+            if (between(t.getMonth(), 0, 3)) {
+                postDictList = postDictList.sort((a, b)=> {
+                    if (between(a.month, 0, 3) && b.month > 3) {
+                        console.log(t.getMonth());
                         return -1;
-                    if (a.day < b.day)
+                    } 
+                    if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
+                        if (a.month > b.month)
+                            return -1;
+                        if (a.month < b.month)
+                            return 1;
+                            
+                        if (a.month == b.month) {
+                            if (a.day >= b.day)
+                                return -1;
+                            if (a.day < b.day)
+                                return 1;
+                        }
+                    } if (a.month > 3 && b.month > 3) {
+                        if (a.month > b.month)
+                            return -1;
+                        if (a.month < b.month)
+                            return 1;
+                            
+                        if (a.month == b.month) {
+                            if (a.day >= b.day)
+                                return -1;
+                            if (a.day < b.day)
+                                return 1;
+                        }
+                    }
+                });
+            } else {
+                postDictList = postDictList.sort(function(a, b) {
+                    if (a.month > b.month)
+                        return -1;
+                    if (a.month < b.month)
                         return 1;
-            }});
+                        
+                    if (a.month == b.month) {
+                        if (a.day >= b.day)
+                            return -1;
+                        if (a.day < b.day)
+                            return 1; 
+                    }
+                    
+                });
+            }
             
             postDictList = postDictList.filter(
                 (v,i,a)=> {
