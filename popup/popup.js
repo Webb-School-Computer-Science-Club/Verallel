@@ -430,7 +430,7 @@ async function updateByClass(set) {
 async function getLP()
 {
     const respNew = await fetch('https://portals.veracross.com/webb/student/student/upcoming-assignments');
-    const txt = await respNew.text() + '';
+    const txt = await respNew.text();
     const stuId = txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=')[txt.split(';')[15].split('&')[txt.split(';')[15].split('&').length - 2].split('=').length - 1];
     const yr = txt.split(';')[16].split('"')[0].split('=')[1];
     const fetchUrl = 'https://portals-embed.veracross.com/webb/parent/planner?p=' + stuId + '&school_year=' + yr;
@@ -562,16 +562,17 @@ function generateLP(dict) {
 async function getMissing()
 {
     const db = await fetch('https://portals.veracross.com/webb/student/submit-assignments');
-    const dbTxt = await db.text() + '';
-    const missTxt = dbTxt.split('data-react-props')[1].split('data-react-cache-id')[0];
+    const dbTxt = await db.text();
+    const parser = new DOMParser;
+    var htmlMissing = parser.parseFromString(dbTxt, 'text/html');
+    var missingList = htmlMissing.getElementsByClassName('vx-record-detail assignment');
     let today = new Date();
-    for(assignm of missTxt.split('},{'))
+    for(assignm of missingList)
     {
         var pastDue = false;
         var missStr = '';
-        var dueDate = assignm.split('due_date&quot;:&quot;')[1].split('&quot')[0];
-        var dueDateLis = [parseInt(dueDate.slice(8, 10)), parseInt(dueDate.slice(5, 7))];
-        var complete = assignm.split('assignment_submission_status&quot;:')[1][0];
+        var dueDateLis = assignm.getElementsByClassName("vx-subtitle subtitle")[0].innerText;
+        var complete = assignm.getElementsByClassName("vx-tag vx-tag--green")[0].innerText;
         if(today.getMonth() + 1 > dueDateLis[1])
         {
             pastDue = true;
@@ -580,14 +581,14 @@ async function getMissing()
         {
             pastDue = true;
         }
-        if(complete == 2)
+        if(complete == "COMPLETE")
         {
             pastDue = false;
         }
         if(pastDue)
         {
-            let cls = assignm.split('class_description&quot;:&quot;')[1].split('&quot')[0];
-            missStr = assignm.split('assignment_description&quot;:&quot;')[1].split('&quot;')[0] + ' (' + cls + ')';
+            let cls = assignm.getElementsByClassName("vx-record-header__course-description")[0].innerText;
+            missStr = assignm.getElementsByClassName("vx-subtitle")[0].innerText + ' (' + cls + ')';
             let potentialMissEntry = 
             {"entry": missStr, 
             "month": dueDateLis[1], 
