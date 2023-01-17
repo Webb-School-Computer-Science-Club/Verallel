@@ -600,17 +600,61 @@ async function getMissing()
         }
     });
 
-    missingAssignmentsDictList.sort(function(a, b) {
-        if (a.month > b.month)
-            return 1;
-        if (a.month < b.month)
-            return -1;
-        if (a.month == b.month) {
-            if (a.day >= b.day)
-                return 1;
-            if (a.day < b.day)
+    function between(x, min, max) {
+        return x >= min && x <= max;
+    }              
+    let t = new Date();
+    console.log(t.getMonth());
+    if (between(t.getMonth(), 0, 3)) {
+        missingAssignmentsDictList = missingAssignmentsDictList.sort((a, b)=> {
+            if (between(a.month, 0, 3) && b.month > 3) {
                 return -1;
-        }});
+            } 
+            if (between(b.month, 0, 3) && a.month > 3) {
+                return 1;
+            }
+            if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
+                if (a.month > b.month)
+                    return -1;
+                if (a.month < b.month)
+                    return 1;
+                    
+                if (a.month == b.month) {
+                    if (a.day >= b.day)
+                        return -1;
+                    if (a.day < b.day)
+                        return 1;
+                }
+            } if (a.month > 3 && b.month > 3) {
+                if (a.month > b.month)
+                    return -1;
+                if (a.month < b.month)
+                    return 1;
+                    
+                if (a.month == b.month) {
+                    if (a.day >= b.day)
+                        return -1;
+                    if (a.day < b.day)
+                        return 1;
+                }
+            }
+        });
+    } else {
+        missingAssignmentsDictList = missingAssignmentsDictList.sort((a, b) => {
+            if (a.month > b.month)
+                return -1;
+            if (a.month < b.month)
+                return 1;
+                
+            if (a.month == b.month) {
+                if (a.day >= b.day)
+                    return -1;
+                if (a.day < b.day)
+                    return 1; 
+            }
+            
+        });
+    }
 
         missingAssignmentsDictList = missingAssignmentsDictList.filter(
         (v,i,a)=> {
