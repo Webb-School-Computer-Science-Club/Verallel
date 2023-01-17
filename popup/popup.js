@@ -741,9 +741,11 @@ async function getRecentPosts()
             if (between(t.getMonth(), 0, 3)) {
                 postDictList = postDictList.sort((a, b)=> {
                     if (between(a.month, 0, 3) && b.month > 3) {
-                        console.log(t.getMonth());
                         return -1;
                     } 
+                    if (between(b.month, 0, 3) && a.month > 3) {
+                        return 1;
+                    }
                     if (between(a.month, 0, 3) && between(b.month, 0, 3)) {
                         if (a.month > b.month)
                             return -1;
@@ -851,7 +853,7 @@ function generatePosts(dict) { // generate visuals for posts
                     let postA = document.createElement('a');
                     postA.appendChild(document.createTextNode(
                         val['title'] + " (" + val["className"] + ")"
-                        ));
+                    ));
                     postA.setAttribute("href", val['link']);
                     postA.setAttribute("target", "_blank");
 
